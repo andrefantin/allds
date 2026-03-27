@@ -1,0 +1,627 @@
+[
+  {
+    "name": "_Colour Primitives",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "2716:0" },
+        "color": [
+          { "name": "Blue/0075C9", "value": "#0075c9", "var": "", "rootAlias": "" },
+          { "name": "Blue/00A3E0", "value": "#00a3e0", "var": "", "rootAlias": "" },
+          { "name": "Blue/89C9C8", "value": "#89c9c8", "var": "", "rootAlias": "" },
+          { "name": "Blue/99D6EA", "value": "#99d6ea", "var": "", "rootAlias": "" },
+          { "name": "Blue/CDDDEA", "value": "#cdddea", "var": "", "rootAlias": "" },
+          { "name": "Green/00422C", "value": "#00422c", "var": "", "rootAlias": "" },
+          { "name": "Green/005338", "value": "#005338", "var": "", "rootAlias": "" },
+          { "name": "Green/006443", "value": "#006443", "var": "", "rootAlias": "" },
+          { "name": "Green/07272C", "value": "#07272c", "var": "", "rootAlias": "" },
+          { "name": "Green/07272C-10", "value": "#07272c1a", "var": "", "rootAlias": "" },
+          { "name": "Green/183434", "value": "#183434", "var": "", "rootAlias": "" },
+          { "name": "Green/183434-5", "value": "#1834340d", "var": "", "rootAlias": "" },
+          { "name": "Green/80B1A1", "value": "#80b1a1", "var": "", "rootAlias": "" },
+          { "name": "Green/81B13E", "value": "#81b13e", "var": "", "rootAlias": "" },
+          { "name": "Green/CDE0B2", "value": "#cde0b2", "var": "", "rootAlias": "" },
+          { "name": "Green/D5DDDB", "value": "#d5dddb", "var": "", "rootAlias": "" },
+          { "name": "Green/DBE5E2", "value": "#dbe5e2", "var": "", "rootAlias": "" },
+          { "name": "Green/EAF0EE", "value": "#eaf0ee", "var": "", "rootAlias": "" },
+          { "name": "Neutral/333333", "value": "#333333", "var": "", "rootAlias": "" },
+          { "name": "Neutral/606060", "value": "#606060", "var": "", "rootAlias": "" },
+          { "name": "Neutral/8D8479", "value": "#8d8479", "var": "", "rootAlias": "" },
+          { "name": "Neutral/B6ADA5", "value": "#b6ada5", "var": "", "rootAlias": "" },
+          { "name": "Neutral/Black-50", "value": "#00000080", "var": "", "rootAlias": "" },
+          { "name": "Neutral/E0DCD2", "value": "#e0dcd2", "var": "", "rootAlias": "" },
+          { "name": "Neutral/Transparent", "value": "#ffffff00", "var": "", "rootAlias": "" },
+          { "name": "Neutral/White", "value": "#ffffff", "var": "", "rootAlias": "" },
+          { "name": "Neutral/White-20", "value": "#ffffff33", "var": "", "rootAlias": "" },
+          { "name": "Neutral/White-40", "value": "#ffffff66", "var": "", "rootAlias": "" },
+          { "name": "Neutral/White-5", "value": "#ffffff0d", "var": "", "rootAlias": "" },
+          { "name": "Neutral/White-70", "value": "#ffffffb2", "var": "", "rootAlias": "" },
+          { "name": "Purple/8A38F5", "value": "#8a38f5", "var": "", "rootAlias": "" },
+          { "name": "Purple/9B26B6", "value": "#9b26b6", "var": "", "rootAlias": "" },
+          { "name": "Purple/AC4FC6", "value": "#ac4fc6", "var": "", "rootAlias": "" },
+          { "name": "Purple/D7A9E3", "value": "#d7a9e3", "var": "", "rootAlias": "" },
+          { "name": "Purple/DCC6EA", "value": "#dcc6ea", "var": "", "rootAlias": "" },
+          { "name": "Red/FA4A5F", "value": "#fa4a5f", "var": "", "rootAlias": "" },
+          { "name": "Red/FECDD3", "value": "#fecdd3", "var": "", "rootAlias": "" },
+          { "name": "Yellow/F5AA24", "value": "#f5aa24", "var": "", "rootAlias": "" },
+          { "name": "Yellow/F6B540", "value": "#f6b540", "var": "", "rootAlias": "" },
+          { "name": "Yellow/F8E08E", "value": "#f8e08e", "var": "", "rootAlias": "" },
+          { "name": "Yellow/FDD156", "value": "#fdd156", "var": "", "rootAlias": "" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "✅ Action colors",
+    "values": [
+      {
+        "mode": { "name": "Default", "id": "2717:1" },
+        "color": [
+          { "name": "fi-action-primary/fill/default", "value": "#f6b540", "var": "Yellow/F6B540", "rootAlias": "Yellow/F6B540" },
+          { "name": "fi-action-primary/fill/hover", "value": "#fdd156", "var": "Yellow/FDD156", "rootAlias": "Yellow/FDD156" },
+          { "name": "fi-action-primary/fill/pressed", "value": "#f5aa24", "var": "Yellow/F5AA24", "rootAlias": "Yellow/F5AA24" },
+          { "name": "fi-action-primary/label/default", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-primary/label/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-primary/label/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/fill/default", "value": "#ffffff00", "var": "Neutral/Transparent", "rootAlias": "Neutral/Transparent" },
+          { "name": "fi-action-secondary/fill/hover", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-secondary/fill/pressed", "value": "#d5dddb", "var": "Green/D5DDDB", "rootAlias": "Green/D5DDDB" },
+          { "name": "fi-action-secondary/label/default", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/label/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/label/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/stroke/default", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/stroke/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/stroke/pressed", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-action-text-link/icon-fill/default", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-text-link/icon-fill/focus", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-text-link/icon-fill/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-text-link/icon-fill/pressed", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-action-text-link/label/default", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-text-link/label/focus", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-text-link/label/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-text-link/label/pressed", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-action-text-link/stroke/default", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-text-link/stroke/focus", "value": "#ffffff00", "var": "Neutral/Transparent", "rootAlias": "Neutral/Transparent" },
+          { "name": "fi-action-text-link/stroke/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-text-link/stroke/pressed", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-action-utility/fill/default", "value": "#80b1a1", "var": "Green/80B1A1", "rootAlias": "Green/80B1A1" },
+          { "name": "fi-action-utility/fill/focus", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/fill/hover", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/fill/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-utility/label/default", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-action-utility/label/focus", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/label/hover", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/label/pressed", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/stroke/default", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/stroke/focus", "value": "#ffffff00", "var": "Neutral/Transparent", "rootAlias": "Neutral/Transparent" },
+          { "name": "fi-action-utility/stroke/hover", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/stroke/inner-focus", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-utility/stroke/outer-focus", "value": "#d5dddb", "var": "Green/D5DDDB", "rootAlias": "Green/D5DDDB" },
+          { "name": "fi-action-utility/stroke/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" }
+        ],
+        "number": [],
+        "string": []
+      },
+      {
+        "mode": { "name": "Inverse", "id": "9935:0" },
+        "color": [
+          { "name": "fi-action-primary/fill/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-primary/fill/hover", "value": "#f8e08e", "var": "Yellow/F8E08E", "rootAlias": "Yellow/F8E08E" },
+          { "name": "fi-action-primary/fill/pressed", "value": "#fdd156", "var": "Yellow/FDD156", "rootAlias": "Yellow/FDD156" },
+          { "name": "fi-action-primary/label/default", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-primary/label/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-primary/label/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/fill/default", "value": "#ffffff00", "var": "Neutral/Transparent", "rootAlias": "Neutral/Transparent" },
+          { "name": "fi-action-secondary/fill/hover", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-secondary/fill/pressed", "value": "#d5dddb", "var": "Green/D5DDDB", "rootAlias": "Green/D5DDDB" },
+          { "name": "fi-action-secondary/label/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-secondary/label/hover", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/label/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-secondary/stroke/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-secondary/stroke/hover", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-secondary/stroke/pressed", "value": "#d5dddb", "var": "Green/D5DDDB", "rootAlias": "Green/D5DDDB" },
+          { "name": "fi-action-text-link/icon-fill/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/icon-fill/focus", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/icon-fill/hover", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/icon-fill/pressed", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/label/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/label/focus", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/label/hover", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/label/pressed", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/stroke/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/stroke/focus", "value": "#ffffff00", "var": "Neutral/Transparent", "rootAlias": "Neutral/Transparent" },
+          { "name": "fi-action-text-link/stroke/hover", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-text-link/stroke/pressed", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-action-utility/fill/default", "value": "#80b1a1", "var": "Green/80B1A1", "rootAlias": "Green/80B1A1" },
+          { "name": "fi-action-utility/fill/focus", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/fill/hover", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/fill/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-utility/label/default", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-action-utility/label/focus", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/label/hover", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/label/pressed", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/stroke/default", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/stroke/focus", "value": "#ffffff00", "var": "Neutral/Transparent", "rootAlias": "Neutral/Transparent" },
+          { "name": "fi-action-utility/stroke/hover", "value": "#00422c", "var": "Green/00422C", "rootAlias": "Green/00422C" },
+          { "name": "fi-action-utility/stroke/inner-focus", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-action-utility/stroke/outer-focus", "value": "#d5dddb", "var": "Green/D5DDDB", "rootAlias": "Green/D5DDDB" },
+          { "name": "fi-action-utility/stroke/pressed", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "Accent colors",
+    "values": [
+      {
+        "mode": { "name": "Mode", "id": "2719:7" },
+        "color": [
+          { "name": "fi-accent-color/Accent-five", "value": "#81b13e", "var": "Green/81B13E", "rootAlias": "Green/81B13E" },
+          { "name": "fi-accent-color/Accent-four", "value": "#f5aa24", "var": "Yellow/F5AA24", "rootAlias": "Yellow/F5AA24" },
+          { "name": "fi-accent-color/Accent-one", "value": "#fa4a5f", "var": "Red/FA4A5F", "rootAlias": "Red/FA4A5F" },
+          { "name": "fi-accent-color/Accent-three", "value": "#9b26b6", "var": "Purple/9B26B6", "rootAlias": "Purple/9B26B6" },
+          { "name": "fi-accent-color/Accent-two", "value": "#0075c9", "var": "Blue/0075C9", "rootAlias": "Blue/0075C9" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "✅ Text Colors",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "2719:10" },
+        "color": [
+          { "name": "fi-heading-color/accent", "value": "#005338", "var": "Green/005338", "rootAlias": "Green/005338" },
+          { "name": "fi-heading-color/default", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-heading-color/inverse", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-heading-color/secondary", "value": "#333333", "var": "Neutral/333333", "rootAlias": "Neutral/333333" },
+          { "name": "fi-text-color/inverse", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-text-color/muted", "value": "#e0dcd2", "var": "Neutral/E0DCD2", "rootAlias": "Neutral/E0DCD2" },
+          { "name": "fi-text-color/regular", "value": "#606060", "var": "Neutral/606060", "rootAlias": "Neutral/606060" },
+          { "name": "fi-text-color/strong", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "Border",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "2719:11" },
+        "color": [
+          { "name": "fi-border/color/dark", "value": "#606060", "var": "Neutral/606060", "rootAlias": "Neutral/606060" },
+          { "name": "fi-border/color/light", "value": "#07272c1a", "var": "Green/07272C-10", "rootAlias": "Green/07272C-10" },
+          { "name": "fi-border/color/lightest", "value": "#1834340d", "var": "Green/183434-5", "rootAlias": "Green/183434-5" },
+          { "name": "fi-border/color/white", "value": "#ffffff0d", "var": "Neutral/White-5", "rootAlias": "Neutral/White-5" },
+          { "name": "fi-border/color/white-strong", "value": "#ffffff66", "var": "Neutral/White-40", "rootAlias": "Neutral/White-40" }
+        ],
+        "number": [
+          { "name": "fi-border/radius/xsmall", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/radius/small", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/radius/medium", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/radius/pill", "value": "100rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/stroke/xsmall", "value": "0.1rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/stroke/small", "value": "0.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/stroke/medium", "value": "0.3rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/stroke/large", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-border/stroke/largest", "value": "1rem", "var": "", "rootAlias": "" }
+        ],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "✅ Surface",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "2719:12" },
+        "color": [
+          { "name": "fi-surface-color/default", "value": "#eaf0ee", "var": "Green/EAF0EE", "rootAlias": "Green/EAF0EE" },
+          { "name": "fi-surface-color/default-dark", "value": "#dbe5e2", "var": "Green/DBE5E2", "rootAlias": "Green/DBE5E2" },
+          { "name": "fi-surface-color/highlight-cold", "value": "#89c9c8", "var": "Blue/89C9C8", "rootAlias": "Blue/89C9C8" },
+          { "name": "fi-surface-color/highlight-neutral", "value": "#81b13e", "var": "Green/81B13E", "rootAlias": "Green/81B13E" },
+          { "name": "fi-surface-color/highlight-strong", "value": "#006443", "var": "Green/006443", "rootAlias": "Green/006443" },
+          { "name": "fi-surface-color/highlight-warm", "value": "#f6b540", "var": "Yellow/F6B540", "rootAlias": "Yellow/F6B540" },
+          { "name": "fi-surface-color/neutral", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-surface-color/neutral-70", "value": "#ffffffb2", "var": "Neutral/White-70", "rootAlias": "Neutral/White-70" },
+          { "name": "fi-surface-color/neutral-dark", "value": "#00000080", "var": "Neutral/Black-50", "rootAlias": "Neutral/Black-50" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "Dropdown",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "2733:14" },
+        "color": [
+          { "name": "fi-dropdown/fill/active", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-dropdown/fill/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-dropdown/fill/hover", "value": "#eaf0ee", "var": "Green/EAF0EE", "rootAlias": "Green/EAF0EE" },
+          { "name": "fi-dropdown/fill/inactive", "value": "#e0dcd2", "var": "Neutral/E0DCD2", "rootAlias": "Neutral/E0DCD2" },
+          { "name": "fi-dropdown/text/active", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-dropdown/text/default", "value": "#606060", "var": "Neutral/606060", "rootAlias": "Neutral/606060" },
+          { "name": "fi-dropdown/text/hover", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-dropdown/text/inactive", "value": "#606060", "var": "Neutral/606060", "rootAlias": "Neutral/606060" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "Alert",
+    "values": [
+      {
+        "mode": { "name": "Success", "id": "2795:15" },
+        "color": [
+          { "name": "fi-bg-alert/dark", "value": "#81b13e", "var": "Green/81B13E", "rootAlias": "Green/81B13E" },
+          { "name": "fi-bg-alert/light", "value": "#cde0b2", "var": "Green/CDE0B2", "rootAlias": "Green/CDE0B2" }
+        ],
+        "number": [],
+        "string": []
+      },
+      {
+        "mode": { "name": "Info", "id": "2795:16" },
+        "color": [
+          { "name": "fi-bg-alert/dark", "value": "#00a3e0", "var": "Blue/00A3E0", "rootAlias": "Blue/00A3E0" },
+          { "name": "fi-bg-alert/light", "value": "#99d6ea", "var": "Blue/99D6EA", "rootAlias": "Blue/99D6EA" }
+        ],
+        "number": [],
+        "string": []
+      },
+      {
+        "mode": { "name": "Warning", "id": "2795:17" },
+        "color": [
+          { "name": "fi-bg-alert/dark", "value": "#f5aa24", "var": "Yellow/F5AA24", "rootAlias": "Yellow/F5AA24" },
+          { "name": "fi-bg-alert/light", "value": "#f8e08e", "var": "Yellow/F8E08E", "rootAlias": "Yellow/F8E08E" }
+        ],
+        "number": [],
+        "string": []
+      },
+      {
+        "mode": { "name": "Error", "id": "2795:18" },
+        "color": [
+          { "name": "fi-bg-alert/dark", "value": "#fa4a5f", "var": "Red/FA4A5F", "rootAlias": "Red/FA4A5F" },
+          { "name": "fi-bg-alert/light", "value": "#fecdd3", "var": "Red/FECDD3", "rootAlias": "Red/FECDD3" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "_Typography primitives",
+    "values": [
+      {
+        "mode": { "name": "Mode", "id": "3948:0" },
+        "color": [],
+        "number": [
+          { "name": "fi-font-size/11", "value": "1.1rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/12", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/14", "value": "1.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/16", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/18", "value": "1.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/20", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/24", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/28", "value": "2.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/32", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/36", "value": "3.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/40", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/48", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-size/64", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-font-weight/regular", "value": "400", "var": "", "rootAlias": "" },
+          { "name": "fi-font-weight/bold", "value": "700", "var": "", "rootAlias": "" }
+        ],
+        "string": [
+          { "name": "fi-brand/font-copy", "value": "Cera Pro", "var": "", "rootAlias": "" },
+          { "name": "fi-brand/font-display", "value": "Cera Pro", "var": "", "rootAlias": "" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Device",
+    "values": [
+      {
+        "mode": { "name": "Desktop", "id": "7985:0" },
+        "color": [],
+        "number": [
+          { "name": "fi-container-size/small", "value": "127.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/medium", "value": "153.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/large", "value": "176rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/xlarge", "value": "192rem", "var": "", "rootAlias": "" },
+          { "name": "fi-heading/xsmall", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-heading/small", "value": "2rem", "var": "fi-font-size/20", "rootAlias": "fi-font-size/20" },
+          { "name": "fi-heading/medium", "value": "2.4rem", "var": "fi-font-size/24", "rootAlias": "fi-font-size/24" },
+          { "name": "fi-heading/large", "value": "3.2rem", "var": "fi-font-size/32", "rootAlias": "fi-font-size/32" },
+          { "name": "fi-heading/xlarge", "value": "4rem", "var": "fi-font-size/40", "rootAlias": "fi-font-size/40" },
+          { "name": "fi-heading/page-title", "value": "4.8rem", "var": "fi-font-size/48", "rootAlias": "fi-font-size/48" },
+          { "name": "fi-heading/hero-title", "value": "6.4rem", "var": "fi-font-size/64", "rootAlias": "fi-font-size/64" },
+          { "name": "fi-label/tag", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-label/small-active", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/small-default", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/regular-active", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-label/regular-default", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-layout/space/gap/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/regular", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/medium", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/large", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xlarge", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxlarge", "value": "5.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxlarge", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/box", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/mixed", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/input", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/button", "value": "8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/heading", "value": "8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/label", "value": "8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/regular", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/medium", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/large", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xlarge", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxlarge", "value": "5.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxlarge", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/large", "value": "8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/xlarge", "value": "8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/medium", "value": "19.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/small", "value": "32.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/default", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/large", "value": "11.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-text/tiny", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-text/small", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-text/regular", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-text/large", "value": "1.8rem", "var": "fi-font-size/18", "rootAlias": "fi-font-size/18" },
+          { "name": "fi-text/xlarge", "value": "2.4rem", "var": "fi-font-size/24", "rootAlias": "fi-font-size/24" }
+        ],
+        "string": []
+      },
+      {
+        "mode": { "name": "Desktop Small", "id": "9837:0" },
+        "color": [],
+        "number": [
+          { "name": "fi-container-size/small", "value": "127.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/large", "value": "145.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/medium", "value": "145.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/xlarge", "value": "153.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-heading/xsmall", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-heading/small", "value": "2rem", "var": "fi-font-size/20", "rootAlias": "fi-font-size/20" },
+          { "name": "fi-heading/medium", "value": "2.4rem", "var": "fi-font-size/24", "rootAlias": "fi-font-size/24" },
+          { "name": "fi-heading/large", "value": "3.2rem", "var": "fi-font-size/32", "rootAlias": "fi-font-size/32" },
+          { "name": "fi-heading/xlarge", "value": "4rem", "var": "fi-font-size/40", "rootAlias": "fi-font-size/40" },
+          { "name": "fi-heading/page-title", "value": "4.8rem", "var": "fi-font-size/48", "rootAlias": "fi-font-size/48" },
+          { "name": "fi-heading/hero-title", "value": "6.4rem", "var": "fi-font-size/64", "rootAlias": "fi-font-size/64" },
+          { "name": "fi-label/tag", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-label/small-active", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/small-default", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/regular-active", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-label/regular-default", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-layout/space/gap/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/regular", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/large", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/medium", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xlarge", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxlarge", "value": "5.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxlarge", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/box", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/mixed", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/input", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/button", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/heading", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/label", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/regular", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/medium", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/large", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xlarge", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxlarge", "value": "5.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxlarge", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/xlarge", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/large", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/medium", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/small", "value": "13rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/default", "value": "5.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/large", "value": "8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-text/tiny", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-text/small", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-text/regular", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-text/large", "value": "1.8rem", "var": "fi-font-size/18", "rootAlias": "fi-font-size/18" },
+          { "name": "fi-text/xlarge", "value": "2.4rem", "var": "fi-font-size/24", "rootAlias": "fi-font-size/24" }
+        ],
+        "string": []
+      },
+      {
+        "mode": { "name": "Tablet", "id": "7985:2" },
+        "color": [],
+        "number": [
+          { "name": "fi-container-size/large", "value": "97.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/medium", "value": "97.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/small", "value": "97.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/xlarge", "value": "102.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-heading/xsmall", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-heading/small", "value": "2rem", "var": "fi-font-size/20", "rootAlias": "fi-font-size/20" },
+          { "name": "fi-heading/medium", "value": "2.4rem", "var": "fi-font-size/24", "rootAlias": "fi-font-size/24" },
+          { "name": "fi-heading/large", "value": "2.8rem", "var": "fi-font-size/28", "rootAlias": "fi-font-size/28" },
+          { "name": "fi-heading/xlarge", "value": "3.2rem", "var": "fi-font-size/32", "rootAlias": "fi-font-size/32" },
+          { "name": "fi-heading/hero-title", "value": "3.6rem", "var": "fi-font-size/36", "rootAlias": "fi-font-size/36" },
+          { "name": "fi-heading/page-title", "value": "3.6rem", "var": "fi-font-size/36", "rootAlias": "fi-font-size/36" },
+          { "name": "fi-label/tag", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-label/small-active", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/small-default", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/regular-active", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-label/regular-default", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-layout/space/gap/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/regular", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/large", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/medium", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xlarge", "value": "3.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxlarge", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxlarge", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/box", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/mixed", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/button", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/heading", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/input", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/label", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/regular", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/medium", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/large", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xlarge", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxlarge", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxlarge", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/large", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/medium", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/small", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/xlarge", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/default", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/large", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-text/tiny", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-text/small", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-text/regular", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-text/large", "value": "1.8rem", "var": "fi-font-size/18", "rootAlias": "fi-font-size/18" },
+          { "name": "fi-text/xlarge", "value": "2rem", "var": "fi-font-size/20", "rootAlias": "fi-font-size/20" }
+        ],
+        "string": []
+      },
+      {
+        "mode": { "name": "Mobile", "id": "7985:3" },
+        "color": [],
+        "number": [
+          { "name": "fi-container-size/medium", "value": "60rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/small", "value": "60rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/large", "value": "64rem", "var": "", "rootAlias": "" },
+          { "name": "fi-container-size/xlarge", "value": "64rem", "var": "", "rootAlias": "" },
+          { "name": "fi-heading/xsmall", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-heading/medium", "value": "2rem", "var": "fi-font-size/20", "rootAlias": "fi-font-size/20" },
+          { "name": "fi-heading/small", "value": "2rem", "var": "fi-font-size/20", "rootAlias": "fi-font-size/20" },
+          { "name": "fi-heading/large", "value": "2.4rem", "var": "fi-font-size/24", "rootAlias": "fi-font-size/24" },
+          { "name": "fi-heading/xlarge", "value": "2.8rem", "var": "fi-font-size/28", "rootAlias": "fi-font-size/28" },
+          { "name": "fi-heading/hero-title", "value": "3.2rem", "var": "fi-font-size/32", "rootAlias": "fi-font-size/32" },
+          { "name": "fi-heading/page-title", "value": "3.2rem", "var": "fi-font-size/32", "rootAlias": "fi-font-size/32" },
+          { "name": "fi-label/tag", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-label/small-active", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/small-default", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-label/regular-active", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-label/regular-default", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-layout/space/gap/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/regular", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/small", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/large", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/medium", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xlarge", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxlarge", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/gap/xxxlarge", "value": "6.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/box", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/action-group/mixed", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/input", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/button", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/heading", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/item/form-stack/label", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/tiny", "value": "0.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxsmall", "value": "0.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxsmall", "value": "1.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xsmall", "value": "1.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/regular", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/medium", "value": "2.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/large", "value": "2.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xlarge", "value": "3.2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxlarge", "value": "3.6rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/padding/xxxlarge", "value": "4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/large", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/medium", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/small", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/horizontal/xlarge", "value": "2rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/default", "value": "4.4rem", "var": "", "rootAlias": "" },
+          { "name": "fi-layout/space/section-margin/vertical/large", "value": "4.8rem", "var": "", "rootAlias": "" },
+          { "name": "fi-text/tiny", "value": "1.2rem", "var": "fi-font-size/12", "rootAlias": "fi-font-size/12" },
+          { "name": "fi-text/small", "value": "1.4rem", "var": "fi-font-size/14", "rootAlias": "fi-font-size/14" },
+          { "name": "fi-text/regular", "value": "1.6rem", "var": "fi-font-size/16", "rootAlias": "fi-font-size/16" },
+          { "name": "fi-text/large", "value": "1.8rem", "var": "fi-font-size/18", "rootAlias": "fi-font-size/18" },
+          { "name": "fi-text/xlarge", "value": "1.8rem", "var": "fi-font-size/18", "rootAlias": "fi-font-size/18" }
+        ],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "✅ Focus ring",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "9960:0" },
+        "color": [
+          { "name": "fi-focus-ring-color/inner", "value": "#183434", "var": "Green/183434", "rootAlias": "Green/183434" },
+          { "name": "fi-focus-ring-color/outer", "value": "#d5dddb", "var": "Green/D5DDDB", "rootAlias": "Green/D5DDDB" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  },
+  {
+    "name": "Input Form Color",
+    "values": [
+      {
+        "mode": { "name": "Mode 1", "id": "10030:0" },
+        "color": [
+          { "name": "fi-input-form-color/fill/active", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-input-form-color/fill/default", "value": "#ffffff", "var": "Neutral/White", "rootAlias": "Neutral/White" },
+          { "name": "fi-input-form-color/fill/hover", "value": "#eaf0ee", "var": "Green/EAF0EE", "rootAlias": "Green/EAF0EE" },
+          { "name": "fi-input-form-color/fill/inactive", "value": "#e0dcd2", "var": "Neutral/E0DCD2", "rootAlias": "Neutral/E0DCD2" },
+          { "name": "fi-input-form-color/icon/active", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/icon/default", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/icon/hover", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/icon/inactive", "value": "#8d8479", "var": "Neutral/8D8479", "rootAlias": "Neutral/8D8479" },
+          { "name": "fi-input-form-color/label/active", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/label/default", "value": "#606060", "var": "Neutral/606060", "rootAlias": "Neutral/606060" },
+          { "name": "fi-input-form-color/label/hover", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/label/inactive", "value": "#606060", "var": "Neutral/606060", "rootAlias": "Neutral/606060" },
+          { "name": "fi-input-form-color/stroke/active", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/stroke/default", "value": "#00000080", "var": "Neutral/Black-50", "rootAlias": "Neutral/Black-50" },
+          { "name": "fi-input-form-color/stroke/hover", "value": "#07272c", "var": "Green/07272C", "rootAlias": "Green/07272C" },
+          { "name": "fi-input-form-color/stroke/inactve", "value": "#b6ada5", "var": "Neutral/B6ADA5", "rootAlias": "Neutral/B6ADA5" }
+        ],
+        "number": [],
+        "string": []
+      }
+    ]
+  }
+]

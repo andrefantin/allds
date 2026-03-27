@@ -1,0 +1,33 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Next.js
+.next
+out
+
+# Environment
+.env.local
+.env.*.local
+
+# Build outputs
+dist
+build
+
+# Vercel
+.vercel
+
+# OS
+.DS_Store
+*.swp
+*.swo
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+
+# Type checking
+*.tsbuildinfo
+
+# Testing
+coverage

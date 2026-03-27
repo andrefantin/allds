@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #eaf0ee;
+  --color-bg-dark: #dbe5e2;
+  --color-text: #07272c;
+  --color-text-muted: #606060;
+  --color-heading: #005338;
+  --color-primary: #f6b540;
+  --color-border: rgba(7, 39, 44, 0.1);
+  --font-family: var(--font-cera), 'Inter', system-ui, sans-serif;
+  --radius-small: 0.8rem;
+  --radius-medium: 1.6rem;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 1.4rem;
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* Dark mode */
+.dark {
+  --color-bg: #07272c;
+  --color-bg-dark: #0f2e33;
+  --color-text: #eaf0ee;
+  --color-text-muted: #a8b8b6;
+  --color-heading: #7ecfb0;
+  --color-primary: #f6b540;
+  --color-border: rgba(234, 240, 238, 0.1);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(7, 39, 44, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(7, 39, 44, 0.4);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(234, 240, 238, 0.2);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Token copy button */
+@layer components {
+  .token-row:hover .copy-btn {
+    opacity: 1;
+  }
+  .copy-btn {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-fics-text-muted hover:text-fics-text hover:bg-fics-bg-dark transition-all duration-150 cursor-pointer;
+  }
+  .sidebar-link.active {
+    @apply bg-fics-sidebar-active text-fics-text font-medium;
+  }
+
+  .card {
+    @apply bg-white rounded-md shadow-card border border-fics-border;
+  }
+  .dark .card {
+    @apply bg-fics-bg-dark border-opacity-20;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium uppercase tracking-wide;
+  }
+  .badge-stable {
+    @apply bg-green-100 text-green-800;
+  }
+  .badge-beta {
+    @apply bg-blue-100 text-blue-800;
+  }
+  .badge-new {
+    @apply bg-amber-100 text-amber-800;
+  }
+  .badge-deprecated {
+    @apply bg-gray-100 text-gray-600 line-through;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

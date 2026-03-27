@@ -1,0 +1,92 @@
+{
+  "lastSynced": null,
+  "components": [],
+  "modules": [],
+  "navigation": {
+    "components": [
+      {
+        "group": "Actions",
+        "items": [
+          { "name": "Button", "slug": "button", "status": "stable" },
+          { "name": "Link", "slug": "link", "status": "stable" },
+          { "name": "Icon Button", "slug": "icon-button", "status": "stable" }
+        ]
+      },
+      {
+        "group": "Forms",
+        "items": [
+          { "name": "Input", "slug": "input", "status": "stable" },
+          { "name": "Select", "slug": "select", "status": "stable" },
+          { "name": "Checkbox", "slug": "checkbox", "status": "stable" },
+          { "name": "Radio", "slug": "radio", "status": "stable" },
+          { "name": "Toggle", "slug": "toggle", "status": "beta" },
+          { "name": "Textarea", "slug": "textarea", "status": "stable" }
+        ]
+      },
+      {
+        "group": "Navigation",
+        "items": [
+          { "name": "Tabs", "slug": "tabs", "status": "stable" },
+          { "name": "Breadcrumb", "slug": "breadcrumb", "status": "stable" },
+          { "name": "Pagination", "slug": "pagination", "status": "stable" },
+          { "name": "Sidebar Nav", "slug": "sidebar-nav", "status": "beta" }
+        ]
+      },
+      {
+        "group": "Feedback",
+        "items": [
+          { "name": "Alert", "slug": "alert", "status": "stable" },
+          { "name": "Toast", "slug": "toast", "status": "stable" },
+          { "name": "Badge", "slug": "badge", "status": "stable" },
+          { "name": "Spinner", "slug": "spinner", "status": "stable" },
+          { "name": "Progress Bar", "slug": "progress-bar", "status": "beta" }
+        ]
+      },
+      {
+        "group": "Data Display",
+        "items": [
+          { "name": "Table", "slug": "table", "status": "stable" },
+          { "name": "Card", "slug": "card", "status": "stable" },
+          { "name": "Avatar", "slug": "avatar", "status": "stable" },
+          { "name": "Tag", "slug": "tag", "status": "stable" },
+          { "name": "Tooltip", "slug": "tooltip", "status": "beta" }
+        ]
+      },
+      {
+        "group": "Overlays",
+        "items": [
+          { "name": "Modal", "slug": "modal", "status": "stable" },
+          { "name": "Drawer", "slug": "drawer", "status": "stable" },
+          { "name": "Popover", "slug": "popover", "status": "beta" },
+          { "name": "Dropdown", "slug": "dropdown", "status": "stable" }
+        ]
+      }
+    ],
+    "modules": [
+      {
+        "group": "Marketing",
+        "items": [
+          { "name": "Hero", "slug": "hero", "status": "stable" },
+          { "name": "Feature Grid", "slug": "feature-grid", "status": "stable" },
+          { "name": "CTA Banner", "slug": "cta-banner", "status": "stable" }
+        ]
+      },
+      {
+        "group": "Content",
+        "items": [
+          { "name": "Content Block", "slug": "content-block", "status": "stable" },
+          { "name": "Card Grid", "slug": "card-grid", "status": "stable" },
+          { "name": "Stats Row", "slug": "stats-row", "status": "beta" }
+        ]
+      },
+      {
+        "group": "Navigation",
+        "items": [
+          { "name": "Header", "slug": "header", "status": "stable" },
+          { "name": "Footer", "slug": "footer", "status": "stable" },
+          { "name": "Mega Menu", "slug": "mega-menu", "status": "beta" }
+        ]
+      }
+    ]
+  }
+}
