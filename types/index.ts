@@ -1,3 +1,12 @@
+// ─── Platform User Types ──────────────────────────────────────────────────────
+
+export interface PlatformUser {
+  email: string
+  passwordHash: string
+  role: 'platform_editor' | 'viewer' | 'editor'
+  tenant?: string
+}
+
 // ─── Tenant Types ─────────────────────────────────────────────────────────────
 
 export interface Tenant {

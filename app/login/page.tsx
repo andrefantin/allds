@@ -18,6 +18,7 @@ export default function LoginPage() {
     const result = await signIn('credentials', { email, password, redirect: false })
     if (result?.ok) {
       router.push('/')
+      router.refresh()
     } else {
       setError('Invalid email or password')
       setLoading(false)
@@ -38,10 +39,12 @@ export default function LoginPage() {
           <div>
             <label className="block text-[1.2rem] text-fics-text-muted mb-1">Email</label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="username"
+              placeholder="viewer@yourds"
               className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
             />
           </div>
@@ -52,6 +55,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
               className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
             />
           </div>
