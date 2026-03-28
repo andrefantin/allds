@@ -40,9 +40,10 @@ export default async function ColourPage({ params }: Props) {
                   {collection.name.replace(/^[_✅\s]+/, '')}
                 </h2>
                 {isMultiMode ? (
-                  <ModesTabs modes={collection.modes}>
-                    {(activeMode: string) => (
-                      <div className="card overflow-hidden">
+                  <ModesTabs
+                    modes={collection.modes}
+                    panels={collection.modes.map((mode) => (
+                      <div key={mode} className="card overflow-hidden">
                         <table className="w-full">
                           <thead>
                             <tr className="border-b border-fics-border bg-fics-bg">
@@ -53,7 +54,7 @@ export default async function ColourPage({ params }: Props) {
                           </thead>
                           <tbody>
                             {colorTokens.map((token, i) => {
-                              const value = token.values[activeMode] || Object.values(token.values)[0]
+                              const value = token.values[mode] || Object.values(token.values)[0]
                               return (
                                 <tr key={token.name} className={`border-b border-fics-border ${i % 2 === 1 ? 'bg-fics-bg/30' : ''}`}>
                                   <td className="px-6 py-3 align-middle">
@@ -67,8 +68,8 @@ export default async function ColourPage({ params }: Props) {
                           </tbody>
                         </table>
                       </div>
-                    )}
-                  </ModesTabs>
+                    ))}
+                  />
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                     {colorTokens.map((token) => {
