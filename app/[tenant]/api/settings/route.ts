@@ -11,13 +11,14 @@ export async function GET(_req: Request, { params }: { params: { tenant: string 
 
 export async function POST(req: Request, { params }: { params: { tenant: string } }) {
   const session = await getServerSession(authOptions)
-  const isEditor = (session?.user as { role?: string })?.role === 'editor'
+  const role = (session?.user as { role?: string })?.role
+  const isEditor = role === 'editor' || role === 'platform_editor'
   if (!isEditor) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
   const existing = await getSettings(params.tenant)
 
-  const ALLOWED_KEYS = ['figmaToken', 'figmaFileComponents', 'figmaFileModules', 'figmaFileFoundation', 'figmaIconNodeId']
+  const ALLOWED_KEYS = ['figmaToken', 'figmaFileComponents', 'figmaFileModules', 'figmaFileFoundation', 'figmaIconNodeId', 'figmaIconSetName', 'figmaIconNodeId2', 'figmaIconSetName2']
   const updated = { ...existing }
   for (const key of ALLOWED_KEYS) {
     if (key in body) (updated as Record<string, string>)[key] = body[key]

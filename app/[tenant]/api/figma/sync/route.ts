@@ -7,7 +7,8 @@ import { put } from '@vercel/blob'
 
 export async function POST(_req: Request, { params }: { params: { tenant: string } }) {
   const session = await getServerSession(authOptions)
-  const isEditor = (session?.user as { role?: string })?.role === 'editor'
+  const role = (session?.user as { role?: string })?.role
+  const isEditor = role === 'editor' || role === 'platform_editor'
   if (!isEditor) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { tenant } = params

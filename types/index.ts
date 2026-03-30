@@ -149,9 +149,15 @@ export interface FigmaEffectStyle {
   cssBoxShadow: string
 }
 
+export interface FigmaIconSet {
+  name: string
+  icons: FigmaIcon[]
+}
+
 export interface FigmaFoundationData {
   lastSynced: string | null
   icons: FigmaIcon[]
+  iconSets?: FigmaIconSet[]
   textStyles: FigmaTextStyle[]
   effectStyles: FigmaEffectStyle[]
 }
@@ -164,6 +170,9 @@ export interface PlatformSettings {
   figmaFileModules?: string
   figmaFileFoundation?: string
   figmaIconNodeId?: string
+  figmaIconSetName?: string
+  figmaIconNodeId2?: string
+  figmaIconSetName2?: string
 }
 
 // ─── Auth Types ───────────────────────────────────────────────────────────────

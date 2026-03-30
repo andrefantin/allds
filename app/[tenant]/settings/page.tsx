@@ -10,6 +10,9 @@ interface Settings {
   figmaFileModules?: string
   figmaFileFoundation?: string
   figmaIconNodeId?: string
+  figmaIconSetName?: string
+  figmaIconNodeId2?: string
+  figmaIconSetName2?: string
 }
 
 export default function SettingsPage() {
@@ -46,6 +49,9 @@ export default function SettingsPage() {
       if (form.figmaFileModules !== undefined) payload.figmaFileModules = form.figmaFileModules
       if (form.figmaFileFoundation !== undefined) payload.figmaFileFoundation = form.figmaFileFoundation
       if (form.figmaIconNodeId !== undefined) payload.figmaIconNodeId = form.figmaIconNodeId
+      if (form.figmaIconSetName !== undefined) payload.figmaIconSetName = form.figmaIconSetName
+      if (form.figmaIconNodeId2 !== undefined) payload.figmaIconNodeId2 = form.figmaIconNodeId2
+      if (form.figmaIconSetName2 !== undefined) payload.figmaIconSetName2 = form.figmaIconSetName2
 
       const res = await fetch(`/${tenant}/api/settings`, {
         method: 'POST',
@@ -183,17 +189,57 @@ export default function SettingsPage() {
                 className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
               />
             </div>
-            <div>
-              <label className="block text-[1.2rem] text-fics-text-muted mb-1">Icons Node ID <span className="text-fics-text-muted/60">(optional)</span></label>
-              <input
-                type="text"
-                value={form.figmaIconNodeId || ''}
-                onChange={(e) => setForm((f) => ({ ...f, figmaIconNodeId: e.target.value }))}
-                placeholder="e.g. 9868:86"
-                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
-              />
-              <p className="text-[1.1rem] text-fics-text-muted mt-1">Right-click the icons frame in Figma → Copy/Paste as → Copy link, then extract the node-id parameter.</p>
+            <div className="border border-fics-border rounded-lg p-4 space-y-3">
+              <p className="text-[1.2rem] font-medium text-fics-text">Icon Set 1</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
+                  <input
+                    type="text"
+                    value={form.figmaIconSetName || ''}
+                    onChange={(e) => setForm((f) => ({ ...f, figmaIconSetName: e.target.value }))}
+                    placeholder="Icons"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID <span className="text-fics-text-muted/60">(optional)</span></label>
+                  <input
+                    type="text"
+                    value={form.figmaIconNodeId || ''}
+                    onChange={(e) => setForm((f) => ({ ...f, figmaIconNodeId: e.target.value }))}
+                    placeholder="e.g. 9868:86"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                  />
+                </div>
+              </div>
             </div>
+            <div className="border border-fics-border rounded-lg p-4 space-y-3">
+              <p className="text-[1.2rem] font-medium text-fics-text">Icon Set 2 <span className="text-fics-text-muted/60 font-normal">(optional)</span></p>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
+                  <input
+                    type="text"
+                    value={form.figmaIconSetName2 || ''}
+                    onChange={(e) => setForm((f) => ({ ...f, figmaIconSetName2: e.target.value }))}
+                    placeholder="Spot Icons"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID</label>
+                  <input
+                    type="text"
+                    value={form.figmaIconNodeId2 || ''}
+                    onChange={(e) => setForm((f) => ({ ...f, figmaIconNodeId2: e.target.value }))}
+                    placeholder="e.g. 1234:5678"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                  />
+                </div>
+              </div>
+            </div>
+            <p className="text-[1.1rem] text-fics-text-muted">Right-click an icons frame in Figma → Copy link → extract the node-id parameter from the URL.</p>
           </div>
           <button
             type="button"
