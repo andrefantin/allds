@@ -19,7 +19,8 @@ export default function SettingsPage() {
   const { data: session } = useSession()
   const params = useParams()
   const tenant = params.tenant as string
-  const isEditor = (session?.user as { role?: string })?.role === 'editor'
+  const role = (session?.user as { role?: string })?.role
+  const isEditor = role === 'editor' || role === 'platform_editor'
 
   const [settings, setSettings] = useState<Settings>({})
   const [form, setForm] = useState<Settings>({})

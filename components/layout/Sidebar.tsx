@@ -29,7 +29,8 @@ interface NavSection {
 export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
   const pathname = usePathname()
   const { data: session } = useSession()
-  const isEditor = (session?.user as { role?: string })?.role === 'editor'
+  const userRole = (session?.user as { role?: string })?.role
+  const isEditor = userRole === 'editor' || userRole === 'platform_editor'
   const base = `/${tenant}`
 
   const [search, setSearch] = useState('')

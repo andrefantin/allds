@@ -13,7 +13,8 @@ export function Topbar({ title }: TopbarProps) {
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
   const [menuOpen, setMenuOpen] = useState(false)
-  const isEditor = (session?.user as { role?: string })?.role === 'editor'
+  const userRole = (session?.user as { role?: string })?.role
+  const isEditor = userRole === 'editor' || userRole === 'platform_editor'
 
   return (
     <header className="h-14 border-b border-fics-border bg-white/60 backdrop-blur-sm sticky top-0 z-30 flex items-center px-6 gap-4">

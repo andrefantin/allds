@@ -14,7 +14,8 @@ export function TokensBrowser() {
   const searchParams = useSearchParams()
   const params = useParams()
   const tenant = params.tenant as string
-  const isEditor = (session?.user as { role?: string })?.role === 'editor'
+  const role = (session?.user as { role?: string })?.role
+  const isEditor = role === 'editor' || role === 'platform_editor'
 
   const [tokens, setTokens] = useState<TokenFile | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
