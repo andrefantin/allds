@@ -25,7 +25,7 @@ export async function POST(_req: Request, { params }: { params: { tenant: string
 
   if (settings.figmaIconNodeId) {
     const nodeId = settings.figmaIconNodeId.replace(':', '-')
-    try { icons = await fetchFigmaIcons(settings.figmaFileFoundation, nodeId) } catch (e) { errors.push(`Icons: ${e}`) }
+    try { icons = await fetchFigmaIcons(settings.figmaFileFoundation, nodeId) } catch (e) { errors.push(`Icons: ${e} (file: ${settings.figmaFileFoundation}, node: ${nodeId})`) }
   }
   try { textStyles = await fetchFigmaTextStyles(settings.figmaFileFoundation) } catch (e) { errors.push(`Text styles: ${e}`) }
   try { effectStyles = await fetchFigmaEffectStyles(settings.figmaFileFoundation) } catch (e) { errors.push(`Effect styles: ${e}`) }
