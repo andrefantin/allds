@@ -43,9 +43,9 @@ export function IconGrid({ icons }: IconGridProps) {
     }, {})
   }, [filtered, categories])
 
-  function copyName(name: string) {
-    navigator.clipboard.writeText(name).then(() => {
-      setCopied(name)
+  function copySvg(icon: FigmaIcon) {
+    navigator.clipboard.writeText(icon.svgContent).then(() => {
+      setCopied(icon.name)
       setTimeout(() => setCopied(null), 1500)
     })
   }
@@ -106,9 +106,9 @@ export function IconGrid({ icons }: IconGridProps) {
                 {items.map((icon) => (
                   <button
                     key={`${icon.name}-${icon.size}`}
-                    onClick={() => copyName(icon.name)}
+                    onClick={() => copySvg(icon)}
                     className="group flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-fics-bg-dark cursor-pointer transition-colors text-left"
-                    title={`${icon.name} (${icon.size}px) — click to copy name`}
+                    title={`${icon.name} (${icon.size}px) — click to copy SVG`}
                   >
                     <div
                       className="text-fics-text flex items-center justify-center shrink-0"
