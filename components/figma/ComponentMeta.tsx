@@ -39,11 +39,8 @@ export function ComponentMeta({ component, showFigmaLink = true }: ComponentMeta
           href={component.figmaUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-fics-border hover:bg-fics-bg-dark transition-colors text-[1.3rem] font-medium text-fics-text"
+          className="inline-flex items-center px-4 py-2 rounded-lg border border-fics-border hover:bg-fics-bg-dark transition-colors text-[1.3rem] font-medium text-fics-text"
         >
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M15.332 8.668a3.333 3.333 0 000-6.663H8.668a3.333 3.333 0 000 6.663 3.333 3.333 0 000 6.665 3.333 3.333 0 006.665 0V8.668zm0 0a3.333 3.333 0 106.663 0 3.333 3.333 0 00-6.663 0z" />
-          </svg>
           View in Figma
         </a>
       )}
