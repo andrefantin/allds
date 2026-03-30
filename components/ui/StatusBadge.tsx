@@ -7,10 +7,10 @@ interface StatusBadgeProps {
 }
 
 const config: Record<ComponentStatus, { label: string; className: string }> = {
-  stable: { label: 'Stable', className: 'badge-stable' },
+  stable: { label: 'Live', className: 'badge-stable' },
   beta: { label: 'Beta', className: 'badge-beta' },
   new: { label: 'New', className: 'badge-new' },
-  deprecated: { label: 'Deprecated', className: 'badge-deprecated' },
+  deprecated: { label: 'Archived', className: 'badge-deprecated' },
 }
 
 export function StatusBadge({ status, size = 'sm' }: StatusBadgeProps) {

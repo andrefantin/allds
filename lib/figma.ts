@@ -418,6 +418,20 @@ function normalizeInstanceName(name: string): string {
     .replace(/-\d+$/, '') // strip trailing numbers like "Button 2" → "button"
 }
 
+function normalizeInstanceNameCandidates(name: string): string[] {
+  return name
+    .split('/')
+    .map(part =>
+      part
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-\d+$/, '')
+    )
+    .filter(Boolean)
+}
+
 export async function fetchComponentsUsedInModule(
   fileId: string,
   moduleNodeId: string,
@@ -444,12 +458,13 @@ export async function fetchComponentsUsedInModule(
 
   const rootDoc = rootEntry.document as Record<string, unknown>
 
-  // Collect unique normalized instance names
+  // Collect unique normalized instance names (all "/" segments, to handle library-prefixed names like "Danu/Button")
   const instanceNames = new Set<string>()
   function traverse(node: Record<string, unknown>) {
     if (node.type === 'INSTANCE') {
-      const normalized = normalizeInstanceName((node.name as string) || '')
-      if (normalized) instanceNames.add(normalized)
+      for (const candidate of normalizeInstanceNameCandidates((node.name as string) || '')) {
+        instanceNames.add(candidate)
+      }
     }
     if (Array.isArray(node.children)) {
       for (const child of node.children as Record<string, unknown>[]) {

@@ -58,27 +58,39 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
     },
   ]
 
-  const componentSections: NavSection[] = figmaData.navigation.components.map((group) => ({
-    title: group.group,
-    items: group.items.map((item) => ({
-      label: item.name,
-      href: `${base}/components/${item.slug}`,
-      status: item.status,
-    })),
-    isExpandable: true,
-    defaultExpanded: true,
-  }))
+  const componentSections: NavSection[] = figmaData.navigation.components
+    .map((group) => ({
+      title: group.group,
+      items: group.items
+        .filter((item) => item.status !== 'deprecated')
+        .map((item) => ({ label: item.name, href: `${base}/components/${item.slug}`, status: item.status })),
+      isExpandable: true,
+      defaultExpanded: true,
+    }))
+    .filter((s) => s.items.length > 0)
 
-  const moduleSections: NavSection[] = figmaData.navigation.modules.map((group) => ({
-    title: group.group,
-    items: group.items.map((item) => ({
-      label: item.name,
-      href: `${base}/modules/${item.slug}`,
-      status: item.status,
-    })),
-    isExpandable: true,
-    defaultExpanded: true,
-  }))
+  const archivedComponentItems: NavItem[] = figmaData.navigation.components
+    .flatMap((group) => group.items)
+    .filter((item) => item.status === 'deprecated')
+    .map((item) => ({ label: item.name, href: `${base}/components/${item.slug}`, status: item.status }))
+    .sort((a, b) => a.label.localeCompare(b.label))
+
+  const moduleSections: NavSection[] = figmaData.navigation.modules
+    .map((group) => ({
+      title: group.group,
+      items: group.items
+        .filter((item) => item.status !== 'deprecated')
+        .map((item) => ({ label: item.name, href: `${base}/modules/${item.slug}`, status: item.status })),
+      isExpandable: true,
+      defaultExpanded: true,
+    }))
+    .filter((s) => s.items.length > 0)
+
+  const archivedModuleItems: NavItem[] = figmaData.navigation.modules
+    .flatMap((group) => group.items)
+    .filter((item) => item.status === 'deprecated')
+    .map((item) => ({ label: item.name, href: `${base}/modules/${item.slug}`, status: item.status }))
+    .sort((a, b) => a.label.localeCompare(b.label))
 
   const editorSection: NavSection = {
     title: 'Editor Tools',
@@ -113,9 +125,15 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
     deprecated: 'bg-gray-100 text-gray-500',
   }
 
+  const statusLabels: Record<string, string> = {
+    beta: 'Beta',
+    new: 'New',
+    deprecated: 'Archived',
+  }
+
   const renderSection = (section: NavSection, prefix?: string) => {
     const key = `${prefix || ''}${section.title}`
-    const isCollapsed = collapsed[key] === true
+    const isCollapsed = collapsed[key] !== undefined ? collapsed[key] : section.defaultExpanded === false
     const items = filterItems(section.items)
     if (search && items.length === 0) return null
 
@@ -149,9 +167,9 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
                 className={cn('sidebar-link', isActive(item.href) && 'active')}
               >
                 <span className="flex-1 text-[1.3rem]">{item.label}</span>
-                {item.status && item.status !== 'stable' && (
+                {item.status && statusLabels[item.status] && (
                   <span className={cn('badge text-[1rem] px-1.5 py-0', statusColors[item.status])}>
-                    {item.status}
+                    {statusLabels[item.status]}
                   </span>
                 )}
               </Link>
@@ -204,6 +222,10 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
           </div>
           <div className="space-y-4">
             {componentSections.map((s) => renderSection(s, 'comp-'))}
+            {archivedComponentItems.length > 0 && renderSection(
+              { title: 'Archived', items: archivedComponentItems, isExpandable: true, defaultExpanded: false },
+              'comp-'
+            )}
           </div>
         </div>
 
@@ -214,6 +236,10 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
           </div>
           <div className="space-y-4">
             {moduleSections.map((s) => renderSection(s, 'mod-'))}
+            {archivedModuleItems.length > 0 && renderSection(
+              { title: 'Archived', items: archivedModuleItems, isExpandable: true, defaultExpanded: false },
+              'mod-'
+            )}
           </div>
         </div>
 
