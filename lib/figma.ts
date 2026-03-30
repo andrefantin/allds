@@ -183,7 +183,8 @@ function extractIconCategory(parentName: string): string {
 
 export async function fetchFigmaIcons(
   fileId: string,
-  iconNodeId: string
+  iconNodeId: string,
+  { preserveColors = false }: { preserveColors?: boolean } = {}
 ): Promise<FigmaIcon[]> {
   const nodeId = normalizeNodeId(iconNodeId)
 
@@ -252,10 +253,11 @@ export async function fetchFigmaIcons(
         const r = await fetch(url)
         if (!r.ok) return null
         let svg = await r.text()
-        // Normalize to currentColor
-        svg = svg
-          .replace(/fill="(?!none)[^"]+"/g, 'fill="currentColor"')
-          .replace(/stroke="(?!none)[^"]+"/g, 'stroke="currentColor"')
+        if (!preserveColors) {
+          svg = svg
+            .replace(/fill="(?!none)[^"]+"/g, 'fill="currentColor"')
+            .replace(/stroke="(?!none)[^"]+"/g, 'stroke="currentColor"')
+        }
         const { name, size } = parseIconName(c.name, c.parentName)
         if (!name) return null
         // Group icons by size — category is used as the group label

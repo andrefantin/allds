@@ -39,7 +39,7 @@ export async function POST(_req: Request, { params }: { params: { tenant: string
     const nodeId = settings.figmaIconNodeId2.replace(':', '-')
     const setName = settings.figmaIconSetName2 || 'Spot Icons'
     try {
-      const setIcons = await fetchFigmaIcons(settings.figmaFileFoundation, nodeId)
+      const setIcons = await fetchFigmaIcons(settings.figmaFileFoundation, nodeId, { preserveColors: true })
       iconSets.push({ name: setName, icons: setIcons })
     } catch (e) { errors.push(`${setName}: ${e} (file: ${settings.figmaFileFoundation}, node: ${nodeId})`) }
   }
