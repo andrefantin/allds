@@ -163,6 +163,7 @@ export interface PlatformSettings {
   figmaFileComponents?: string
   figmaFileModules?: string
   figmaFileFoundation?: string
+  figmaIconNodeId?: string
 }
 
 // ─── Auth Types ───────────────────────────────────────────────────────────────

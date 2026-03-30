@@ -9,6 +9,7 @@ interface Settings {
   figmaFileComponents?: string
   figmaFileModules?: string
   figmaFileFoundation?: string
+  figmaIconNodeId?: string
 }
 
 export default function SettingsPage() {
@@ -44,6 +45,7 @@ export default function SettingsPage() {
       if (form.figmaFileComponents !== undefined) payload.figmaFileComponents = form.figmaFileComponents
       if (form.figmaFileModules !== undefined) payload.figmaFileModules = form.figmaFileModules
       if (form.figmaFileFoundation !== undefined) payload.figmaFileFoundation = form.figmaFileFoundation
+      if (form.figmaIconNodeId !== undefined) payload.figmaIconNodeId = form.figmaIconNodeId
 
       const res = await fetch(`/${tenant}/api/settings`, {
         method: 'POST',
@@ -170,15 +172,28 @@ export default function SettingsPage() {
         {/* Foundation */}
         <div className="card p-6">
           <h2 className="text-[1.5rem] font-semibold text-fics-text mb-4">Foundation</h2>
-          <div className="mb-6">
-            <label className="block text-[1.2rem] text-fics-text-muted mb-1">Foundation File ID</label>
-            <input
-              type="text"
-              value={form.figmaFileFoundation || ''}
-              onChange={(e) => setForm((f) => ({ ...f, figmaFileFoundation: e.target.value }))}
-              placeholder="Paste the file ID from your Figma URL"
-              className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
-            />
+          <div className="space-y-4 mb-6">
+            <div>
+              <label className="block text-[1.2rem] text-fics-text-muted mb-1">Foundation File ID</label>
+              <input
+                type="text"
+                value={form.figmaFileFoundation || ''}
+                onChange={(e) => setForm((f) => ({ ...f, figmaFileFoundation: e.target.value }))}
+                placeholder="Paste the file ID from your Figma URL"
+                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+              />
+            </div>
+            <div>
+              <label className="block text-[1.2rem] text-fics-text-muted mb-1">Icons Node ID <span className="text-fics-text-muted/60">(optional)</span></label>
+              <input
+                type="text"
+                value={form.figmaIconNodeId || ''}
+                onChange={(e) => setForm((f) => ({ ...f, figmaIconNodeId: e.target.value }))}
+                placeholder="e.g. 9868:86"
+                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+              />
+              <p className="text-[1.1rem] text-fics-text-muted mt-1">Right-click the icons frame in Figma → Copy/Paste as → Copy link, then extract the node-id parameter.</p>
+            </div>
           </div>
           <button
             type="button"

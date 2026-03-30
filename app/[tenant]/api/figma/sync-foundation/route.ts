@@ -6,8 +6,6 @@ import { fetchFigmaIcons, fetchFigmaTextStyles, fetchFigmaEffectStyles } from '@
 import { put } from '@vercel/blob'
 import type { FigmaIcon, FigmaTextStyle, FigmaEffectStyle } from '@/types'
 
-const ICON_NODE_ID = '9868-86'
-
 export async function POST(_req: Request, { params }: { params: { tenant: string } }) {
   const session = await getServerSession(authOptions)
   const isEditor = (session?.user as { role?: string })?.role === 'editor'
@@ -25,7 +23,10 @@ export async function POST(_req: Request, { params }: { params: { tenant: string
   let effectStyles: FigmaEffectStyle[] = []
   const errors: string[] = []
 
-  try { icons = await fetchFigmaIcons(settings.figmaFileFoundation, ICON_NODE_ID) } catch (e) { errors.push(`Icons: ${e}`) }
+  if (settings.figmaIconNodeId) {
+    const nodeId = settings.figmaIconNodeId.replace(':', '-')
+    try { icons = await fetchFigmaIcons(settings.figmaFileFoundation, nodeId) } catch (e) { errors.push(`Icons: ${e}`) }
+  }
   try { textStyles = await fetchFigmaTextStyles(settings.figmaFileFoundation) } catch (e) { errors.push(`Text styles: ${e}`) }
   try { effectStyles = await fetchFigmaEffectStyles(settings.figmaFileFoundation) } catch (e) { errors.push(`Effect styles: ${e}`) }
 
