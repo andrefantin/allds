@@ -94,7 +94,11 @@ export default function SettingsPage() {
       const res = await fetch(`/${tenant}/api/figma/sync-foundation`, { method: 'POST' })
       const data = await res.json()
       if (res.ok) {
-        setSyncResult(`Synced: ${data.icons} icons, ${data.textStyles} text styles, ${data.effectStyles} effect styles.${data.errors?.length ? ' Errors: ' + data.errors.join(', ') : ''}`)
+        const setsSummary = data.iconSets?.length
+          ? data.iconSets.map((s: { name: string; count: number }) => `${s.name}: ${s.count}`).join(', ')
+          : `${data.icons} icons`
+        const summary = `Icons synced (${setsSummary}) · ${data.textStyles} text styles · ${data.effectStyles} effect styles`
+        setSyncResult(data.errors?.length ? `${summary}\nErrors: ${data.errors.join(' | ')}` : summary)
       } else {
         setSyncResult(`Error: ${data.error}`)
       }
