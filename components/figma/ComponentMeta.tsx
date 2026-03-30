@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { StatusBadge } from '@/components/ui/StatusBadge'
 import type { FigmaComponent } from '@/types'
 
 interface ComponentMetaProps {
@@ -6,22 +6,11 @@ interface ComponentMetaProps {
   showFigmaLink?: boolean
 }
 
-const statusConfig = {
-  stable: { label: 'Stable', className: 'badge-stable' },
-  beta: { label: 'Beta', className: 'badge-beta' },
-  new: { label: 'New', className: 'badge-new' },
-  deprecated: { label: 'Deprecated', className: 'badge-deprecated' },
-}
-
 export function ComponentMeta({ component, showFigmaLink = true }: ComponentMetaProps) {
-  const status = statusConfig[component.status] || statusConfig.stable
-
   return (
     <div className="space-y-4">
       <div className="flex items-start gap-3 flex-wrap">
-        <span className={cn('badge text-[1.2rem]', status.className)}>
-          {status.label}
-        </span>
+        <StatusBadge status={component.status} size="md" />
         <span className="badge bg-fics-bg text-fics-text-muted border border-fics-border">
           {component.group}
         </span>
