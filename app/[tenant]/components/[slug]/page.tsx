@@ -32,7 +32,6 @@ export default async function ComponentDetailPage({ params }: Props) {
           <div>
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-heading-lg font-bold text-fics-text">{component.name}</h1>
-              <StatusBadge status={component.status} size="md" />
             </div>
             <ComponentMeta component={component} />
           </div>

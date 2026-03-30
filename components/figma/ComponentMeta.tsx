@@ -1,4 +1,3 @@
-import { StatusBadge } from '@/components/ui/StatusBadge'
 import type { FigmaComponent } from '@/types'
 
 interface ComponentMetaProps {
@@ -10,7 +9,6 @@ export function ComponentMeta({ component, showFigmaLink = true }: ComponentMeta
   return (
     <div className="space-y-4">
       <div className="flex items-start gap-3 flex-wrap">
-        <StatusBadge status={component.status} size="md" />
         <span className="badge bg-fics-bg text-fics-text-muted border border-fics-border">
           {component.group}
         </span>
