@@ -129,7 +129,24 @@ function nameToSlug(name: string): string {
     .replace(/[^a-z0-9-]/g, '')
 }
 
-const ICON_SIZES = [8, 12, 16, 20, 24, 32, 40, 48]
+const ICON_SIZES = [8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 120, 160, 200]
+
+function extractSvgDimensions(svg: string): { width: number; height: number } | null {
+  const wMatch = svg.match(/<svg[^>]*\swidth="([0-9.]+)"/)
+  const hMatch = svg.match(/<svg[^>]*\sheight="([0-9.]+)"/)
+  if (wMatch && hMatch) {
+    const w = Math.round(parseFloat(wMatch[1]))
+    const h = Math.round(parseFloat(hMatch[1]))
+    if (w > 0 && h > 0) return { width: w, height: h }
+  }
+  const vbMatch = svg.match(/<svg[^>]*\sviewBox="([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)"/)
+  if (vbMatch) {
+    const w = Math.round(parseFloat(vbMatch[3]))
+    const h = Math.round(parseFloat(vbMatch[4]))
+    if (w > 0 && h > 0) return { width: w, height: h }
+  }
+  return null
+}
 
 function normalizeNodeId(id: string): string {
   // URL format uses "-" (e.g. "9868-86"), API needs ":" (e.g. "9868:86")
@@ -258,9 +275,11 @@ export async function fetchFigmaIcons(
             .replace(/fill="(?!none)[^"]+"/g, 'fill="currentColor"')
             .replace(/stroke="(?!none)[^"]+"/g, 'stroke="currentColor"')
         }
-        const { name, size } = parseIconName(c.name, c.parentName)
+        const { name, size: parsedSize } = parseIconName(c.name, c.parentName)
         if (!name) return null
-        // Group icons by size — category is used as the group label
+        // Use actual SVG dimensions as the authoritative size — falls back to name-parsed size
+        const svgDims = extractSvgDimensions(svg)
+        const size = svgDims ? Math.max(svgDims.width, svgDims.height) : parsedSize
         return { id: c.id, name, size, category: `${size}px`, svgContent: svg }
       })
     )

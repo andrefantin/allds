@@ -112,7 +112,6 @@ export function IconGrid({ icons }: IconGridProps) {
                   >
                     <div
                       className="text-fics-text flex items-center justify-center shrink-0"
-                      style={{ width: icon.size, height: icon.size }}
                       dangerouslySetInnerHTML={{ __html: icon.svgContent }}
                     />
                     <span className="text-[1rem] text-fics-text-muted text-center leading-tight break-all opacity-0 group-hover:opacity-100 transition-opacity w-full">
