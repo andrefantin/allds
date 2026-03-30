@@ -29,7 +29,12 @@ export function TokensBrowser() {
   useEffect(() => {
     fetch(`/${tenant}/api/tokens/current`)
       .then((r) => r.json())
-      .then((data: TokenFile) => { setTokens(data); setLoading(false) })
+      .then((data: TokenFile) => {
+        if (data && Array.isArray(data.collections) && data.metadata) {
+          setTokens(data)
+        }
+        setLoading(false)
+      })
       .catch(() => setLoading(false))
   }, [tenant])
 
@@ -156,7 +161,9 @@ export function TokensBrowser() {
           onPublished={() => {
             fetch(`/${tenant}/api/tokens/current`)
               .then((r) => r.json())
-              .then((data: TokenFile) => setTokens(data))
+              .then((data: TokenFile) => {
+                if (data && Array.isArray(data.collections) && data.metadata) setTokens(data)
+              })
           }}
         />
       )}

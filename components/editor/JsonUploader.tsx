@@ -78,7 +78,7 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
       const res = await fetch(`/${tenant}/api/tokens/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tokens: newTokens }),
+        body: JSON.stringify(newTokens),
       })
 
       const data = await res.json()
