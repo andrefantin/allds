@@ -1,13 +1,13 @@
-import { list, put } from '@vercel/blob'
+import { put } from '@vercel/blob'
+import { getBlobUrl } from './blob'
 import type { PlatformUser } from '@/types'
 
 const USERS_KEY = '_registry/users.json'
 
 export async function getUsers(): Promise<PlatformUser[]> {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return []
   try {
-    const { blobs } = await list({ prefix: '_registry/users' })
-    if (!blobs.length) return []
-    const res = await fetch(blobs[0].url)
+    const res = await fetch(getBlobUrl(USERS_KEY), { cache: 'no-store' })
     if (!res.ok) return []
     return res.json()
   } catch {

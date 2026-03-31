@@ -3,20 +3,15 @@
  * Tenants are stored in Vercel Blob at _registry/tenants.json
  */
 
+import { getBlobUrl } from './blob'
 import type { Tenant } from '@/types'
 
-const REGISTRY_KEY = '_registry/tenants.json'
+const REGISTRY_PATH = '_registry/tenants.json'
 
 export async function getTenants(): Promise<Tenant[]> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return []
   try {
-    const { list } = await import('@vercel/blob')
-    const { blobs } = await list({ prefix: '_registry/tenants' })
-    if (blobs.length === 0) return []
-    const latest = blobs.sort(
-      (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
-    )[0]
-    const res = await fetch(latest.url, { cache: 'no-store' })
+    const res = await fetch(getBlobUrl(REGISTRY_PATH), { cache: 'no-store' })
     if (!res.ok) return []
     return (await res.json()) as Tenant[]
   } catch {
@@ -26,10 +21,10 @@ export async function getTenants(): Promise<Tenant[]> {
 
 export async function saveTenants(tenants: Tenant[]): Promise<void> {
   const { put } = await import('@vercel/blob')
-  await put(REGISTRY_KEY, JSON.stringify(tenants), {
+  await put(REGISTRY_PATH, JSON.stringify(tenants), {
     access: 'public',
     contentType: 'application/json',
-    addRandomSuffix: true,
+    addRandomSuffix: false,
   })
 }
 

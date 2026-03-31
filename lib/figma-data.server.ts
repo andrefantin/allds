@@ -1,3 +1,4 @@
+import { getBlobUrl } from './blob'
 import type { FigmaComponentsData, FigmaComponent, NavigationGroup } from '@/types'
 
 const MODULE_GROUP_ORDER = [
@@ -44,13 +45,7 @@ function buildNavigation(components: FigmaComponent[], modules: FigmaComponent[]
 export async function getFigmaData(tenant: string): Promise<FigmaComponentsData> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return EMPTY_DATA
   try {
-    const { list } = await import('@vercel/blob')
-    const { blobs } = await list({ prefix: `${tenant}/config/figma-components` })
-    if (blobs.length === 0) return EMPTY_DATA
-    const latest = blobs.sort(
-      (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
-    )[0]
-    const res = await fetch(latest.url, { cache: 'no-store' })
+    const res = await fetch(getBlobUrl(`${tenant}/config/figma-components.json`), { cache: 'no-store' })
     if (!res.ok) return EMPTY_DATA
     const raw = await res.json()
     const components: FigmaComponent[] = raw.components || []

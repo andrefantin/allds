@@ -30,7 +30,7 @@ export async function POST(_req: Request, { params }: { params: { tenant: string
 
     const payload = { components, modules, lastSynced: new Date().toISOString() }
     await put(`${tenant}/config/figma-components.json`, JSON.stringify(payload), {
-      access: 'public', contentType: 'application/json', addRandomSuffix: true,
+      access: 'public', contentType: 'application/json', addRandomSuffix: false,
     })
 
     return NextResponse.json({ ok: true, components: components.length, modules: modules.length })

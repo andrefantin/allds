@@ -50,7 +50,7 @@ export async function POST(_req: Request, { params }: { params: { tenant: string
   const totalIcons = iconSets.reduce((sum, s) => sum + s.icons.length, 0)
   const payload = { icons, iconSets, textStyles, effectStyles, lastSynced: new Date().toISOString() }
   await put(`${tenant}/config/figma-foundation.json`, JSON.stringify(payload), {
-    access: 'public', contentType: 'application/json', addRandomSuffix: true,
+    access: 'public', contentType: 'application/json', addRandomSuffix: false,
   })
 
   return NextResponse.json({ ok: true, icons: totalIcons, iconSets: iconSets.map(s => ({ name: s.name, count: s.icons.length })), textStyles: textStyles.length, effectStyles: effectStyles.length, errors })

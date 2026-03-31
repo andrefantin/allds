@@ -12,11 +12,15 @@ export async function POST(req: Request, { params }: { params: { tenant: string 
   const body = await req.json()
   const { tenant } = params
 
-  const blob = await put(`${tenant}/tokens/tokens-${Date.now()}.json`, JSON.stringify(body), {
-    access: 'public',
-    contentType: 'application/json',
-    addRandomSuffix: false,
-  })
+  const timestamp = Date.now()
+  const [blob] = await Promise.all([
+    put(`${tenant}/tokens/tokens-${timestamp}.json`, JSON.stringify(body), {
+      access: 'public', contentType: 'application/json', addRandomSuffix: false,
+    }),
+    put(`${tenant}/tokens/current.json`, JSON.stringify(body), {
+      access: 'public', contentType: 'application/json', addRandomSuffix: false,
+    }),
+  ])
 
   return NextResponse.json({ ok: true, url: blob.url })
 }
