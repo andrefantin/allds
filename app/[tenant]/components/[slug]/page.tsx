@@ -20,15 +20,15 @@ export default async function ComponentDetailPage({ params }: Props) {
   const fileId = settings.figmaFileComponents
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <nav className="flex items-center gap-2 text-[1.3rem] text-fics-text-muted mb-6">
         <Link href={`/${tenant}/components`} className="hover:text-fics-text transition-colors">Components</Link>
         <span>/</span>
         <span className="text-fics-text font-medium">{component.name}</span>
       </nav>
 
-      <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-heading-lg font-bold text-fics-text">{component.name}</h1>
@@ -52,6 +52,12 @@ export default async function ComponentDetailPage({ params }: Props) {
               <ComponentPreview figmaFileId={fileId} nodeId={component.id} thumbnailUrl={component.thumbnailUrl} name={component.name} />
             </div>
           </div>
+          {component.description && (
+            <div className="card p-6">
+              <h2 className="text-heading-sm font-semibold text-fics-text mb-3">Usage</h2>
+              <p className="text-body text-fics-text-muted">{component.description}</p>
+            </div>
+          )}
         </div>
         <div className="space-y-4">
           <div className="card p-5">

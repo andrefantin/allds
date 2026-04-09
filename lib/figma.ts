@@ -35,7 +35,7 @@ export async function fetchFigmaComponents(fileId: string): Promise<FigmaCompone
 
     const description = (c.description as string) || ''
     const status = extractStatus(description)
-    const cleanDescription = description.replace(/\[status:\s*\w+\]/i, '').trim()
+    const cleanDescription = description.replace(/\[(live|testing|new|archived)\]/i, '').trim()
 
     result.push({
       id: c.node_id as string,
@@ -109,8 +109,8 @@ export async function fetchFigmaVariables(fileId: string) {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function extractStatus(description: string): ComponentStatus {
-  const match = description.match(/\[status:\s*(stable|beta|deprecated|new)\]/i)
-  if (!match) return 'stable'
+  const match = description.match(/\[(live|testing|new|archived)\]/i)
+  if (!match) return 'live'
   return match[1].toLowerCase() as ComponentStatus
 }
 
@@ -337,6 +337,11 @@ export async function fetchFigmaTextStyles(fileId: string): Promise<FigmaTextSty
     const parts = name.split('/')
     const category = parts.length > 1 ? parts[0].trim() : 'General'
 
+    const lineHeightUnit = (style.lineHeightUnit as string) || ''
+    const lineHeightPercent = lineHeightUnit === 'FONT_SIZE_%'
+      ? (style.lineHeightPercentFontSize as number) || undefined
+      : undefined
+
     return {
       id: rawId,
       name,
@@ -345,6 +350,8 @@ export async function fetchFigmaTextStyles(fileId: string): Promise<FigmaTextSty
       fontWeight: (style.fontWeight as number) || 400,
       fontSize: (style.fontSize as number) || 16,
       lineHeightPx: (style.lineHeightPx as number) || 0,
+      lineHeightPercent,
+      lineHeightUnit,
       letterSpacingPx: (style.letterSpacing as number) || 0,
       textCase: style.textCase as string | undefined,
     }

@@ -76,7 +76,7 @@ export interface ChangelogEntry {
 
 // ─── Figma Types ─────────────────────────────────────────────────────────────
 
-export type ComponentStatus = 'stable' | 'beta' | 'deprecated' | 'new'
+export type ComponentStatus = 'live' | 'testing' | 'new' | 'archived'
 
 export interface FigmaComponent {
   id: string
@@ -138,6 +138,8 @@ export interface FigmaTextStyle {
   fontWeight: number
   fontSize: number
   lineHeightPx: number
+  lineHeightPercent?: number
+  lineHeightUnit?: string
   letterSpacingPx: number
   textCase?: string
 }
@@ -173,6 +175,8 @@ export interface PlatformSettings {
   figmaIconSetName?: string
   figmaIconNodeId2?: string
   figmaIconSetName2?: string
+  ogImageUrl?: string
+  logoUrl?: string
 }
 
 // ─── Auth Types ───────────────────────────────────────────────────────────────

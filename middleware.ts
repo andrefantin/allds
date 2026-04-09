@@ -32,6 +32,7 @@ export default withAuth(
         const { pathname } = req.nextUrl
         if (pathname.startsWith('/api/auth')) return true
         if (pathname.startsWith('/login')) return true
+        if (pathname === '/') return true
         return !!token
       },
     },
@@ -40,5 +41,5 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|gif|svg|ico)).*)'],
 }

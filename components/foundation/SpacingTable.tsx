@@ -39,8 +39,8 @@ export function SpacingTable({ collection, tokens }: SpacingTableProps) {
           const value = token.values[activeMode] || Object.values(token.values)[0]
           const px = remToPixels(value)
           return (
-            <div key={token.name} className="flex items-center gap-6">
-              <div className="w-56 shrink-0">
+            <div key={token.name} className="flex items-center gap-4 md:gap-6">
+              <div className="w-36 md:w-56 shrink-0">
                 <div className="font-mono text-[1.3rem] text-fics-text">{token.name}</div>
                 <div className="text-[1.2rem] text-fics-text-muted">{value} · {px}px</div>
               </div>

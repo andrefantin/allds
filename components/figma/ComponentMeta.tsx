@@ -17,10 +17,6 @@ export function ComponentMeta({ component, showFigmaLink = true }: ComponentMeta
         </span>
       </div>
 
-      {component.description && (
-        <p className="text-body text-fics-text-muted leading-relaxed">{component.description}</p>
-      )}
-
       {showFigmaLink && component.figmaUrl && (
         <a
           href={component.figmaUrl}

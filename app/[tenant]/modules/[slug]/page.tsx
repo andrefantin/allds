@@ -36,15 +36,15 @@ export default async function ModuleDetailPage({ params }: Props) {
     : []
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <nav className="flex items-center gap-2 text-[1.3rem] text-fics-text-muted mb-6">
         <Link href={`/${tenant}/modules`} className="hover:text-fics-text transition-colors">Modules</Link>
         <span>/</span>
         <span className="text-fics-text font-medium">{module.name}</span>
       </nav>
 
-      <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-heading-lg font-bold text-fics-text">{module.name}</h1>
@@ -68,13 +68,12 @@ export default async function ModuleDetailPage({ params }: Props) {
               <ComponentPreview figmaFileId={fileId} nodeId={module.id} thumbnailUrl={module.thumbnailUrl} name={module.name} />
             </div>
           </div>
-          <div className="card p-6">
-            <h2 className="text-heading-sm font-semibold text-fics-text mb-4">Usage</h2>
-            <p className="text-body text-fics-text-muted">
-              The <strong className="text-fics-text font-mono">{module.name}</strong> module is a page-level composition.
-              {module.description && ` ${module.description}`}
-            </p>
-          </div>
+          {module.description && (
+            <div className="card p-6">
+              <h2 className="text-heading-sm font-semibold text-fics-text mb-3">Usage</h2>
+              <p className="text-body text-fics-text-muted">{module.description}</p>
+            </div>
+          )}
         </div>
 
         <div className="space-y-4">

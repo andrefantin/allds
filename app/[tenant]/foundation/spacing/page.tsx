@@ -15,7 +15,7 @@ export default async function SpacingPage({ params }: Props) {
   const spacingTokens = collection ? collection.tokens.filter((t) => t.type === 'dimension') : []
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
         <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
         <h1 className="text-heading-lg font-bold text-fics-text mb-2">Spacing</h1>

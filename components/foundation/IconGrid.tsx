@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { Search } from 'react-feather'
 import type { FigmaIcon } from '@/types'
 
 interface IconGridProps {
@@ -53,11 +54,9 @@ export function IconGrid({ icons }: IconGridProps) {
   return (
     <div>
       {/* Controls */}
-      <div className="flex items-center gap-4 mb-8">
-        <div className="relative flex-1 max-w-[32rem]">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-fics-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-8">
+        <div className="relative flex-1 sm:max-w-[32rem]">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fics-text-muted" />
           <input
             type="search"
             value={search}
@@ -85,7 +84,7 @@ export function IconGrid({ icons }: IconGridProps) {
             ))}
           </div>
         )}
-        <span className="text-[1.2rem] text-fics-text-muted shrink-0">{filtered.length} icons</span>
+        <span className="text-[1.2rem] text-fics-text-muted sm:shrink-0">{filtered.length} icons</span>
       </div>
 
       {/* Icon grid */}

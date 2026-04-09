@@ -18,7 +18,7 @@ export async function POST(req: Request, { params }: { params: { tenant: string 
   const body = await req.json()
   const existing = await getSettings(params.tenant)
 
-  const ALLOWED_KEYS = ['figmaToken', 'figmaFileComponents', 'figmaFileModules', 'figmaFileFoundation', 'figmaIconNodeId', 'figmaIconSetName', 'figmaIconNodeId2', 'figmaIconSetName2']
+  const ALLOWED_KEYS = ['figmaToken', 'figmaFileComponents', 'figmaFileModules', 'figmaFileFoundation', 'figmaIconNodeId', 'figmaIconSetName', 'figmaIconNodeId2', 'figmaIconSetName2', 'ogImageUrl', 'logoUrl']
   const updated = { ...existing }
   for (const key of ALLOWED_KEYS) {
     if (key in body) (updated as Record<string, string>)[key] = body[key]

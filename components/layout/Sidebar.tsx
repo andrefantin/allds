@@ -4,13 +4,18 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { Search, X, ChevronDown } from 'react-feather'
 import type { FigmaComponentsData } from '@/types'
 
 interface SidebarProps {
   figmaData: FigmaComponentsData
   tenant: string
   tenantName: string
+  logoUrl?: string
+  isOpen?: boolean
+  onClose?: () => void
 }
 
 interface NavItem {
@@ -26,7 +31,7 @@ interface NavSection {
   defaultExpanded?: boolean
 }
 
-export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
+export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname()
   const { data: session } = useSession()
   const userRole = (session?.user as { role?: string })?.role
@@ -49,6 +54,7 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
       items: [
         { label: 'Border & Radius', href: `${base}/foundation/border` },
         { label: 'Colour', href: `${base}/foundation/colour` },
+        { label: 'Colour Accessibility', href: `${base}/foundation/colour-accessibility` },
         { label: 'Design Tokens', href: `${base}/foundation/tokens` },
         { label: 'Elevation', href: `${base}/foundation/elevation` },
         { label: 'Icons', href: `${base}/foundation/icons` },
@@ -62,7 +68,7 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
     .map((group) => ({
       title: group.group,
       items: group.items
-        .filter((item) => item.status !== 'deprecated')
+        .filter((item) => item.status !== 'archived')
         .map((item) => ({ label: item.name, href: `${base}/components/${item.slug}`, status: item.status })),
       isExpandable: true,
       defaultExpanded: true,
@@ -71,7 +77,7 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
 
   const archivedComponentItems: NavItem[] = figmaData.navigation.components
     .flatMap((group) => group.items)
-    .filter((item) => item.status === 'deprecated')
+    .filter((item) => item.status === 'archived')
     .map((item) => ({ label: item.name, href: `${base}/components/${item.slug}`, status: item.status }))
     .sort((a, b) => a.label.localeCompare(b.label))
 
@@ -79,7 +85,7 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
     .map((group) => ({
       title: group.group,
       items: group.items
-        .filter((item) => item.status !== 'deprecated')
+        .filter((item) => item.status !== 'archived')
         .map((item) => ({ label: item.name, href: `${base}/modules/${item.slug}`, status: item.status })),
       isExpandable: true,
       defaultExpanded: true,
@@ -88,7 +94,7 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
 
   const archivedModuleItems: NavItem[] = figmaData.navigation.modules
     .flatMap((group) => group.items)
-    .filter((item) => item.status === 'deprecated')
+    .filter((item) => item.status === 'archived')
     .map((item) => ({ label: item.name, href: `${base}/modules/${item.slug}`, status: item.status }))
     .sort((a, b) => a.label.localeCompare(b.label))
 
@@ -119,16 +125,15 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
   }
 
   const statusColors: Record<string, string> = {
-    stable: 'bg-green-100 text-green-700',
-    beta: 'bg-blue-100 text-blue-700',
+    live: 'bg-green-100 text-green-700',
+    testing: 'bg-blue-100 text-blue-700',
     new: 'bg-amber-100 text-amber-700',
-    deprecated: 'bg-gray-100 text-gray-500',
+    archived: 'bg-gray-100 text-gray-500',
   }
 
   const statusLabels: Record<string, string> = {
-    beta: 'Beta',
     new: 'New',
-    deprecated: 'Archived',
+    testing: 'Testing',
   }
 
   const renderSection = (section: NavSection, prefix?: string) => {
@@ -150,12 +155,10 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
             {section.title}
           </span>
           {section.isExpandable && (
-            <svg
-              className={cn('w-3 h-3 text-fics-text-muted transition-transform', isCollapsed && '-rotate-90')}
-              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronDown
+              size={12}
+              className={cn('text-fics-text-muted transition-transform', isCollapsed && '-rotate-90')}
+            />
           )}
         </button>
         {!isCollapsed && (
@@ -164,6 +167,7 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={onClose}
                 className={cn('sidebar-link', isActive(item.href) && 'active')}
               >
                 <span className="flex-1 text-[1.3rem]">{item.label}</span>
@@ -181,26 +185,42 @@ export function Sidebar({ figmaData, tenant, tenantName }: SidebarProps) {
   }
 
   return (
-    <aside className="w-[26rem] shrink-0 h-screen sticky top-0 overflow-hidden flex flex-col bg-fics-sidebar border-r border-fics-border">
+    <aside className={cn(
+      'w-[26rem] shrink-0 h-screen overflow-hidden flex flex-col bg-fics-sidebar border-r border-fics-border',
+      'fixed inset-y-0 left-0 z-50 transition-transform duration-300 ease-in-out',
+      'lg:static lg:translate-x-0',
+      isOpen ? 'translate-x-0' : '-translate-x-full'
+    )}>
       {/* Logo */}
-      <div className="p-5 border-b border-fics-border">
-        <Link href={base} className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-fics-heading flex items-center justify-center shrink-0">
-            <span className="text-white font-bold text-base uppercase">{tenantName.charAt(0)}</span>
+      <div className="p-5 border-b border-fics-border flex items-center justify-between">
+        <Link href={base} className="flex items-center gap-3" onClick={onClose}>
+          <div
+            className="rounded-lg shrink-0 overflow-hidden bg-fics-heading flex items-center justify-center"
+            style={{ width: 40, height: 40 }}
+          >
+            {logoUrl
+              ? <Image src={logoUrl} alt={tenantName} width={40} height={40} style={{ width: 40, height: 40, objectFit: 'cover' }} unoptimized />
+              : <span className="text-white font-bold text-base uppercase">{tenantName.charAt(0)}</span>
+            }
           </div>
           <div>
             <div className="font-bold text-fics-text text-[1.4rem] leading-tight">{tenantName}</div>
             <div className="text-[1.1rem] text-fics-text-muted">Design System</div>
           </div>
         </Link>
+        <button
+          onClick={onClose}
+          className="lg:hidden p-1.5 rounded-lg hover:bg-fics-bg-dark text-fics-text-muted shrink-0"
+          aria-label="Close menu"
+        >
+          <X size={16} />
+        </button>
       </div>
 
       {/* Search */}
       <div className="px-3 py-3 border-b border-fics-border">
         <div className="relative">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-fics-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fics-text-muted" />
           <input
             type="search"
             value={search}

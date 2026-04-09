@@ -12,7 +12,7 @@ export default async function ModulesPage({ params }: Props) {
   const figmaData = await getFigmaData(tenant)
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
         <h1 className="text-heading-lg font-bold text-fics-text mb-2">Modules</h1>
         <p className="text-body text-fics-text-muted">{figmaData.modules.length} modules</p>

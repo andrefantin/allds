@@ -16,7 +16,7 @@ export default async function BorderPage({ params }: Props) {
   const otherTokens = borderTokens.filter((t) => !radiusTokens.includes(t) && !widthTokens.includes(t))
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
         <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
         <h1 className="text-heading-lg font-bold text-fics-text mb-2">Border & Radius</h1>
@@ -37,8 +37,8 @@ export default async function BorderPage({ params }: Props) {
                   const value = Object.values(token.values)[0]
                   const px = remToPixels(value)
                   return (
-                    <div key={token.name} className="flex items-center gap-6">
-                      <div className="w-56 shrink-0">
+                    <div key={token.name} className="flex items-center gap-4 md:gap-6">
+                      <div className="w-36 md:w-56 shrink-0">
                         <div className="font-mono text-[1.3rem] text-fics-text">{token.name}</div>
                         <div className="text-[1.2rem] text-fics-text-muted">{value} · {px}px</div>
                       </div>
@@ -57,8 +57,8 @@ export default async function BorderPage({ params }: Props) {
                   const value = Object.values(token.values)[0]
                   const px = remToPixels(value)
                   return (
-                    <div key={token.name} className="flex items-center gap-6">
-                      <div className="w-56 shrink-0">
+                    <div key={token.name} className="flex items-center gap-4 md:gap-6">
+                      <div className="w-36 md:w-56 shrink-0">
                         <div className="font-mono text-[1.3rem] text-fics-text">{token.name}</div>
                         <div className="text-[1.2rem] text-fics-text-muted">{value} · {px}px</div>
                       </div>
@@ -73,6 +73,7 @@ export default async function BorderPage({ params }: Props) {
             <div>
               <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">Other</h2>
               <div className="card overflow-hidden">
+                <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-fics-border bg-fics-bg">
@@ -89,6 +90,7 @@ export default async function BorderPage({ params }: Props) {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           )}

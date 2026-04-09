@@ -18,7 +18,7 @@ export default async function ElevationPage({ params }: Props) {
   }
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
         <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
         <h1 className="text-heading-lg font-bold text-fics-text mb-2">Elevation</h1>
@@ -42,7 +42,7 @@ export default async function ElevationPage({ params }: Props) {
               {Object.keys(grouped).length > 1 && (
                 <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">{category}</h2>
               )}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                 {styles.map((style) => (
                   <div key={style.id} className="card p-6 flex flex-col gap-4">
                     <div className="h-16 rounded-lg bg-white" style={{ boxShadow: style.cssBoxShadow }} />
@@ -55,6 +55,7 @@ export default async function ElevationPage({ params }: Props) {
                 ))}
               </div>
               <div className="card overflow-hidden">
+                <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-fics-border bg-fics-bg">
@@ -73,6 +74,7 @@ export default async function ElevationPage({ params }: Props) {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           ))}

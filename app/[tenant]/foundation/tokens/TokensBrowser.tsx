@@ -89,8 +89,8 @@ export function TokensBrowser() {
 
   return (
     <>
-      <div className="p-8 max-w-[100rem] mx-auto">
-        <div className="mb-6 flex items-start justify-between gap-4">
+      <div className="p-4 md:p-8 max-w-[100rem] mx-auto">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
             <h1 className="text-heading-lg font-bold text-fics-text mb-2">Design Tokens</h1>

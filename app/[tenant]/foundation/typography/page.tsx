@@ -28,8 +28,13 @@ export default async function TypographyPage({ params }: Props) {
   const { tenant } = params
   const [tokens, foundation] = await Promise.all([getTokens(tenant), getFigmaFoundationData(tenant)])
 
+  const NON_FONT_KEYWORDS = ['border', 'radius', 'spacing', 'gap', 'margin', 'padding', 'shadow', 'elevation', 'width', 'height', 'container', 'layout', 'grid', 'column', 'gutter', 'row', 'icon', 'stroke', 'outline']
   const fontTokens: Token[] = tokens.collections.flatMap((c) =>
-    c.tokens.filter((t) => t.type === 'dimension')
+    c.tokens.filter((t) => {
+      if (t.type !== 'dimension') return false
+      const lower = t.name.toLowerCase()
+      return !NON_FONT_KEYWORDS.some((kw) => lower.includes(kw))
+    })
   )
 
   const { textStyles } = foundation
@@ -39,13 +44,20 @@ export default async function TypographyPage({ params }: Props) {
     grouped[style.category].push(style)
   }
 
+  const LAYOUT_KEYWORDS = ['margin', 'padding', 'gap', 'spacing', 'layout', 'container', 'grid', 'column', 'gutter', 'row']
   const typographyCollections = tokens.collections
     .filter((c) => c.name === '_Typography primitives' || c.name === 'Device')
-    .map((c) => ({ ...c, tokens: c.tokens.filter((t) => !t.name.toLowerCase().includes('container')) }))
+    .map((c) => ({
+      ...c,
+      tokens: c.tokens.filter((t) => {
+        const lower = t.name.toLowerCase()
+        return !LAYOUT_KEYWORDS.some((kw) => lower.includes(kw))
+      }),
+    }))
     .filter((c) => c.tokens.length > 0)
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
         <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
         <h1 className="text-heading-lg font-bold text-fics-text mb-2">Typography</h1>
@@ -58,6 +70,7 @@ export default async function TypographyPage({ params }: Props) {
             <div key={category}>
               <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">{category}</h2>
               <div className="card overflow-hidden">
+                <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-fics-border bg-fics-bg">
@@ -80,7 +93,11 @@ export default async function TypographyPage({ params }: Props) {
                           <td className="px-6 py-4 align-middle">
                             <div className="space-y-0.5">
                               <div className="font-mono text-[1.2rem] text-fics-text">{style.fontSize}px · {WEIGHT_NAMES[style.fontWeight] || style.fontWeight}</div>
-                              {style.lineHeightPx > 0 && <div className="font-mono text-[1.1rem] text-fics-text-muted">Line height {style.lineHeightPx}px</div>}
+                              {(style.lineHeightPercent || style.lineHeightPx > 0) && (
+                                <div className="font-mono text-[1.1rem] text-fics-text-muted">
+                                  Line height {style.lineHeightPercent ? `${Math.round(style.lineHeightPercent)}%` : `${style.lineHeightPx}px`}
+                                </div>
+                              )}
                               {style.letterSpacingPx !== 0 && <div className="font-mono text-[1.1rem] text-fics-text-muted">Letter spacing {style.letterSpacingPx > 0 ? '+' : ''}{style.letterSpacingPx}px</div>}
                             </div>
                           </td>
@@ -104,6 +121,7 @@ export default async function TypographyPage({ params }: Props) {
                     })}
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
           ))}

@@ -13,7 +13,7 @@ export default async function TenantHomePage({ params }: Props) {
   const totalModules = figmaData.modules.length
 
   return (
-    <div className="p-8 max-w-[96rem] mx-auto">
+    <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
         <h1 className="text-heading-lg font-bold text-fics-text mb-2">Welcome</h1>
         <p className="text-body text-fics-text-muted max-w-[60rem]">
@@ -21,7 +21,7 @@ export default async function TenantHomePage({ params }: Props) {
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <Link href={`/${tenant}/components`} className="card p-6 hover:shadow-md transition-shadow">
           <div className="text-[3rem] font-bold text-fics-heading mb-1">{totalComponents}</div>
           <div className="text-body text-fics-text-muted">Components</div>
@@ -38,7 +38,7 @@ export default async function TenantHomePage({ params }: Props) {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="card p-6">
           <h2 className="text-heading-sm font-semibold text-fics-text mb-4">Foundation</h2>
           <div className="space-y-2">

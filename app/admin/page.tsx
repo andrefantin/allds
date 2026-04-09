@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Eye, Settings, Trash2 } from 'react-feather'
 import type { Tenant } from '@/types'
 
 interface UserEntry {
@@ -18,8 +20,13 @@ export default function AdminPage() {
   const isPlatformEditor = (session?.user as { role?: string })?.role === 'platform_editor'
 
   const [tenants, setTenants] = useState<Tenant[]>([])
+  const [tenantLogos, setTenantLogos] = useState<Record<string, string>>({})
   const [users, setUsers] = useState<UserEntry[]>([])
   const [loading, setLoading] = useState(true)
+
+  const [platformOgUrl, setPlatformOgUrl] = useState<string | null>(null)
+  const [uploadingOg, setUploadingOg] = useState(false)
+  const ogInputRef = useRef<HTMLInputElement>(null)
 
   const [creating, setCreating] = useState(false)
   const [deleting, setDeleting] = useState<string | null>(null)
@@ -43,9 +50,25 @@ export default function AdminPage() {
     Promise.all([
       fetch('/api/tenants').then((r) => r.json()),
       fetch('/api/users').then((r) => r.json()),
-    ]).then(([t, u]) => {
-      setTenants(Array.isArray(t) ? t : [])
+      fetch('/api/platform/og-image').then((r) => r.ok ? r.json() : null),
+    ]).then(([t, u, og]) => {
+      const loadedTenants: Tenant[] = Array.isArray(t) ? t : []
+      setTenants(loadedTenants)
       setUsers(Array.isArray(u) ? u : [])
+      if (og?.url) setPlatformOgUrl(og.url)
+      // Fetch logo for each tenant
+      Promise.all(
+        loadedTenants.map((tenant) =>
+          fetch(`/${tenant.slug}/api/settings`)
+            .then((r) => r.ok ? r.json() : null)
+            .then((s) => s?.logoUrl ? [tenant.slug, s.logoUrl] : null)
+            .catch(() => null)
+        )
+      ).then((results) => {
+        const logos: Record<string, string> = {}
+        results.forEach((r) => { if (r) logos[r[0]] = r[1] })
+        setTenantLogos(logos)
+      })
       setLoading(false)
     }).catch(() => setLoading(false))
   }, [isPlatformEditor])
@@ -135,6 +158,22 @@ export default function AdminPage() {
     }
   }
 
+  async function handleOgUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadingOg(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/platform/og-image', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok) setPlatformOgUrl(data.url)
+    } finally {
+      setUploadingOg(false)
+      if (ogInputRef.current) ogInputRef.current.value = ''
+    }
+  }
+
   const roleBadgeClass: Record<string, string> = {
     platform_editor: 'bg-fics-heading/10 text-fics-heading',
     editor: 'bg-amber-100 text-amber-700',
@@ -158,9 +197,9 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-fics-bg">
-      <div className="max-w-[72rem] mx-auto px-8 py-12 space-y-12">
+      <div className="max-w-[72rem] mx-auto px-4 md:px-8 py-8 md:py-12 space-y-12">
         <div>
-          <Link href="/" className="text-[1.2rem] text-fics-text-muted hover:text-fics-text mb-2 block">← AllDS</Link>
+          <Link href="/" className="text-[1.2rem] text-fics-text-muted hover:text-fics-text mb-2 block">← Back</Link>
           <h1 className="text-[2.4rem] font-bold text-fics-text">Platform Admin</h1>
         </div>
 
@@ -171,7 +210,7 @@ export default function AdminPage() {
           <div className="card p-6 mb-4">
             <h3 className="text-[1.4rem] font-semibold text-fics-text mb-4">Create new</h3>
             <form onSubmit={handleCreateTenant} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[1.2rem] text-fics-text-muted mb-1">Name</label>
                   <input
@@ -217,21 +256,31 @@ export default function AdminPage() {
             {tenants.length === 0 ? (
               <div className="card p-6 text-center text-fics-text-muted text-[1.3rem]">No design systems yet</div>
             ) : tenants.map((tenant) => (
-              <div key={tenant.slug} className="card p-5 flex items-center justify-between">
+              <div key={tenant.slug} className="card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-9 h-9 rounded-lg bg-fics-heading/10 flex items-center justify-center">
-                    <span className="text-fics-heading font-bold text-base uppercase">{tenant.name.charAt(0)}</span>
+                  <div
+                    className="rounded-lg overflow-hidden shrink-0 bg-fics-heading/10 flex items-center justify-center"
+                    style={{ width: 40, height: 40 }}
+                  >
+                    {tenantLogos[tenant.slug]
+                      ? <Image src={tenantLogos[tenant.slug]} alt={tenant.name} width={40} height={40} style={{ width: 40, height: 40, objectFit: 'cover' }} unoptimized />
+                      : <span className="text-fics-heading font-bold text-base uppercase">{tenant.name.charAt(0)}</span>
+                    }
                   </div>
                   <div>
                     <div className="font-semibold text-fics-text text-[1.4rem]">{tenant.name}</div>
                     <div className="text-[1.2rem] text-fics-text-muted font-mono">{tenant.slug}</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Link href={`/${tenant.slug}`} className="px-4 py-1.5 text-[1.2rem] border border-fics-border rounded-lg text-fics-text hover:bg-fics-bg-dark transition-colors">View</Link>
-                  <Link href={`/${tenant.slug}/settings`} className="px-4 py-1.5 text-[1.2rem] border border-fics-border rounded-lg text-fics-text hover:bg-fics-bg-dark transition-colors">Settings</Link>
-                  <button onClick={() => handleDeleteTenant(tenant.slug, tenant.name)} disabled={deleting === tenant.slug} className="px-4 py-1.5 text-[1.2rem] border border-red-200 rounded-lg text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50">
-                    {deleting === tenant.slug ? 'Deleting…' : 'Delete'}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Link href={`/${tenant.slug}`} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] border border-fics-border rounded-lg text-fics-text hover:bg-fics-bg-dark transition-colors">
+                    <Eye size={14} />View
+                  </Link>
+                  <Link href={`/${tenant.slug}/settings`} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] border border-fics-border rounded-lg text-fics-text hover:bg-fics-bg-dark transition-colors">
+                    <Settings size={14} />Settings
+                  </Link>
+                  <button onClick={() => handleDeleteTenant(tenant.slug, tenant.name)} disabled={deleting === tenant.slug} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] bg-red-600 border border-red-600 rounded-lg text-white hover:bg-red-700 transition-colors disabled:opacity-50">
+                    <Trash2 size={14} />{deleting === tenant.slug ? 'Deleting…' : 'Delete'}
                   </button>
                 </div>
               </div>
@@ -246,7 +295,7 @@ export default function AdminPage() {
           <div className="card p-6 mb-4">
             <h3 className="text-[1.4rem] font-semibold text-fics-text mb-4">Add user</h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[1.2rem] text-fics-text-muted mb-1">Login</label>
                   <input
@@ -270,7 +319,7 @@ export default function AdminPage() {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[1.2rem] text-fics-text-muted mb-1">Role</label>
                   <select
@@ -314,7 +363,7 @@ export default function AdminPage() {
                 No users in registry — the platform admin is set via environment variables.
               </div>
             ) : users.map((user) => (
-              <div key={user.email} className="card p-4 flex items-center justify-between">
+              <div key={user.email} className="card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-[1.3rem] text-fics-text">{user.email}</span>
                   <span className={`badge text-[1rem] px-2 py-0.5 rounded-full ${roleBadgeClass[user.role] || 'bg-gray-100 text-gray-600'}`}>
@@ -327,12 +376,41 @@ export default function AdminPage() {
                 <button
                   onClick={() => handleDeleteUser(user.email)}
                   disabled={deletingUser === user.email}
-                  className="px-3 py-1 text-[1.2rem] border border-red-200 rounded-lg text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-[1.2rem] border border-red-300 rounded-lg text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
                 >
-                  {deletingUser === user.email ? 'Removing…' : 'Remove'}
+                  <Trash2 size={14} />{deletingUser === user.email ? 'Removing…' : 'Remove'}
                 </button>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* ── Platform OG Image ──────────────────────────── */}
+        <section>
+          <h2 className="text-[1.8rem] font-semibold text-fics-text mb-4">Platform OG Image</h2>
+          <div className="card p-6">
+            <p className="text-[1.2rem] text-fics-text-muted mb-4">
+              Default image shown when the platform URL is shared on social media. Recommended size: 1200 × 630px.
+            </p>
+            {platformOgUrl && (
+              <div className="mb-4 rounded-lg overflow-hidden border border-fics-border w-full max-w-sm">
+                <Image src={platformOgUrl} alt="Platform OG image" width={600} height={315} className="w-full h-auto object-cover" unoptimized />
+              </div>
+            )}
+            <input
+              ref={ogInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              className="hidden"
+              onChange={handleOgUpload}
+            />
+            <button
+              onClick={() => ogInputRef.current?.click()}
+              disabled={uploadingOg}
+              className="px-5 py-2 bg-fics-heading text-white text-[1.3rem] font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors disabled:opacity-50"
+            >
+              {uploadingOg ? 'Uploading…' : platformOgUrl ? 'Replace image' : 'Upload image'}
+            </button>
           </div>
         </section>
       </div>

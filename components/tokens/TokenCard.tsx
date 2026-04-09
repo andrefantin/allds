@@ -5,6 +5,7 @@ import { cn, copyToClipboard, remToPixels } from '@/lib/utils'
 import { tokenToCssVar, tokenToScss, tokenToJs } from '@/lib/tokens'
 import { ColourSwatch } from './ColourSwatch'
 import toast from 'react-hot-toast'
+import { ChevronDown } from 'react-feather'
 import type { Token } from '@/types'
 
 interface TokenCardProps {
@@ -112,9 +113,7 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
             onClick={() => setMenuOpen(!menuOpen)}
             className="px-2 py-1.5 border-l border-fics-border text-fics-text-muted hover:text-fics-text hover:bg-fics-bg-dark transition-colors"
           >
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+            <ChevronDown size={12} />
           </button>
         </div>
 

@@ -2,18 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── CSS Variables ────────────────────────────────────────────────────────── */
+
 :root {
-  --color-bg: #ffffff;
-  --color-bg-dark: #f4f4f5;
-  --color-text: #09090b;
-  --color-text-muted: #71717a;
-  --color-heading: #18181b;
-  --color-primary: #f59e0b;
-  --color-border: rgba(0, 0, 0, 0.08);
+  /* Space-separated RGB triplets — enables Tailwind /opacity modifiers        */
+  --color-bg:         255 255 255;  /* #ffffff  */
+  --color-bg-dark:    244 244 245;  /* #f4f4f5  */
+  --color-bg-darker:  228 228 231;  /* #e4e4e7  */
+  --color-text-muted: 113 113 122;  /* #71717a  */
+  --color-heading:    24  24  27;   /* #18181b  */
+
+  /* Full colour values — used via var(), no /opacity needed                   */
+  --color-text:           #09090b;
+  --color-primary:        #f59e0b;
+  --color-primary-hover:  #d97706;
+  --color-border:         rgba(0, 0, 0, 0.08);
+  --color-border-strong:  rgba(0, 0, 0, 0.14);
+  --color-sidebar:        #fafafa;
+  --color-sidebar-active: #e4e4e7;
+  --color-card:           #ffffff;
+
   --font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
-  --radius-small: 0.25rem;
-  --radius-medium: 0.375rem;
 }
+
+.dark {
+  --color-bg:         15  15  17;   /* #0f0f11  */
+  --color-bg-dark:    24  24  27;   /* #18181b  */
+  --color-bg-darker:  39  39  42;   /* #27272a  */
+  --color-text-muted: 161 161 170;  /* #a1a1aa  */
+  --color-heading:    212 212 216;  /* #d4d4d8 — light so text-fics-heading is readable */
+
+  --color-text:           #fafafa;
+  --color-primary:        #f59e0b;
+  --color-primary-hover:  #fbbf24;
+  --color-border:         rgba(255, 255, 255, 0.08);
+  --color-border-strong:  rgba(255, 255, 255, 0.12);
+  --color-sidebar:        #111113;
+  --color-sidebar-active: #27272a;
+  --color-card:           #18181b;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
 
 html {
   font-size: 62.5%; /* 1rem = 10px */
@@ -23,93 +52,106 @@ html {
 body {
   font-size: 1.4rem;
   font-family: var(--font-family);
-  background-color: var(--color-bg);
+  background-color: rgb(var(--color-bg));
   color: var(--color-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark mode */
-.dark {
-  --color-bg: #09090b;
-  --color-bg-dark: #18181b;
-  --color-text: #fafafa;
-  --color-text-muted: #a1a1aa;
-  --color-heading: #18181b;
-  --color-primary: #f59e0b;
-  --color-border: rgba(255, 255, 255, 0.08);
+/* ─── Dark mode: targeted overrides ───────────────────────────────────────── */
+
+/*
+ * fics-heading is LIGHT in dark mode (#d4d4d8) so text-fics-heading is
+ * readable. But bg-fics-heading (buttons, avatars) needs to stay dark enough
+ * for white text to remain legible — override it to zinc-700.
+ */
+.dark .bg-fics-heading {
+  background-color: #3f3f46;
+}
+.dark .hover\:bg-fics-heading:hover,
+.dark .hover\:bg-fics-heading\/90:hover {
+  background-color: #52525b;
 }
 
-/* In dark mode, fics-heading is used as both button bg and text.
-   Override text usage to a light value so it reads on dark backgrounds. */
-.dark .text-fics-heading {
-  color: #e4e4e7;
+/*
+ * Hardcoded bg-white elements: form inputs, dropdown menus, active tab pills.
+ * bg-white/60 is the sticky topbar backdrop.
+ */
+.dark .bg-white {
+  background-color: rgb(var(--color-bg-darker));
 }
-.dark .border-fics-heading\/40 {
-  border-color: rgba(228, 228, 231, 0.4);
+.dark .bg-white\/60 {
+  background-color: rgb(var(--color-bg-dark) / 0.85);
 }
 
-/* Scrollbar */
+/* Status / badge colours used directly in component className strings */
+.dark .bg-green-100  { background-color: rgba(20,  83,  45,  0.25); }
+.dark .text-green-700 { color: #4ade80; }
+.dark .bg-blue-100   { background-color: rgba(30,  58, 138,  0.25); }
+.dark .text-blue-700  { color: #60a5fa; }
+.dark .bg-amber-100  { background-color: rgba(120, 53,  15,  0.25); }
+.dark .text-amber-700 { color: #fbbf24; }
+.dark .bg-gray-100   { background-color: rgba(39,  39,  42,  0.6);  }
+.dark .text-gray-500  { color: #a1a1aa; }
+.dark .text-gray-600  { color: #a1a1aa; }
+.dark .bg-red-50     { background-color: rgba(127, 29,  29,  0.2);  }
+.dark .text-red-600   { color: #f87171; }
+.dark .hover\:bg-red-50:hover { background-color: rgba(127, 29, 29, 0.25); }
+
+/* Emerald badge in dark mode */
+.dark .bg-emerald-50 { background-color: rgba(6,  78,  59,  0.25); }
+.dark .text-emerald-700 { color: #34d399; }
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
-  border-radius: 99px;
-}
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.12); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.22); }
 .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
 .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 
-/* Focus */
+/* ─── Focus ────────────────────────────────────────────────────────────────── */
+
 :focus-visible {
   outline: 2px solid #18181b;
   outline-offset: 2px;
   border-radius: 2px;
 }
-.dark :focus-visible { outline-color: #e4e4e7; }
+.dark :focus-visible { outline-color: rgb(var(--color-heading)); }
+
+/* ─── Components ───────────────────────────────────────────────────────────── */
 
 @layer components {
   /* Token row copy button */
   .token-row:hover .copy-btn { opacity: 1; }
-  .copy-btn {
-    opacity: 0;
-    transition: opacity 0.1s ease;
-  }
+  .copy-btn { opacity: 0; transition: opacity 0.1s ease; }
 
-  /* Sidebar nav link */
+  /* Sidebar nav link — bg-fics-bg-dark and text-fics-text now follow CSS vars */
   .sidebar-link {
     @apply flex items-center gap-2 px-3 py-[0.55rem] rounded text-[1.25rem] text-fics-text-muted hover:text-fics-text hover:bg-fics-bg-dark transition-colors duration-100 cursor-pointer;
   }
   .sidebar-link.active {
     @apply bg-fics-bg-darker text-fics-text font-medium;
   }
-  .dark .sidebar-link:hover { background-color: #27272a; }
-  .dark .sidebar-link.active { background-color: #27272a; color: #fafafa; }
 
-  /* Card */
+  /* Card — bg-fics-card follows the CSS variable */
   .card {
-    @apply bg-white rounded-md border border-fics-border;
+    @apply bg-fics-card rounded-md border border-fics-border;
     box-shadow: none;
-  }
-  .dark .card {
-    background-color: #111113;
-    border-color: rgba(255, 255, 255, 0.07);
   }
 
   /* Badge */
   .badge {
     @apply inline-flex items-center px-2 py-0.5 rounded text-[1.05rem] font-medium uppercase tracking-wide;
   }
-  .badge-stable  { @apply bg-emerald-50 text-emerald-700; }
-  .badge-beta    { @apply bg-blue-50 text-blue-700; }
-  .badge-new     { @apply bg-amber-50 text-amber-700; }
+  .badge-stable     { @apply bg-emerald-50 text-emerald-700; }
+  .badge-beta       { @apply bg-blue-50 text-blue-700; }
+  .badge-new        { @apply bg-amber-50 text-amber-700; }
   .badge-deprecated { @apply bg-zinc-100 text-zinc-500 line-through; }
 
   /* Scrollbar hide */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
   .scrollbar-hide::-webkit-scrollbar { display: none; }
 }
