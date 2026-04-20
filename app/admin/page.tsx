@@ -106,6 +106,7 @@ export default function AdminPage() {
     try {
       await fetch(`/api/tenants/${slug}`, { method: 'DELETE' })
       setTenants((prev) => prev.filter((t) => t.slug !== slug))
+      setUsers((prev) => prev.filter((u) => u.tenant !== slug))
     } catch {
       alert('Failed to delete')
     } finally {
