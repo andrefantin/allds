@@ -274,6 +274,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
         </div>
 
         {figmaData.navigation.additionalLibraries.map((lib) => {
+          const libSlug = lib.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
           const libSections: NavSection[] = lib.groups
             .map((group) => ({
               title: group.group,
@@ -295,8 +296,9 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
           return (
             <div key={lib.name}>
-              <div className="px-3 mb-1">
+              <div className="flex items-center justify-between px-3 mb-1">
                 <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-ds-text-muted">{lib.name}</span>
+                <Link href={`${base}/libraries/${libSlug}`} className="text-[1.1rem] text-ds-heading hover:underline">All</Link>
               </div>
               <div className="space-y-4">
                 {libSections.map((s) => renderSection(s, `lib-${lib.name}-`))}
