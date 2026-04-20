@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { put } from '@vercel/blob'
+import { put, del } from '@vercel/blob'
 import { getPlatformConfig, savePlatformConfig } from '@/lib/platform-config.server'
 
 export async function GET() {
@@ -26,13 +26,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
   }
 
+  const existing = await getPlatformConfig()
+
+  // Upload with a unique suffix so each upload gets a fresh URL — avoids CDN
+  // serving a stale cached image when the file is replaced.
   const blob = await put(`_platform/config/og-image.${ext}`, file, {
     access: 'public',
     contentType: file.type,
-    addRandomSuffix: false,
+    addRandomSuffix: true,
   })
 
-  const existing = await getPlatformConfig()
+  // Delete the old blob if it exists and is different from the new one
+  if (existing.defaultOgImageUrl && existing.defaultOgImageUrl !== blob.url) {
+    try { await del(existing.defaultOgImageUrl) } catch { /* ignore if already gone */ }
+  }
+
   await savePlatformConfig({ ...existing, defaultOgImageUrl: blob.url })
 
   return NextResponse.json({ url: blob.url })

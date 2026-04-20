@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { put } from '@vercel/blob'
+import { put, del } from '@vercel/blob'
 import { getSettings, saveSettings } from '@/lib/settings.server'
 
 export async function POST(req: Request, { params }: { params: { tenant: string } }) {
@@ -19,13 +19,18 @@ export async function POST(req: Request, { params }: { params: { tenant: string 
   if (!allowed.includes(ext)) return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
 
   const { tenant } = params
+  const existing = await getSettings(tenant)
+
   const blob = await put(`${tenant}/config/logo.${ext}`, file, {
     access: 'public',
     contentType: file.type,
-    addRandomSuffix: false,
+    addRandomSuffix: true,
   })
 
-  const existing = await getSettings(tenant)
+  if (existing.logoUrl && existing.logoUrl !== blob.url) {
+    try { await del(existing.logoUrl) } catch { /* ignore if already gone */ }
+  }
+
   await saveSettings(tenant, { ...existing, logoUrl: blob.url })
 
   return NextResponse.json({ url: blob.url })

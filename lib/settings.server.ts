@@ -4,7 +4,7 @@ import type { PlatformSettings } from '@/types'
 export async function getSettings(tenant: string): Promise<PlatformSettings> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return {}
   try {
-    const res = await fetch(getBlobUrl(`${tenant}/config/settings.json`), { cache: 'no-store' })
+    const res = await fetch(getBlobUrl(`${tenant}/config/settings.json`), { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
     if (!res.ok) return {}
     return (await res.json()) as PlatformSettings
   } catch (err) {

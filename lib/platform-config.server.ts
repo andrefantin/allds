@@ -9,7 +9,7 @@ const BLOB_PATH = '_platform/config/settings.json'
 export async function getPlatformConfig(): Promise<PlatformConfig> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return {}
   try {
-    const res = await fetch(getBlobUrl(BLOB_PATH), { cache: 'no-store' })
+    const res = await fetch(getBlobUrl(BLOB_PATH), { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
     if (!res.ok) return {}
     return (await res.json()) as PlatformConfig
   } catch {
