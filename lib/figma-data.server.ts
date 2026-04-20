@@ -1,5 +1,5 @@
 import { getBlobUrl } from './blob'
-import type { FigmaComponentsData, FigmaComponent, NavigationGroup } from '@/types'
+import type { FigmaComponentsData, FigmaComponent, FigmaAdditionalLibraryData, NavigationGroup } from '@/types'
 
 const MODULE_GROUP_ORDER = [
   'Navigation', 'Homepage Header', 'Template Based', 'Page Header',
@@ -10,7 +10,8 @@ const EMPTY_DATA: FigmaComponentsData = {
   lastSynced: null,
   components: [],
   modules: [],
-  navigation: { components: [], modules: [] },
+  additionalLibraries: [],
+  navigation: { components: [], modules: [], additionalLibraries: [] },
 }
 
 function groupItems(items: FigmaComponent[]): NavigationGroup[] {
@@ -23,14 +24,9 @@ function groupItems(items: FigmaComponent[]): NavigationGroup[] {
   return Array.from(map.values())
 }
 
-function buildNavigation(components: FigmaComponent[], modules: FigmaComponent[]): FigmaComponentsData['navigation'] {
-  const compGroups = groupItems(components)
-  compGroups.sort((a, b) => a.group.localeCompare(b.group))
-  compGroups.forEach((g) => g.items.sort((a, b) => a.name.localeCompare(b.name)))
-
-  const modGroups = groupItems(modules)
-  modGroups.forEach((g) => g.items.sort((a, b) => a.name.localeCompare(b.name)))
-  modGroups.sort((a, b) => {
+function sortModuleGroups(groups: NavigationGroup[]): NavigationGroup[] {
+  groups.forEach((g) => g.items.sort((a, b) => a.name.localeCompare(b.name)))
+  groups.sort((a, b) => {
     const ai = MODULE_GROUP_ORDER.indexOf(a.group)
     const bi = MODULE_GROUP_ORDER.indexOf(b.group)
     if (ai === -1 && bi === -1) return a.group.localeCompare(b.group)
@@ -38,8 +34,26 @@ function buildNavigation(components: FigmaComponent[], modules: FigmaComponent[]
     if (bi === -1) return -1
     return ai - bi
   })
+  return groups
+}
 
-  return { components: compGroups, modules: modGroups }
+function buildNavigation(
+  components: FigmaComponent[],
+  modules: FigmaComponent[],
+  additionalLibraries: FigmaAdditionalLibraryData[]
+): FigmaComponentsData['navigation'] {
+  const compGroups = groupItems(components)
+  compGroups.sort((a, b) => a.group.localeCompare(b.group))
+  compGroups.forEach((g) => g.items.sort((a, b) => a.name.localeCompare(b.name)))
+
+  const modGroups = sortModuleGroups(groupItems(modules))
+
+  const additionalLibraryNav = additionalLibraries.map((lib) => ({
+    name: lib.name,
+    groups: sortModuleGroups(groupItems(lib.modules)),
+  }))
+
+  return { components: compGroups, modules: modGroups, additionalLibraries: additionalLibraryNav }
 }
 
 export async function getFigmaData(tenant: string): Promise<FigmaComponentsData> {
@@ -50,11 +64,13 @@ export async function getFigmaData(tenant: string): Promise<FigmaComponentsData>
     const raw = await res.json()
     const components: FigmaComponent[] = raw.components || []
     const modules: FigmaComponent[] = raw.modules || []
+    const additionalLibraries: FigmaAdditionalLibraryData[] = raw.additionalLibraries || []
     return {
       lastSynced: raw.lastSynced ?? null,
       components,
       modules,
-      navigation: buildNavigation(components, modules),
+      additionalLibraries,
+      navigation: buildNavigation(components, modules, additionalLibraries),
     }
   } catch (err) {
     console.warn('Failed to read figma data from Blob:', err)

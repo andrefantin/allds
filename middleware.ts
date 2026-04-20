@@ -32,7 +32,10 @@ export default withAuth(
         const { pathname } = req.nextUrl
         if (pathname.startsWith('/api/auth')) return true
         if (pathname.startsWith('/login')) return true
-        if (pathname === '/') return true
+        if (pathname.startsWith('/admin')) return !!token
+        // Tenant API routes require authentication (settings, uploads, syncs)
+        if (/^\/[^/]+\/api\//.test(pathname)) return !!token
+        // All other pages require authentication
         return !!token
       },
     },

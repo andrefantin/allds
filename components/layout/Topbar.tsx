@@ -29,11 +29,7 @@ export function Topbar({ title, onOpenSidebar }: TopbarProps) {
         <Menu size={20} />
       </button>
 
-      {/* Title */}
-      {title && (
-        <h1 className="text-[1.5rem] font-semibold text-fics-text flex-1">{title}</h1>
-      )}
-      {!title && <div className="flex-1" />}
+      <div className="flex-1" />
 
       {/* Right actions */}
       <div className="flex items-center gap-2">

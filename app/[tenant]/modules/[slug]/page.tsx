@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { ExternalLink } from 'react-feather'
 import { ComponentPreview } from '@/components/figma/ComponentPreview'
 import { ComponentMeta } from '@/components/figma/ComponentMeta'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -23,17 +24,32 @@ export default async function ModuleDetailPage({ params }: Props) {
         return { id: s, key: s, name: item.name, slug: item.slug, description: `${item.name} module.`, status: item.status as ComponentStatus, group: group.group, fileType: 'modules' }
       }
     }
+    for (const lib of figmaData.navigation.additionalLibraries) {
+      for (const group of lib.groups) {
+        const item = group.items.find((i: NavigationItem) => i.slug === s)
+        if (item) {
+          return { id: s, key: s, name: item.name, slug: item.slug, description: `${item.name} module.`, status: item.status as ComponentStatus, group: group.group, fileType: 'modules' }
+        }
+      }
+    }
     return null
   }
 
-  const module = figmaData.modules.find((m) => m.slug === slug) || buildModuleFromNav(slug)
+  const allLibraryModules = figmaData.additionalLibraries.flatMap((lib) => lib.modules)
+  const module = figmaData.modules.find((m) => m.slug === slug)
+    || allLibraryModules.find((m) => m.slug === slug)
+    || buildModuleFromNav(slug)
   if (!module) notFound()
 
   const fileId = settings.figmaFileModules
-  if (settings.figmaToken) process.env.FIGMA_ACCESS_TOKEN = settings.figmaToken
-  const usedComponents = fileId && module.id
-    ? await fetchComponentsUsedInModule(fileId, module.id, figmaData.components)
+  const figmaToken = settings.figmaToken
+
+  // isFigmaNodeId — real node IDs look like "1234:567"; slugs contain letters
+  const hasFigmaNodeId = /^\d+[:‑-]\d+$/.test(module.id) || /^\d+:\d+$/.test(module.id)
+  const usedComponents = fileId && hasFigmaNodeId && figmaToken
+    ? await fetchComponentsUsedInModule(fileId, module.id, figmaData.components, figmaToken)
     : []
+  const needsSync = !hasFigmaNodeId
 
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
@@ -58,9 +74,7 @@ export default async function ModuleDetailPage({ params }: Props) {
                 <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
                   className="text-[1.2rem] text-fics-heading hover:underline flex items-center gap-1">
                   Open in Figma
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
+                  <ExternalLink size={12} />
                 </a>
               )}
             </div>
@@ -104,7 +118,9 @@ export default async function ModuleDetailPage({ params }: Props) {
               </div>
             ) : (
               <p className="text-[1.2rem] text-fics-text-muted/60 italic">
-                {fileId ? 'No components detected' : 'Sync modules from Figma to see components'}
+                {needsSync
+                  ? 'Sync from Figma to detect components used in this module'
+                  : fileId ? 'No components detected' : 'Configure a Figma modules file in Settings'}
               </p>
             )}
           </div>

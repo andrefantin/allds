@@ -4,6 +4,7 @@ import { getFigmaData } from '@/lib/figma-data.server'
 import { getTenant } from '@/lib/tenant.server'
 import { getSettings } from '@/lib/settings.server'
 import { getPlatformConfig } from '@/lib/platform-config.server'
+import { getSkillMeta } from '@/lib/skill.server'
 import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
@@ -38,16 +39,17 @@ export default async function TenantLayout({
   params: { tenant: string }
 }) {
   const { tenant } = params
-  const [figmaData, tenantData, settings] = await Promise.all([
+  const [figmaData, tenantData, settings, skillMeta] = await Promise.all([
     getFigmaData(tenant),
     getTenant(tenant),
     getSettings(tenant),
+    getSkillMeta(tenant),
   ])
 
   if (!tenantData) notFound()
 
   return (
-    <TenantShell figmaData={figmaData} tenant={tenant} tenantName={tenantData.name} logoUrl={settings.logoUrl}>
+    <TenantShell figmaData={figmaData} tenant={tenant} tenantName={tenantData.name} logoUrl={settings.logoUrl} skillUploadedAt={skillMeta?.uploadedAt ?? null}>
       {children}
     </TenantShell>
   )

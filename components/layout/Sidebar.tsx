@@ -16,6 +16,8 @@ interface SidebarProps {
   logoUrl?: string
   isOpen?: boolean
   onClose?: () => void
+  onOpenSearch?: () => void
+  skillUploadedAt?: string | null
 }
 
 interface NavItem {
@@ -31,7 +33,7 @@ interface NavSection {
   defaultExpanded?: boolean
 }
 
-export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false, onClose }: SidebarProps) {
+export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false, onClose, onOpenSearch, skillUploadedAt }: SidebarProps) {
   const pathname = usePathname()
   const { data: session } = useSession()
   const userRole = (session?.user as { role?: string })?.role
@@ -55,6 +57,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
         { label: 'Border & Radius', href: `${base}/foundation/border` },
         { label: 'Colour', href: `${base}/foundation/colour` },
         { label: 'Colour Accessibility', href: `${base}/foundation/colour-accessibility` },
+        { label: 'Design Skill', href: `${base}/foundation/skill`, status: skillUploadedAt && (Date.now() - new Date(skillUploadedAt).getTime() < 48 * 60 * 60 * 1000) ? 'new' : undefined },
         { label: 'Design Tokens', href: `${base}/foundation/tokens` },
         { label: 'Elevation', href: `${base}/foundation/elevation` },
         { label: 'Icons', href: `${base}/foundation/icons` },
@@ -151,7 +154,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
             section.isExpandable ? 'cursor-pointer hover:bg-fics-bg-dark/50 rounded-lg' : 'cursor-default'
           )}
         >
-          <span className="text-xs font-semibold uppercase tracking-widest text-fics-text-muted">
+          <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">
             {section.title}
           </span>
           {section.isExpandable && (
@@ -195,7 +198,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
       <div className="p-5 border-b border-fics-border flex items-center justify-between">
         <Link href={base} className="flex items-center gap-3" onClick={onClose}>
           <div
-            className="rounded-lg shrink-0 overflow-hidden bg-fics-heading flex items-center justify-center"
+            className={`rounded-lg shrink-0 overflow-hidden flex items-center justify-center ${logoUrl ? 'bg-white' : 'bg-fics-heading'}`}
             style={{ width: 40, height: 40 }}
           >
             {logoUrl
@@ -222,12 +225,19 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
         <div className="relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fics-text-muted" />
           <input
-            type="search"
+            type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search…"
-            className="w-full pl-9 pr-3 py-2 text-[1.3rem] bg-white/60 rounded-lg border border-fics-border placeholder:text-fics-text-muted text-fics-text focus:outline-none focus:border-fics-heading/30 transition-colors"
+            placeholder="Filter…"
+            className="w-full pl-9 pr-14 py-2 text-[1.3rem] bg-white/60 rounded-lg border border-fics-border placeholder:text-fics-text-muted text-fics-text focus:outline-none focus:border-fics-heading/30 transition-colors"
           />
+          <button
+            onClick={onOpenSearch}
+            className="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[1rem] bg-fics-bg-dark text-fics-text-muted hover:text-fics-text px-1.5 py-0.5 rounded transition-colors"
+            title="Global search (⌘K)"
+          >
+            ⌘K
+          </button>
         </div>
       </div>
 
@@ -237,7 +247,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
         <div>
           <div className="flex items-center justify-between px-3 mb-1">
-            <span className="text-xs font-semibold uppercase tracking-widest text-fics-text-muted">Components</span>
+            <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">Components</span>
             <Link href={`${base}/components`} className="text-[1.1rem] text-fics-heading hover:underline">All</Link>
           </div>
           <div className="space-y-4">
@@ -251,7 +261,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
         <div>
           <div className="flex items-center justify-between px-3 mb-1">
-            <span className="text-xs font-semibold uppercase tracking-widest text-fics-text-muted">Modules</span>
+            <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">Modules</span>
             <Link href={`${base}/modules`} className="text-[1.1rem] text-fics-heading hover:underline">All</Link>
           </div>
           <div className="space-y-4">
@@ -262,6 +272,42 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
             )}
           </div>
         </div>
+
+        {figmaData.navigation.additionalLibraries.map((lib) => {
+          const libSections: NavSection[] = lib.groups
+            .map((group) => ({
+              title: group.group,
+              items: group.items
+                .filter((item) => item.status !== 'archived')
+                .map((item) => ({ label: item.name, href: `${base}/modules/${item.slug}`, status: item.status })),
+              isExpandable: true,
+              defaultExpanded: true,
+            }))
+            .filter((s) => s.items.length > 0)
+
+          const archivedItems: NavItem[] = lib.groups
+            .flatMap((g) => g.items)
+            .filter((item) => item.status === 'archived')
+            .map((item) => ({ label: item.name, href: `${base}/modules/${item.slug}`, status: item.status }))
+            .sort((a, b) => a.label.localeCompare(b.label))
+
+          if (libSections.length === 0 && archivedItems.length === 0) return null
+
+          return (
+            <div key={lib.name}>
+              <div className="px-3 mb-1">
+                <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">{lib.name}</span>
+              </div>
+              <div className="space-y-4">
+                {libSections.map((s) => renderSection(s, `lib-${lib.name}-`))}
+                {archivedItems.length > 0 && renderSection(
+                  { title: 'Archived', items: archivedItems, isExpandable: true, defaultExpanded: false },
+                  `lib-${lib.name}-`
+                )}
+              </div>
+            </div>
+          )
+        })}
 
         {isEditor && (
           <div className="border-t border-fics-border pt-4">

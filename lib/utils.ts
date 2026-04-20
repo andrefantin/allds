@@ -62,7 +62,8 @@ export function getContrastColor(hex: string): string {
 
 export function remToPixels(rem: string): number {
   const value = parseFloat(rem)
-  return isNaN(value) ? 0 : value * 16
+  // Project base font-size is 62.5% (1rem = 10px), matching Figma export convention
+  return isNaN(value) ? 0 : value * 10
 }
 
 export function generateId(): string {

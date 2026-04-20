@@ -110,13 +110,20 @@ export interface NavigationGroup {
   items: NavigationItem[]
 }
 
+export interface FigmaAdditionalLibraryData {
+  name: string
+  modules: FigmaComponent[]
+}
+
 export interface FigmaComponentsData {
   lastSynced: string | null
   components: FigmaComponent[]
   modules: FigmaComponent[]
+  additionalLibraries: FigmaAdditionalLibraryData[]
   navigation: {
     components: NavigationGroup[]
     modules: NavigationGroup[]
+    additionalLibraries: Array<{ name: string; groups: NavigationGroup[] }>
   }
 }
 
@@ -166,15 +173,30 @@ export interface FigmaFoundationData {
 
 // ─── Platform Settings ────────────────────────────────────────────────────────
 
+export interface FigmaIconSetConfig {
+  name: string
+  nodeId: string
+  preserveColors?: boolean
+}
+
+export interface FigmaAdditionalLibrary {
+  name: string
+  fileId: string
+}
+
 export interface PlatformSettings {
   figmaToken?: string
   figmaFileComponents?: string
   figmaFileModules?: string
   figmaFileFoundation?: string
+  // Legacy icon set fields — kept for backward compat; new saves use figmaIconSets
   figmaIconNodeId?: string
   figmaIconSetName?: string
   figmaIconNodeId2?: string
   figmaIconSetName2?: string
+  // New array fields
+  figmaIconSets?: FigmaIconSetConfig[]
+  figmaAdditionalLibraries?: FigmaAdditionalLibrary[]
   ogImageUrl?: string
   logoUrl?: string
 }

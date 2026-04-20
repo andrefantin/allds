@@ -2,18 +2,18 @@ import type { FigmaComponent, ComponentStatus, FigmaIcon, FigmaTextStyle, FigmaE
 
 const FIGMA_API_BASE = 'https://api.figma.com/v1'
 
-function getHeaders() {
+function getHeaders(token?: string) {
   return {
-    'X-Figma-Token': process.env.FIGMA_ACCESS_TOKEN || '',
+    'X-Figma-Token': token || process.env.FIGMA_ACCESS_TOKEN || '',
   }
 }
 
-export async function fetchFigmaComponents(fileId: string): Promise<FigmaComponent[]> {
+export async function fetchFigmaComponents(fileId: string, token?: string): Promise<FigmaComponent[]> {
   // component_sets returns top-level named groups (e.g. "Button") rather than
   // every individual variant (e.g. "Button/Primary/Large/Hover")
   const res = await fetch(`${FIGMA_API_BASE}/files/${fileId}/component_sets`, {
-    headers: getHeaders(),
-    next: { revalidate: 3600 },
+    headers: getHeaders(token),
+    cache: 'no-store',
   })
 
   if (!res.ok) {
@@ -34,6 +34,7 @@ export async function fetchFigmaComponents(fileId: string): Promise<FigmaCompone
     seen.add(slug)
 
     const description = (c.description as string) || ''
+    if (/\[slot\]/i.test(description)) continue
     const status = extractStatus(description)
     const cleanDescription = description.replace(/\[(live|testing|new|archived)\]/i, '').trim()
 
@@ -53,8 +54,8 @@ export async function fetchFigmaComponents(fileId: string): Promise<FigmaCompone
   return result
 }
 
-export async function fetchFigmaModules(fileId: string): Promise<FigmaComponent[]> {
-  const components = await fetchFigmaComponents(fileId)
+export async function fetchFigmaModules(fileId: string, token?: string): Promise<FigmaComponent[]> {
+  const components = await fetchFigmaComponents(fileId, token)
   return components.map((c) => ({ ...c, fileType: 'modules' as const }))
 }
 
@@ -201,13 +202,14 @@ function extractIconCategory(parentName: string): string {
 export async function fetchFigmaIcons(
   fileId: string,
   iconNodeId: string,
-  { preserveColors = false }: { preserveColors?: boolean } = {}
+  { preserveColors = false }: { preserveColors?: boolean } = {},
+  token?: string
 ): Promise<FigmaIcon[]> {
   const nodeId = normalizeNodeId(iconNodeId)
 
   const nodeRes = await fetch(
     `${FIGMA_API_BASE}/files/${fileId}/nodes?ids=${encodeURIComponent(nodeId)}&depth=5`,
-    { headers: getHeaders() }
+    { headers: getHeaders(token) }
   )
   if (!nodeRes.ok) throw new Error(`Figma nodes API error: ${nodeRes.status}`)
 
@@ -248,7 +250,7 @@ export async function fetchFigmaIcons(
     try {
       const imgRes = await fetch(
         `${FIGMA_API_BASE}/images/${fileId}?ids=${encodeURIComponent(ids)}&format=svg&svg_include_id=false`,
-        { headers: getHeaders() }
+        { headers: getHeaders(token) }
       )
       if (imgRes.ok) {
         const imgData = await imgRes.json()
@@ -298,9 +300,9 @@ export async function fetchFigmaIcons(
   })
 }
 
-export async function fetchFigmaTextStyles(fileId: string): Promise<FigmaTextStyle[]> {
+export async function fetchFigmaTextStyles(fileId: string, token?: string): Promise<FigmaTextStyle[]> {
   const stylesRes = await fetch(`${FIGMA_API_BASE}/files/${fileId}/styles`, {
-    headers: getHeaders(),
+    headers: getHeaders(token),
   })
   if (!stylesRes.ok) throw new Error(`Figma styles error: ${stylesRes.status}`)
   const stylesData = await stylesRes.json()
@@ -319,7 +321,7 @@ export async function fetchFigmaTextStyles(fileId: string): Promise<FigmaTextSty
     try {
       const nodeRes = await fetch(
         `${FIGMA_API_BASE}/files/${fileId}/nodes?ids=${encodeURIComponent(ids)}`,
-        { headers: getHeaders() }
+        { headers: getHeaders(token) }
       )
       if (nodeRes.ok) {
         const nodeData = await nodeRes.json()
@@ -358,9 +360,9 @@ export async function fetchFigmaTextStyles(fileId: string): Promise<FigmaTextSty
   })
 }
 
-export async function fetchFigmaEffectStyles(fileId: string): Promise<FigmaEffectStyle[]> {
+export async function fetchFigmaEffectStyles(fileId: string, token?: string): Promise<FigmaEffectStyle[]> {
   const stylesRes = await fetch(`${FIGMA_API_BASE}/files/${fileId}/styles`, {
-    headers: getHeaders(),
+    headers: getHeaders(token),
   })
   if (!stylesRes.ok) return []
   const stylesData = await stylesRes.json()
@@ -373,7 +375,7 @@ export async function fetchFigmaEffectStyles(fileId: string): Promise<FigmaEffec
   const ids = effectStyles.map((s) => (s.node_id as string).replace(/-/g, ':')).join(',')
   const nodeRes = await fetch(
     `${FIGMA_API_BASE}/files/${fileId}/nodes?ids=${encodeURIComponent(ids)}`,
-    { headers: getHeaders() }
+    { headers: getHeaders(token) }
   )
   if (!nodeRes.ok) return []
 
@@ -442,17 +444,21 @@ function normalizeInstanceNameCandidates(name: string): string[] {
 export async function fetchComponentsUsedInModule(
   fileId: string,
   moduleNodeId: string,
-  knownComponents: FigmaComponent[]
+  knownComponents: FigmaComponent[],
+  token?: string
 ): Promise<FigmaComponent[]> {
   if (!isFigmaNodeId(moduleNodeId)) return []
 
   const nodeId = normalizeNodeId(moduleNodeId)
+  const headers = token
+    ? { 'X-Figma-Token': token }
+    : getHeaders()
 
   let data: Record<string, unknown>
   try {
     const res = await fetch(
-      `${FIGMA_API_BASE}/files/${fileId}/nodes?ids=${encodeURIComponent(nodeId)}&depth=6`,
-      { headers: getHeaders(), next: { revalidate: 3600 } }
+      `${FIGMA_API_BASE}/files/${fileId}/nodes?ids=${encodeURIComponent(nodeId)}&depth=10`,
+      { headers, cache: 'no-store' }
     )
     if (!res.ok) return []
     data = await res.json()

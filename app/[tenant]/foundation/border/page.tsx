@@ -12,8 +12,10 @@ export default async function BorderPage({ params }: Props) {
   const borderTokens = borderCollection ? borderCollection.tokens : []
 
   const radiusTokens = borderTokens.filter((t) => t.name.toLowerCase().includes('radius'))
-  const widthTokens = borderTokens.filter((t) => t.name.toLowerCase().includes('width') || t.name.toLowerCase().includes('border-'))
-  const otherTokens = borderTokens.filter((t) => !radiusTokens.includes(t) && !widthTokens.includes(t))
+  const widthTokens = borderTokens.filter((t) => {
+    const name = t.name.toLowerCase()
+    return !name.includes('radius') && (name.includes('width') || name.includes('size') || name.includes('stroke'))
+  })
 
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
@@ -66,31 +68,6 @@ export default async function BorderPage({ params }: Props) {
                     </div>
                   )
                 })}
-              </div>
-            </div>
-          )}
-          {otherTokens.length > 0 && (
-            <div>
-              <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">Other</h2>
-              <div className="card overflow-hidden">
-                <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-fics-border bg-fics-bg">
-                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted">Token</th>
-                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted">Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {otherTokens.map((token, i) => (
-                      <tr key={token.name} className={`border-b border-fics-border ${i % 2 === 1 ? 'bg-fics-bg/30' : ''}`}>
-                        <td className="px-6 py-3 font-mono text-[1.3rem] text-fics-text">{token.name}</td>
-                        <td className="px-6 py-3 font-mono text-[1.2rem] text-fics-text-muted">{Object.values(token.values)[0]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                </div>
               </div>
             </div>
           )}

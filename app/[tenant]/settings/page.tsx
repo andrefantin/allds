@@ -3,12 +3,15 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
+import { Upload, Plus, X } from 'react-feather'
+import type { FigmaIconSetConfig, FigmaAdditionalLibrary } from '@/types'
 
 interface Settings {
   figmaToken?: string
   figmaFileComponents?: string
   figmaFileModules?: string
   figmaFileFoundation?: string
+  // legacy
   figmaIconNodeId?: string
   figmaIconSetName?: string
   figmaIconNodeId2?: string
@@ -26,6 +29,8 @@ export default function SettingsPage() {
 
   const [settings, setSettings] = useState<Settings>({})
   const [form, setForm] = useState<Settings>({})
+  const [iconSets, setIconSets] = useState<FigmaIconSetConfig[]>([{ name: '', nodeId: '', preserveColors: false }])
+  const [additionalLibraries, setAdditionalLibraries] = useState<FigmaAdditionalLibrary[]>([])
   const [saving, setSaving] = useState(false)
   const [syncing, setSyncing] = useState(false)
   const [syncingFoundation, setSyncingFoundation] = useState(false)
@@ -40,23 +45,67 @@ export default function SettingsPage() {
       .then((data) => {
         setSettings(data)
         setForm({ ...data, figmaToken: '' })
+
+        // Initialise icon sets — prefer new array field, migrate from legacy fields
+        if (data.figmaIconSets?.length) {
+          setIconSets(data.figmaIconSets)
+        } else {
+          const sets: FigmaIconSetConfig[] = [
+            { name: data.figmaIconSetName || '', nodeId: data.figmaIconNodeId || '', preserveColors: false },
+          ]
+          if (data.figmaIconNodeId2) {
+            sets.push({ name: data.figmaIconSetName2 || '', nodeId: data.figmaIconNodeId2, preserveColors: true })
+          }
+          setIconSets(sets)
+        }
+
+        setAdditionalLibraries(data.figmaAdditionalLibraries || [])
       })
   }, [tenant])
+
+  function updateIconSet(index: number, field: keyof FigmaIconSetConfig, value: string | boolean) {
+    setIconSets((prev) => prev.map((s, i) => i === index ? { ...s, [field]: value } : s))
+  }
+
+  function removeIconSet(index: number) {
+    setIconSets((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  function addIconSet() {
+    setIconSets((prev) => [...prev, { name: '', nodeId: '', preserveColors: false }])
+  }
+
+  function updateAdditionalLibrary(index: number, field: keyof FigmaAdditionalLibrary, value: string) {
+    setAdditionalLibraries((prev) => prev.map((l, i) => i === index ? { ...l, [field]: value } : l))
+  }
+
+  function removeAdditionalLibrary(index: number) {
+    setAdditionalLibraries((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  function addAdditionalLibrary() {
+    setAdditionalLibraries((prev) => [...prev, { name: '', fileId: '' }])
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
     setMessage('')
     try {
-      const payload: Settings = { ...settings }
-      if (form.figmaToken) payload.figmaToken = form.figmaToken
-      if (form.figmaFileComponents !== undefined) payload.figmaFileComponents = form.figmaFileComponents
-      if (form.figmaFileModules !== undefined) payload.figmaFileModules = form.figmaFileModules
-      if (form.figmaFileFoundation !== undefined) payload.figmaFileFoundation = form.figmaFileFoundation
-      if (form.figmaIconNodeId !== undefined) payload.figmaIconNodeId = form.figmaIconNodeId
-      if (form.figmaIconSetName !== undefined) payload.figmaIconSetName = form.figmaIconSetName
-      if (form.figmaIconNodeId2 !== undefined) payload.figmaIconNodeId2 = form.figmaIconNodeId2
-      if (form.figmaIconSetName2 !== undefined) payload.figmaIconSetName2 = form.figmaIconSetName2
+      const payload = {
+        ...settings,
+        ...(form.figmaToken ? { figmaToken: form.figmaToken } : {}),
+        figmaFileComponents: form.figmaFileComponents ?? settings.figmaFileComponents,
+        figmaFileModules: form.figmaFileModules ?? settings.figmaFileModules,
+        figmaFileFoundation: form.figmaFileFoundation ?? settings.figmaFileFoundation,
+        figmaIconSets: iconSets.filter((s) => s.nodeId),
+        figmaAdditionalLibraries: additionalLibraries.filter((l) => l.fileId && l.name),
+        // Clear legacy fields now that we use the array
+        figmaIconNodeId: undefined,
+        figmaIconSetName: undefined,
+        figmaIconNodeId2: undefined,
+        figmaIconSetName2: undefined,
+      }
 
       const res = await fetch(`/${tenant}/api/settings`, {
         method: 'POST',
@@ -82,7 +131,10 @@ export default function SettingsPage() {
       const res = await fetch(`/${tenant}/api/figma/sync`, { method: 'POST' })
       const data = await res.json()
       if (res.ok) {
-        setSyncResult(`Synced: ${data.components} components, ${data.modules} modules.`)
+        const libSummary = data.additionalLibraries?.length
+          ? ' · ' + data.additionalLibraries.map((l: { name: string; count: number }) => `${l.name}: ${l.count}`).join(', ')
+          : ''
+        setSyncResult(`Synced: ${data.components} components, ${data.modules} modules${libSummary}.`)
       } else {
         setSyncResult(`Error: ${data.error}`)
       }
@@ -152,7 +204,7 @@ export default function SettingsPage() {
         {/* Components & Modules */}
         <div className="card p-6">
           <h2 className="text-[1.5rem] font-semibold text-fics-text mb-4">Components & Modules</h2>
-          <div className="space-y-4 mb-6">
+          <div className="space-y-4 mb-4">
             <div>
               <label className="block text-[1.2rem] text-fics-text-muted mb-1">Components File ID</label>
               <input
@@ -173,7 +225,58 @@ export default function SettingsPage() {
                 className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
               />
             </div>
+
+            {/* Additional libraries */}
+            {additionalLibraries.map((lib, i) => (
+              <div key={i} className="border border-fics-border rounded-lg p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-[1.2rem] font-medium text-fics-text">Additional Library</p>
+                  <button
+                    type="button"
+                    onClick={() => removeAdditionalLibrary(i)}
+                    className="text-fics-text-muted hover:text-fics-error transition-colors"
+                    aria-label="Remove library"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[1.2rem] text-fics-text-muted mb-1">Library Name</label>
+                    <input
+                      type="text"
+                      value={lib.name}
+                      onChange={(e) => updateAdditionalLibrary(i, 'name', e.target.value)}
+                      placeholder="e.g. Mobile Components"
+                      className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[1.2rem] text-fics-text-muted mb-1">File ID</label>
+                    <input
+                      type="text"
+                      value={lib.fileId}
+                      onChange={(e) => updateAdditionalLibrary(i, 'fileId', e.target.value)}
+                      placeholder="Paste the file ID from your Figma URL"
+                      className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
+
+          <div className="flex items-center justify-between mb-6">
+            <button
+              type="button"
+              onClick={addAdditionalLibrary}
+              className="flex items-center gap-1.5 text-[1.3rem] text-fics-heading hover:underline"
+            >
+              <Plus size={13} />
+              Add more
+            </button>
+          </div>
+
           <button
             type="button"
             onClick={handleSync}
@@ -187,7 +290,7 @@ export default function SettingsPage() {
         {/* Foundation */}
         <div className="card p-6">
           <h2 className="text-[1.5rem] font-semibold text-fics-text mb-4">Foundation</h2>
-          <div className="space-y-4 mb-6">
+          <div className="space-y-4 mb-4">
             <div>
               <label className="block text-[1.2rem] text-fics-text-muted mb-1">Foundation File ID</label>
               <input
@@ -198,6 +301,8 @@ export default function SettingsPage() {
                 className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
               />
             </div>
+
+            {/* Icon Set 1 — mandatory */}
             <div className="border border-fics-border rounded-lg p-4 space-y-3">
               <p className="text-[1.2rem] font-medium text-fics-text">Icon Set 1</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -205,9 +310,9 @@ export default function SettingsPage() {
                   <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
                   <input
                     type="text"
-                    value={form.figmaIconSetName || ''}
-                    onChange={(e) => setForm((f) => ({ ...f, figmaIconSetName: e.target.value }))}
-                    placeholder="Icons"
+                    value={iconSets[0]?.name || ''}
+                    onChange={(e) => updateIconSet(0, 'name', e.target.value)}
+                    placeholder="System icons"
                     className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
                   />
                 </div>
@@ -215,41 +320,80 @@ export default function SettingsPage() {
                   <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID <span className="text-fics-text-muted/60">(optional)</span></label>
                   <input
                     type="text"
-                    value={form.figmaIconNodeId || ''}
-                    onChange={(e) => setForm((f) => ({ ...f, figmaIconNodeId: e.target.value }))}
+                    value={iconSets[0]?.nodeId || ''}
+                    onChange={(e) => updateIconSet(0, 'nodeId', e.target.value)}
                     placeholder="e.g. 9868:86"
                     className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
                   />
                 </div>
               </div>
             </div>
-            <div className="border border-fics-border rounded-lg p-4 space-y-3">
-              <p className="text-[1.2rem] font-medium text-fics-text">Icon Set 2 <span className="text-fics-text-muted/60 font-normal">(optional)</span></p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
-                  <input
-                    type="text"
-                    value={form.figmaIconSetName2 || ''}
-                    onChange={(e) => setForm((f) => ({ ...f, figmaIconSetName2: e.target.value }))}
-                    placeholder="Spot Icons"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
-                  />
+
+            {/* Additional icon sets */}
+            {iconSets.slice(1).map((set, i) => {
+              const index = i + 1
+              return (
+                <div key={index} className="border border-fics-border rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[1.2rem] font-medium text-fics-text">Icon Set {index + 1}</p>
+                    <button
+                      type="button"
+                      onClick={() => removeIconSet(index)}
+                      className="text-fics-text-muted hover:text-fics-error transition-colors"
+                      aria-label="Remove icon set"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
+                      <input
+                        type="text"
+                        value={set.name}
+                        onChange={(e) => updateIconSet(index, 'name', e.target.value)}
+                        placeholder="e.g. Spot Icons"
+                        className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID</label>
+                      <input
+                        type="text"
+                        value={set.nodeId}
+                        onChange={(e) => updateIconSet(index, 'nodeId', e.target.value)}
+                        placeholder="e.g. 1234:5678"
+                        className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                      />
+                    </div>
+                  </div>
+                  <label className="flex items-center gap-2 cursor-pointer w-fit">
+                    <input
+                      type="checkbox"
+                      checked={set.preserveColors ?? false}
+                      onChange={(e) => updateIconSet(index, 'preserveColors', e.target.checked)}
+                      className="rounded border-fics-border"
+                    />
+                    <span className="text-[1.2rem] text-fics-text-muted">Preserve original colours</span>
+                  </label>
                 </div>
-                <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID</label>
-                  <input
-                    type="text"
-                    value={form.figmaIconNodeId2 || ''}
-                    onChange={(e) => setForm((f) => ({ ...f, figmaIconNodeId2: e.target.value }))}
-                    placeholder="e.g. 1234:5678"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
-                  />
-                </div>
-              </div>
-            </div>
+              )
+            })}
+
             <p className="text-[1.1rem] text-fics-text-muted">Right-click an icons frame in Figma → Copy link → extract the node-id parameter from the URL.</p>
           </div>
+
+          <div className="flex items-center justify-between mb-6">
+            <button
+              type="button"
+              onClick={addIconSet}
+              className="flex items-center gap-1.5 text-[1.3rem] text-fics-heading hover:underline"
+            >
+              <Plus size={13} />
+              Add more
+            </button>
+          </div>
+
           <button
             type="button"
             onClick={handleSyncFoundation}
@@ -261,7 +405,7 @@ export default function SettingsPage() {
         </div>
 
         {syncResult && (
-          <div className="card p-4 text-[1.3rem] text-fics-text bg-fics-bg">{syncResult}</div>
+          <div className="card p-4 text-[1.3rem] text-fics-text bg-fics-bg whitespace-pre-line">{syncResult}</div>
         )}
 
         {/* OG Image */}
@@ -279,9 +423,7 @@ export default function SettingsPage() {
             </div>
           )}
           <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border border-fics-border bg-white cursor-pointer hover:border-fics-heading/40 transition-colors w-fit ${uploadingOg ? 'opacity-50 pointer-events-none' : ''}`}>
-            <svg className="w-4 h-4 text-fics-text-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
+            <Upload size={16} className="text-fics-text-muted shrink-0" />
             <span className="text-[1.3rem] text-fics-text">
               {uploadingOg ? 'Uploading…' : settings.ogImageUrl ? 'Replace image' : 'Upload image'}
             </span>
@@ -324,9 +466,7 @@ export default function SettingsPage() {
             </div>
           )}
           <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border border-fics-border bg-white cursor-pointer hover:border-fics-heading/40 transition-colors w-fit ${uploadingLogo ? 'opacity-50 pointer-events-none' : ''}`}>
-            <svg className="w-4 h-4 text-fics-text-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
+            <Upload size={16} className="text-fics-text-muted shrink-0" />
             <span className="text-[1.3rem] text-fics-text">
               {uploadingLogo ? 'Uploading…' : settings.logoUrl ? 'Replace logo' : 'Upload logo'}
             </span>
