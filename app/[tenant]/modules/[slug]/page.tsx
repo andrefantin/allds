@@ -41,7 +41,11 @@ export default async function ModuleDetailPage({ params }: Props) {
     || buildModuleFromNav(slug)
   if (!module) notFound()
 
-  const fileId = settings.figmaFileModules
+  // Derive the correct Figma file ID for this module.
+  // module.figmaUrl is set during sync with the right file ID, so parse it back
+  // rather than always defaulting to figmaFileModules (wrong for additional libraries).
+  const figmaUrlFileId = module.figmaUrl?.match(/figma\.com\/file\/([^/?]+)/)?.[1]
+  const fileId = figmaUrlFileId ?? settings.figmaFileModules
   const figmaToken = settings.figmaToken
 
   // isFigmaNodeId — real node IDs look like "1234:567"; slugs contain letters
