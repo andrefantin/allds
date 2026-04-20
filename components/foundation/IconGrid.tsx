@@ -56,20 +56,20 @@ export function IconGrid({ icons }: IconGridProps) {
       {/* Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-8">
         <div className="relative flex-1 sm:max-w-[32rem]">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fics-text-muted" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-text-muted" />
           <input
-            type="search"
+            type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search icons…"
-            className="w-full pl-9 pr-3 py-2 text-[1.3rem] bg-white rounded-lg border border-fics-border placeholder:text-fics-text-muted text-fics-text focus:outline-none focus:border-fics-heading/30 transition-colors"
+            className="w-full pl-9 pr-3 py-2 text-[1.3rem] bg-white rounded-lg border border-ds-border placeholder:text-ds-text-muted text-ds-text focus:outline-none focus:border-ds-heading/30 transition-colors"
           />
         </div>
         {sizes.length > 1 && (
-          <div className="flex items-center gap-1 bg-fics-bg border border-fics-border rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-ds-bg border border-ds-border rounded-lg p-1">
             <button
               onClick={() => setActiveSize('all')}
-              className={`px-3 py-1.5 rounded-md text-[1.2rem] font-medium transition-colors ${activeSize === 'all' ? 'bg-white shadow-sm text-fics-text' : 'text-fics-text-muted hover:text-fics-text'}`}
+              className={`px-3 py-1.5 rounded-md text-[1.2rem] font-medium transition-colors ${activeSize === 'all' ? 'bg-white shadow-sm text-ds-text' : 'text-ds-text-muted hover:text-ds-text'}`}
             >
               All
             </button>
@@ -77,19 +77,19 @@ export function IconGrid({ icons }: IconGridProps) {
               <button
                 key={s}
                 onClick={() => setActiveSize(s)}
-                className={`px-3 py-1.5 rounded-md text-[1.2rem] font-medium transition-colors ${activeSize === s ? 'bg-white shadow-sm text-fics-text' : 'text-fics-text-muted hover:text-fics-text'}`}
+                className={`px-3 py-1.5 rounded-md text-[1.2rem] font-medium transition-colors ${activeSize === s ? 'bg-white shadow-sm text-ds-text' : 'text-ds-text-muted hover:text-ds-text'}`}
               >
                 {s}px
               </button>
             ))}
           </div>
         )}
-        <span className="text-[1.2rem] text-fics-text-muted sm:shrink-0">{filtered.length} icons</span>
+        <span className="text-[1.2rem] text-ds-text-muted sm:shrink-0">{filtered.length} icons</span>
       </div>
 
       {/* Icon grid */}
       {Object.keys(grouped).length === 0 ? (
-        <div className="text-center py-16 text-fics-text-muted">
+        <div className="text-center py-16 text-ds-text-muted">
           <p className="text-[1.4rem]">No icons match your search.</p>
         </div>
       ) : (
@@ -97,7 +97,7 @@ export function IconGrid({ icons }: IconGridProps) {
           {Object.entries(grouped).map(([category, items]) => (
             <div key={category}>
               {Object.keys(grouped).length > 1 && (
-                <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">
+                <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted mb-4">
                   {category}
                 </h2>
               )}
@@ -106,14 +106,14 @@ export function IconGrid({ icons }: IconGridProps) {
                   <button
                     key={`${icon.name}-${icon.size}`}
                     onClick={() => copySvg(icon)}
-                    className="group flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-fics-bg-dark cursor-pointer transition-colors text-left"
+                    className="group flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-ds-bg-dark cursor-pointer transition-colors text-left"
                     title={`${icon.name} (${icon.size}px) — click to copy SVG`}
                   >
                     <div
-                      className="text-fics-text flex items-center justify-center shrink-0"
+                      className="text-ds-text flex items-center justify-center shrink-0"
                       dangerouslySetInnerHTML={{ __html: icon.svgContent }}
                     />
-                    <span className="text-[1rem] text-fics-text-muted text-center leading-tight break-all opacity-0 group-hover:opacity-100 transition-opacity w-full">
+                    <span className="text-[1rem] text-ds-text-muted text-center leading-tight break-all opacity-0 group-hover:opacity-100 transition-opacity w-full">
                       {copied === icon.name ? '✓ copied' : icon.name}
                     </span>
                   </button>

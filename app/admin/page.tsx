@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Eye, Settings, Trash2 } from 'react-feather'
+import { Eye, Settings, Trash2, ArrowLeft, ChevronDown } from 'react-feather'
 import type { Tenant } from '@/types'
 
 interface UserEntry {
@@ -175,61 +175,61 @@ export default function AdminPage() {
   }
 
   const roleBadgeClass: Record<string, string> = {
-    platform_editor: 'bg-fics-heading/10 text-fics-heading',
+    platform_editor: 'bg-ds-heading/10 text-ds-heading',
     editor: 'bg-amber-100 text-amber-700',
     viewer: 'bg-gray-100 text-gray-600',
   }
 
   if (status === 'loading' || loading) {
-    return <div className="min-h-screen bg-fics-bg flex items-center justify-center"><p className="text-fics-text-muted">Loading…</p></div>
+    return <div className="min-h-screen bg-ds-bg flex items-center justify-center"><p className="text-ds-text-muted">Loading…</p></div>
   }
 
   if (!isPlatformEditor) {
     return (
-      <div className="min-h-screen bg-fics-bg flex items-center justify-center">
+      <div className="min-h-screen bg-ds-bg flex items-center justify-center">
         <div className="card p-8 text-center max-w-sm">
-          <p className="text-[1.4rem] text-fics-text mb-2">Platform editor access required</p>
-          <Link href="/" className="text-fics-heading hover:underline text-[1.3rem]">← Back</Link>
+          <p className="text-[1.4rem] text-ds-text mb-2">Platform editor access required</p>
+          <Link href="/" className="text-ds-heading hover:underline text-[1.3rem]"><ArrowLeft size={14} className="inline mr-1" />Back</Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-fics-bg">
+    <div className="min-h-screen bg-ds-bg">
       <div className="max-w-[72rem] mx-auto px-4 md:px-8 py-8 md:py-12 space-y-12">
         <div>
-          <Link href="/" className="text-[1.2rem] text-fics-text-muted hover:text-fics-text mb-2 block">← Back</Link>
-          <h1 className="text-[2.4rem] font-bold text-fics-text">Platform Admin</h1>
+          <Link href="/" className="text-[1.2rem] text-ds-text-muted hover:text-ds-text mb-2 block"><ArrowLeft size={14} className="inline mr-1" />Back</Link>
+          <h1 className="text-[2.4rem] font-bold text-ds-text">Platform Admin</h1>
         </div>
 
         {/* ── Design Systems ─────────────────────────────── */}
         <section>
-          <h2 className="text-[1.8rem] font-semibold text-fics-text mb-4">Design Systems</h2>
+          <h2 className="text-[1.8rem] font-semibold text-ds-text mb-4">Design Systems</h2>
 
           <div className="card p-6 mb-4">
-            <h3 className="text-[1.4rem] font-semibold text-fics-text mb-4">Create new</h3>
+            <h3 className="text-[1.4rem] font-semibold text-ds-text mb-4">Create new</h3>
             <form onSubmit={handleCreateTenant} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Name</label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Name</label>
                   <input
                     type="text"
                     value={tenantForm.name}
                     onChange={(e) => setTenantForm((f) => ({ ...f, name: e.target.value, slug: slugify(e.target.value) }))}
                     placeholder="FICS Design System"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Slug</label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Slug</label>
                   <input
                     type="text"
                     value={tenantForm.slug}
                     onChange={(e) => setTenantForm((f) => ({ ...f, slug: slugify(e.target.value) }))}
                     placeholder="fics"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
                     required
                   />
                 </div>
@@ -239,14 +239,14 @@ export default function AdminPage() {
                 value={tenantForm.description}
                 onChange={(e) => setTenantForm((f) => ({ ...f, description: e.target.value }))}
                 placeholder="Description (optional)"
-                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
               />
               {tenantForm.slug && (
-                <p className="text-[1.2rem] text-fics-text-muted">URL: <span className="font-mono text-fics-heading">/{tenantForm.slug}/</span></p>
+                <p className="text-[1.2rem] text-ds-text-muted">URL: <span className="font-mono text-ds-heading">/{tenantForm.slug}/</span></p>
               )}
               {tenantError && <p className="text-[1.2rem] text-red-600">{tenantError}</p>}
               {tenantSuccess && <p className="text-[1.2rem] text-green-600">{tenantSuccess}</p>}
-              <button type="submit" disabled={creating} className="px-6 py-2.5 bg-fics-heading text-white font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors text-[1.3rem] disabled:opacity-50">
+              <button type="submit" disabled={creating} className="px-6 py-2.5 bg-ds-heading text-white font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors text-[1.3rem] disabled:opacity-50">
                 {creating ? 'Creating…' : 'Create'}
               </button>
             </form>
@@ -254,29 +254,29 @@ export default function AdminPage() {
 
           <div className="space-y-3">
             {tenants.length === 0 ? (
-              <div className="card p-6 text-center text-fics-text-muted text-[1.3rem]">No design systems yet</div>
+              <div className="card p-6 text-center text-ds-text-muted text-[1.3rem]">No design systems yet</div>
             ) : tenants.map((tenant) => (
               <div key={tenant.slug} className="card p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <div
-                    className="rounded-lg overflow-hidden shrink-0 bg-fics-heading/10 flex items-center justify-center"
+                    className="rounded-lg overflow-hidden shrink-0 bg-ds-heading/10 flex items-center justify-center"
                     style={{ width: 40, height: 40 }}
                   >
                     {tenantLogos[tenant.slug]
                       ? <Image src={tenantLogos[tenant.slug]} alt={tenant.name} width={40} height={40} style={{ width: 40, height: 40, objectFit: 'cover' }} unoptimized />
-                      : <span className="text-fics-heading font-bold text-base uppercase">{tenant.name.charAt(0)}</span>
+                      : <span className="text-ds-heading font-bold text-base uppercase">{tenant.name.charAt(0)}</span>
                     }
                   </div>
                   <div>
-                    <div className="font-semibold text-fics-text text-[1.4rem]">{tenant.name}</div>
-                    <div className="text-[1.2rem] text-fics-text-muted font-mono">{tenant.slug}</div>
+                    <div className="font-semibold text-ds-text text-[1.4rem]">{tenant.name}</div>
+                    <div className="text-[1.2rem] text-ds-text-muted font-mono">{tenant.slug}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Link href={`/${tenant.slug}`} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] border border-fics-border rounded-lg text-fics-text hover:bg-fics-bg-dark transition-colors">
+                  <Link href={`/${tenant.slug}`} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] border border-ds-border rounded-lg text-ds-text hover:bg-ds-bg-dark transition-colors">
                     <Eye size={14} />View
                   </Link>
-                  <Link href={`/${tenant.slug}/settings`} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] border border-fics-border rounded-lg text-fics-text hover:bg-fics-bg-dark transition-colors">
+                  <Link href={`/${tenant.slug}/settings`} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] border border-ds-border rounded-lg text-ds-text hover:bg-ds-bg-dark transition-colors">
                     <Settings size={14} />Settings
                   </Link>
                   <button onClick={() => handleDeleteTenant(tenant.slug, tenant.name)} disabled={deleting === tenant.slug} className="inline-flex items-center gap-1.5 px-4 py-1.5 text-[1.2rem] bg-red-600 border border-red-600 rounded-lg text-white hover:bg-red-700 transition-colors disabled:opacity-50">
@@ -290,68 +290,74 @@ export default function AdminPage() {
 
         {/* ── Users ──────────────────────────────────────── */}
         <section>
-          <h2 className="text-[1.8rem] font-semibold text-fics-text mb-4">Users</h2>
+          <h2 className="text-[1.8rem] font-semibold text-ds-text mb-4">Users</h2>
 
           <div className="card p-6 mb-4">
-            <h3 className="text-[1.4rem] font-semibold text-fics-text mb-4">Add user</h3>
+            <h3 className="text-[1.4rem] font-semibold text-ds-text mb-4">Add user</h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Login</label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Login</label>
                   <input
                     type="text"
                     value={userForm.email}
                     onChange={(e) => setUserForm((f) => ({ ...f, email: e.target.value }))}
                     placeholder="viewer@fics"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Password</label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Password</label>
                   <input
                     type="text"
                     value={userForm.password}
                     onChange={(e) => setUserForm((f) => ({ ...f, password: e.target.value }))}
                     placeholder="Temporary password"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
                     required
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Role</label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Role</label>
+                  <div className="relative">
                   <select
                     value={userForm.role}
                     onChange={(e) => setUserForm((f) => ({ ...f, role: e.target.value }))}
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                    className="w-full appearance-none px-3 py-2 pr-8 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
                   >
                     <option value="viewer">Viewer</option>
                     <option value="editor">Editor</option>
                     <option value="platform_editor">Platform Editor</option>
                   </select>
+                  <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ds-text-muted pointer-events-none" />
+                  </div>
                 </div>
                 {userForm.role !== 'platform_editor' && (
                   <div>
-                    <label className="block text-[1.2rem] text-fics-text-muted mb-1">Design system</label>
-                    <select
-                      value={userForm.tenant}
-                      onChange={(e) => setUserForm((f) => ({ ...f, tenant: e.target.value }))}
-                      className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
-                      required
-                    >
-                      <option value="">Select…</option>
-                      {tenants.map((t) => (
-                        <option key={t.slug} value={t.slug}>{t.name}</option>
-                      ))}
-                    </select>
+                    <label className="block text-[1.2rem] text-ds-text-muted mb-1">Design system</label>
+                    <div className="relative">
+                      <select
+                        value={userForm.tenant}
+                        onChange={(e) => setUserForm((f) => ({ ...f, tenant: e.target.value }))}
+                        className="w-full appearance-none px-3 py-2 pr-8 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
+                        required
+                      >
+                        <option value="">Select…</option>
+                        {tenants.map((t) => (
+                          <option key={t.slug} value={t.slug}>{t.name}</option>
+                        ))}
+                      </select>
+                      <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ds-text-muted pointer-events-none" />
+                    </div>
                   </div>
                 )}
               </div>
               {userError && <p className="text-[1.2rem] text-red-600">{userError}</p>}
               {userSuccess && <p className="text-[1.2rem] text-green-600">{userSuccess}</p>}
-              <button type="submit" disabled={creatingUser} className="px-6 py-2.5 bg-fics-heading text-white font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors text-[1.3rem] disabled:opacity-50">
+              <button type="submit" disabled={creatingUser} className="px-6 py-2.5 bg-ds-heading text-white font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors text-[1.3rem] disabled:opacity-50">
                 {creatingUser ? 'Adding…' : 'Add user'}
               </button>
             </form>
@@ -359,18 +365,18 @@ export default function AdminPage() {
 
           <div className="space-y-2">
             {users.length === 0 ? (
-              <div className="card p-6 text-center text-fics-text-muted text-[1.3rem]">
+              <div className="card p-6 text-center text-ds-text-muted text-[1.3rem]">
                 No users in registry — the platform admin is set via environment variables.
               </div>
             ) : users.map((user) => (
               <div key={user.email} className="card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-[1.3rem] text-fics-text">{user.email}</span>
+                  <span className="font-mono text-[1.3rem] text-ds-text">{user.email}</span>
                   <span className={`badge text-[1rem] px-2 py-0.5 rounded-full ${roleBadgeClass[user.role] || 'bg-gray-100 text-gray-600'}`}>
                     {user.role.replace('_', ' ')}
                   </span>
                   {user.tenant && (
-                    <span className="text-[1.2rem] text-fics-text-muted">→ <span className="font-mono">{user.tenant}</span></span>
+                    <span className="text-[1.2rem] text-ds-text-muted">→ <span className="font-mono">{user.tenant}</span></span>
                   )}
                 </div>
                 <button
@@ -387,13 +393,13 @@ export default function AdminPage() {
 
         {/* ── Platform OG Image ──────────────────────────── */}
         <section>
-          <h2 className="text-[1.8rem] font-semibold text-fics-text mb-4">Platform OG Image</h2>
+          <h2 className="text-[1.8rem] font-semibold text-ds-text mb-4">Platform OG Image</h2>
           <div className="card p-6">
-            <p className="text-[1.2rem] text-fics-text-muted mb-4">
+            <p className="text-[1.2rem] text-ds-text-muted mb-4">
               Default image shown when the platform URL is shared on social media. Recommended size: 1200 × 630px.
             </p>
             {platformOgUrl && (
-              <div className="mb-4 rounded-lg overflow-hidden border border-fics-border w-full max-w-sm">
+              <div className="mb-4 rounded-lg overflow-hidden border border-ds-border w-full max-w-sm">
                 <Image src={platformOgUrl} alt="Platform OG image" width={600} height={315} className="w-full h-auto object-cover" unoptimized />
               </div>
             )}
@@ -407,7 +413,7 @@ export default function AdminPage() {
             <button
               onClick={() => ogInputRef.current?.click()}
               disabled={uploadingOg}
-              className="px-5 py-2 bg-fics-heading text-white text-[1.3rem] font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors disabled:opacity-50"
+              className="px-5 py-2 bg-ds-heading text-white text-[1.3rem] font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors disabled:opacity-50"
             >
               {uploadingOg ? 'Uploading…' : platformOgUrl ? 'Replace image' : 'Upload image'}
             </button>

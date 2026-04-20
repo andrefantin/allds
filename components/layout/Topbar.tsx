@@ -19,11 +19,11 @@ export function Topbar({ title, onOpenSidebar }: TopbarProps) {
   const isEditor = userRole === 'editor' || userRole === 'platform_editor'
 
   return (
-    <header className="h-14 border-b border-fics-border bg-white/60 backdrop-blur-sm sticky top-0 z-30 flex items-center px-4 md:px-6 gap-3">
+    <header className="h-14 border-b border-ds-border bg-white/60 backdrop-blur-sm sticky top-0 z-30 flex items-center px-4 md:px-6 gap-3">
       {/* Hamburger - mobile/tablet only */}
       <button
         onClick={onOpenSidebar}
-        className="lg:hidden p-2 rounded-lg hover:bg-fics-bg-dark text-fics-text-muted shrink-0"
+        className="lg:hidden p-2 rounded-lg hover:bg-ds-bg-dark text-ds-text-muted shrink-0"
         aria-label="Open menu"
       >
         <Menu size={20} />
@@ -36,7 +36,7 @@ export function Topbar({ title, onOpenSidebar }: TopbarProps) {
         {/* Dark mode toggle */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="p-2 rounded-lg hover:bg-fics-bg-dark transition-colors text-fics-text-muted hover:text-fics-text"
+          className="p-2 rounded-lg hover:bg-ds-bg-dark transition-colors text-ds-text-muted hover:text-ds-text"
           aria-label="Toggle dark mode"
         >
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
@@ -45,7 +45,7 @@ export function Topbar({ title, onOpenSidebar }: TopbarProps) {
         {/* Role badge */}
         <span className={cn(
           'badge text-[1.1rem]',
-          isEditor ? 'badge-new' : 'bg-fics-bg-dark text-fics-text-muted'
+          isEditor ? 'badge-new' : 'bg-ds-bg-dark text-ds-text-muted'
         )}>
           {isEditor ? 'Editor' : 'Viewer'}
         </span>
@@ -54,24 +54,24 @@ export function Topbar({ title, onOpenSidebar }: TopbarProps) {
         <div className="relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-fics-bg-dark transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-ds-bg-dark transition-colors"
           >
-            <div className="w-7 h-7 rounded-full bg-fics-heading flex items-center justify-center text-white text-[1.2rem] font-semibold">
+            <div className="w-7 h-7 rounded-full bg-ds-heading flex items-center justify-center text-white text-[1.2rem] font-semibold">
               {session?.user?.email?.[0]?.toUpperCase() || 'U'}
             </div>
-            <span className="text-[1.3rem] text-fics-text hidden sm:block">
+            <span className="text-[1.3rem] text-ds-text hidden sm:block">
               {session?.user?.email?.split('@')[0]}
             </span>
-            <ChevronDown size={14} className="text-fics-text-muted" />
+            <ChevronDown size={14} className="text-ds-text-muted" />
           </button>
 
           {menuOpen && (
             <>
               <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-card-hover border border-fics-border z-20 py-1 animate-fade-in">
-                <div className="px-4 py-2 border-b border-fics-border">
-                  <div className="text-[1.3rem] font-medium text-fics-text truncate">{session?.user?.email}</div>
-                  <div className="text-[1.1rem] text-fics-text-muted capitalize">{isEditor ? 'Editor' : 'Viewer'}</div>
+              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-card-hover border border-ds-border z-20 py-1 animate-fade-in">
+                <div className="px-4 py-2 border-b border-ds-border">
+                  <div className="text-[1.3rem] font-medium text-ds-text truncate">{session?.user?.email}</div>
+                  <div className="text-[1.1rem] text-ds-text-muted capitalize">{isEditor ? 'Editor' : 'Viewer'}</div>
                 </div>
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}

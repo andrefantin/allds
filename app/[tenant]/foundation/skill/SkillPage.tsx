@@ -99,15 +99,15 @@ export function SkillPage({ tenant, initialSkill, initialUploadedAt }: Props) {
       {/* Header */}
       <div className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
-          <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
-          <h1 className="text-heading-lg font-bold text-fics-text mb-2">Design Skill</h1>
-          <div className="flex items-center gap-3 text-body-sm text-fics-text-muted">
-            <p className="text-body text-fics-text-muted">
+          <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Foundation</p>
+          <h1 className="text-heading-lg font-bold text-ds-text mb-2">Design Skill</h1>
+          <div className="flex items-center gap-3 text-body-sm text-ds-text-muted">
+            <p className="text-body text-ds-text-muted">
               A Claude Skill tailored to this design system — helping AI tools understand your tokens, components, and patterns.
             </p>
           </div>
           {uploadedAt && (
-            <p className="text-[1.2rem] text-fics-text-muted mt-2">
+            <p className="text-[1.2rem] text-ds-text-muted mt-2">
               Uploaded {formatDate(uploadedAt)}
             </p>
           )}
@@ -116,7 +116,7 @@ export function SkillPage({ tenant, initialSkill, initialUploadedAt }: Props) {
           {skill && (
             <button
               onClick={downloadSkill}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-fics-border bg-white text-fics-text font-semibold hover:bg-fics-bg-dark transition-colors text-[1.3rem]"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-ds-border bg-white text-ds-text font-semibold hover:bg-ds-bg-dark transition-colors text-[1.3rem]"
             >
               <Download size={15} />
               Download Skill
@@ -126,7 +126,7 @@ export function SkillPage({ tenant, initialSkill, initialUploadedAt }: Props) {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-fics-heading text-white font-semibold hover:bg-fics-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-ds-heading text-white font-semibold hover:bg-ds-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
             >
               <Upload size={15} />
               {uploading ? 'Uploading…' : skill ? 'Replace Skill' : 'Upload Skill'}
@@ -156,16 +156,16 @@ export function SkillPage({ tenant, initialSkill, initialUploadedAt }: Props) {
             onDrop={handleDrop}
             onDragOver={e => e.preventDefault()}
             onClick={() => fileInputRef.current?.click()}
-            className="card border-2 border-dashed border-fics-border p-16 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-fics-heading/30 hover:bg-fics-bg/50 transition-colors"
+            className="card border-2 border-dashed border-ds-border p-16 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-ds-heading/30 hover:bg-ds-bg/50 transition-colors"
           >
-            <Upload size={32} className="text-fics-text-muted" />
+            <Upload size={32} className="text-ds-text-muted" />
             <div className="text-center">
-              <p className="text-[1.4rem] font-medium text-fics-text">Upload a Claude Skill file</p>
-              <p className="text-[1.3rem] text-fics-text-muted mt-1">Drag and drop a .skill file here, or click to browse</p>
+              <p className="text-[1.4rem] font-medium text-ds-text">Upload a Claude Skill file</p>
+              <p className="text-[1.3rem] text-ds-text-muted mt-1">Drag and drop a .skill file here, or click to browse</p>
             </div>
           </div>
         ) : (
-          <div className="card p-8 text-fics-text-muted text-[1.3rem]">
+          <div className="card p-8 text-ds-text-muted text-[1.3rem]">
             No skill has been uploaded for this design system yet.
           </div>
         )

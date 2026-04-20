@@ -31,7 +31,7 @@ export function TokenTable({ collection, searchQuery }: TokenTableProps) {
 
   if (filteredTokens.length === 0) {
     return (
-      <div className="py-12 text-center text-fics-text-muted text-body">
+      <div className="py-12 text-center text-ds-text-muted text-body">
         No tokens match your search.
       </div>
     )
@@ -43,7 +43,7 @@ export function TokenTable({ collection, searchQuery }: TokenTableProps) {
         <div className="space-y-6">
           {Object.entries(grouped).map(([category, tokens]) => (
             <div key={category}>
-              <h3 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-2 px-4">
+              <h3 className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted mb-2 px-4">
                 {category}
               </h3>
               <div className="space-y-0.5">

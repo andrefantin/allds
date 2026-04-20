@@ -166,7 +166,7 @@ export default function SettingsPage() {
   if (!isEditor) {
     return (
       <div className="p-4 md:p-8 max-w-[72rem] mx-auto">
-        <p className="text-fics-text-muted">Editor access required to view settings.</p>
+        <p className="text-ds-text-muted">Editor access required to view settings.</p>
       </div>
     )
   }
@@ -174,18 +174,18 @@ export default function SettingsPage() {
   return (
     <div className="p-4 md:p-8 max-w-[72rem] mx-auto">
       <div className="mb-8">
-        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Settings</p>
-        <h1 className="text-heading-lg font-bold text-fics-text mb-2">Configuration</h1>
-        <p className="text-body text-fics-text-muted">Configure Figma credentials and sync your design system data.</p>
+        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Settings</p>
+        <h1 className="text-heading-lg font-bold text-ds-text mb-2">Configuration</h1>
+        <p className="text-body text-ds-text-muted">Configure Figma credentials and sync your design system data.</p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Figma Credentials */}
         <div className="card p-6">
-          <h2 className="text-[1.5rem] font-semibold text-fics-text mb-4">Figma Credentials</h2>
+          <h2 className="text-[1.5rem] font-semibold text-ds-text mb-4">Figma Credentials</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-[1.2rem] text-fics-text-muted mb-1">
+              <label className="block text-[1.2rem] text-ds-text-muted mb-1">
                 Personal Access Token
                 {settings.figmaToken === '***' && <span className="ml-2 text-green-600">● Configured</span>}
               </label>
@@ -194,47 +194,47 @@ export default function SettingsPage() {
                 value={form.figmaToken || ''}
                 onChange={(e) => setForm((f) => ({ ...f, figmaToken: e.target.value }))}
                 placeholder={settings.figmaToken === '***' ? 'Leave blank to keep existing' : 'figd_…'}
-                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
               />
-              <p className="text-[1.1rem] text-fics-text-muted mt-1">Required scope: files:read, file_content:read</p>
+              <p className="text-[1.1rem] text-ds-text-muted mt-1">Required scope: files:read, file_content:read</p>
             </div>
           </div>
         </div>
 
         {/* Components & Modules */}
         <div className="card p-6">
-          <h2 className="text-[1.5rem] font-semibold text-fics-text mb-4">Components & Modules</h2>
+          <h2 className="text-[1.5rem] font-semibold text-ds-text mb-4">Components & Modules</h2>
           <div className="space-y-4 mb-4">
             <div>
-              <label className="block text-[1.2rem] text-fics-text-muted mb-1">Components File ID</label>
+              <label className="block text-[1.2rem] text-ds-text-muted mb-1">Components File ID</label>
               <input
                 type="text"
                 value={form.figmaFileComponents || ''}
                 onChange={(e) => setForm((f) => ({ ...f, figmaFileComponents: e.target.value }))}
                 placeholder="Paste the file ID from your Figma URL"
-                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
               />
             </div>
             <div>
-              <label className="block text-[1.2rem] text-fics-text-muted mb-1">Modules File ID</label>
+              <label className="block text-[1.2rem] text-ds-text-muted mb-1">Modules File ID</label>
               <input
                 type="text"
                 value={form.figmaFileModules || ''}
                 onChange={(e) => setForm((f) => ({ ...f, figmaFileModules: e.target.value }))}
                 placeholder="Paste the file ID from your Figma URL"
-                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
               />
             </div>
 
             {/* Additional libraries */}
             {additionalLibraries.map((lib, i) => (
-              <div key={i} className="border border-fics-border rounded-lg p-4 space-y-3">
+              <div key={i} className="border border-ds-border rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-[1.2rem] font-medium text-fics-text">Additional Library</p>
+                  <p className="text-[1.2rem] font-medium text-ds-text">Additional Library</p>
                   <button
                     type="button"
                     onClick={() => removeAdditionalLibrary(i)}
-                    className="text-fics-text-muted hover:text-fics-error transition-colors"
+                    className="text-ds-text-muted hover:text-ds-error transition-colors"
                     aria-label="Remove library"
                   >
                     <X size={14} />
@@ -242,23 +242,23 @@ export default function SettingsPage() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[1.2rem] text-fics-text-muted mb-1">Library Name</label>
+                    <label className="block text-[1.2rem] text-ds-text-muted mb-1">Library Name</label>
                     <input
                       type="text"
                       value={lib.name}
                       onChange={(e) => updateAdditionalLibrary(i, 'name', e.target.value)}
                       placeholder="e.g. Mobile Components"
-                      className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                      className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
                     />
                   </div>
                   <div>
-                    <label className="block text-[1.2rem] text-fics-text-muted mb-1">File ID</label>
+                    <label className="block text-[1.2rem] text-ds-text-muted mb-1">File ID</label>
                     <input
                       type="text"
                       value={lib.fileId}
                       onChange={(e) => updateAdditionalLibrary(i, 'fileId', e.target.value)}
                       placeholder="Paste the file ID from your Figma URL"
-                      className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                      className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
                     />
                   </div>
                 </div>
@@ -270,7 +270,7 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={addAdditionalLibrary}
-              className="flex items-center gap-1.5 text-[1.3rem] text-fics-heading hover:underline"
+              className="flex items-center gap-1.5 text-[1.3rem] text-ds-heading hover:underline"
             >
               <Plus size={13} />
               Add more
@@ -281,7 +281,7 @@ export default function SettingsPage() {
             type="button"
             onClick={handleSync}
             disabled={syncing}
-            className="px-5 py-2 bg-fics-heading text-white font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
+            className="px-5 py-2 bg-ds-heading text-white font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
           >
             {syncing ? 'Syncing…' : 'Sync Components & Modules'}
           </button>
@@ -289,41 +289,41 @@ export default function SettingsPage() {
 
         {/* Foundation */}
         <div className="card p-6">
-          <h2 className="text-[1.5rem] font-semibold text-fics-text mb-4">Foundation</h2>
+          <h2 className="text-[1.5rem] font-semibold text-ds-text mb-4">Foundation</h2>
           <div className="space-y-4 mb-4">
             <div>
-              <label className="block text-[1.2rem] text-fics-text-muted mb-1">Foundation File ID</label>
+              <label className="block text-[1.2rem] text-ds-text-muted mb-1">Foundation File ID</label>
               <input
                 type="text"
                 value={form.figmaFileFoundation || ''}
                 onChange={(e) => setForm((f) => ({ ...f, figmaFileFoundation: e.target.value }))}
                 placeholder="Paste the file ID from your Figma URL"
-                className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
               />
             </div>
 
             {/* Icon Set 1 — mandatory */}
-            <div className="border border-fics-border rounded-lg p-4 space-y-3">
-              <p className="text-[1.2rem] font-medium text-fics-text">Icon Set 1</p>
+            <div className="border border-ds-border rounded-lg p-4 space-y-3">
+              <p className="text-[1.2rem] font-medium text-ds-text">Icon Set 1</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Label</label>
                   <input
                     type="text"
                     value={iconSets[0]?.name || ''}
                     onChange={(e) => updateIconSet(0, 'name', e.target.value)}
                     placeholder="System icons"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
                   />
                 </div>
                 <div>
-                  <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID <span className="text-fics-text-muted/60">(optional)</span></label>
+                  <label className="block text-[1.2rem] text-ds-text-muted mb-1">Node ID <span className="text-ds-text-muted/60">(optional)</span></label>
                   <input
                     type="text"
                     value={iconSets[0]?.nodeId || ''}
                     onChange={(e) => updateIconSet(0, 'nodeId', e.target.value)}
                     placeholder="e.g. 9868:86"
-                    className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                    className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
                   />
                 </div>
               </div>
@@ -333,13 +333,13 @@ export default function SettingsPage() {
             {iconSets.slice(1).map((set, i) => {
               const index = i + 1
               return (
-                <div key={index} className="border border-fics-border rounded-lg p-4 space-y-3">
+                <div key={index} className="border border-ds-border rounded-lg p-4 space-y-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-[1.2rem] font-medium text-fics-text">Icon Set {index + 1}</p>
+                    <p className="text-[1.2rem] font-medium text-ds-text">Icon Set {index + 1}</p>
                     <button
                       type="button"
                       onClick={() => removeIconSet(index)}
-                      className="text-fics-text-muted hover:text-fics-error transition-colors"
+                      className="text-ds-text-muted hover:text-ds-error transition-colors"
                       aria-label="Remove icon set"
                     >
                       <X size={14} />
@@ -347,23 +347,23 @@ export default function SettingsPage() {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[1.2rem] text-fics-text-muted mb-1">Label</label>
+                      <label className="block text-[1.2rem] text-ds-text-muted mb-1">Label</label>
                       <input
                         type="text"
                         value={set.name}
                         onChange={(e) => updateIconSet(index, 'name', e.target.value)}
                         placeholder="e.g. Spot Icons"
-                        className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40"
+                        className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40"
                       />
                     </div>
                     <div>
-                      <label className="block text-[1.2rem] text-fics-text-muted mb-1">Node ID</label>
+                      <label className="block text-[1.2rem] text-ds-text-muted mb-1">Node ID</label>
                       <input
                         type="text"
                         value={set.nodeId}
                         onChange={(e) => updateIconSet(index, 'nodeId', e.target.value)}
                         placeholder="e.g. 1234:5678"
-                        className="w-full px-3 py-2 text-[1.3rem] border border-fics-border rounded-lg bg-white text-fics-text focus:outline-none focus:border-fics-heading/40 font-mono"
+                        className="w-full px-3 py-2 text-[1.3rem] border border-ds-border rounded-lg bg-white text-ds-text focus:outline-none focus:border-ds-heading/40 font-mono"
                       />
                     </div>
                   </div>
@@ -372,22 +372,22 @@ export default function SettingsPage() {
                       type="checkbox"
                       checked={set.preserveColors ?? false}
                       onChange={(e) => updateIconSet(index, 'preserveColors', e.target.checked)}
-                      className="rounded border-fics-border"
+                      className="rounded border-ds-border"
                     />
-                    <span className="text-[1.2rem] text-fics-text-muted">Preserve original colours</span>
+                    <span className="text-[1.2rem] text-ds-text-muted">Preserve original colours</span>
                   </label>
                 </div>
               )
             })}
 
-            <p className="text-[1.1rem] text-fics-text-muted">Right-click an icons frame in Figma → Copy link → extract the node-id parameter from the URL.</p>
+            <p className="text-[1.1rem] text-ds-text-muted">Right-click an icons frame in Figma → Copy link → extract the node-id parameter from the URL.</p>
           </div>
 
           <div className="flex items-center justify-between mb-6">
             <button
               type="button"
               onClick={addIconSet}
-              className="flex items-center gap-1.5 text-[1.3rem] text-fics-heading hover:underline"
+              className="flex items-center gap-1.5 text-[1.3rem] text-ds-heading hover:underline"
             >
               <Plus size={13} />
               Add more
@@ -398,33 +398,33 @@ export default function SettingsPage() {
             type="button"
             onClick={handleSyncFoundation}
             disabled={syncingFoundation}
-            className="px-5 py-2 bg-fics-heading text-white font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
+            className="px-5 py-2 bg-ds-heading text-white font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
           >
             {syncingFoundation ? 'Syncing…' : 'Sync Foundation'}
           </button>
         </div>
 
         {syncResult && (
-          <div className="card p-4 text-[1.3rem] text-fics-text bg-fics-bg whitespace-pre-line">{syncResult}</div>
+          <div className="card p-4 text-[1.3rem] text-ds-text bg-ds-bg whitespace-pre-line">{syncResult}</div>
         )}
 
         {/* OG Image */}
         <div className="card p-6">
-          <h2 className="text-[1.5rem] font-semibold text-fics-text mb-1">Social Preview Image</h2>
-          <p className="text-[1.2rem] text-fics-text-muted mb-4">OG image shown when this design system is shared on social media. Falls back to the platform default if not set. Recommended size: 1200 × 630px.</p>
+          <h2 className="text-[1.5rem] font-semibold text-ds-text mb-1">Social Preview Image</h2>
+          <p className="text-[1.2rem] text-ds-text-muted mb-4">OG image shown when this design system is shared on social media. Falls back to the platform default if not set. Recommended size: 1200 × 630px.</p>
           {settings.ogImageUrl && (
             <div className="mb-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={settings.ogImageUrl}
                 alt="Current OG image"
-                className="rounded-lg border border-fics-border max-w-[32rem] w-full"
+                className="rounded-lg border border-ds-border max-w-[32rem] w-full"
               />
             </div>
           )}
-          <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border border-fics-border bg-white cursor-pointer hover:border-fics-heading/40 transition-colors w-fit ${uploadingOg ? 'opacity-50 pointer-events-none' : ''}`}>
-            <Upload size={16} className="text-fics-text-muted shrink-0" />
-            <span className="text-[1.3rem] text-fics-text">
+          <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border border-ds-border bg-white cursor-pointer hover:border-ds-heading/40 transition-colors w-fit ${uploadingOg ? 'opacity-50 pointer-events-none' : ''}`}>
+            <Upload size={16} className="text-ds-text-muted shrink-0" />
+            <span className="text-[1.3rem] text-ds-text">
               {uploadingOg ? 'Uploading…' : settings.ogImageUrl ? 'Replace image' : 'Upload image'}
             </span>
             <input
@@ -453,21 +453,21 @@ export default function SettingsPage() {
 
         {/* Logo */}
         <div className="card p-6">
-          <h2 className="text-[1.5rem] font-semibold text-fics-text mb-1">Logo</h2>
-          <p className="text-[1.2rem] text-fics-text-muted mb-4">Replaces the initial letter avatar in the sidebar and admin panel. Square images work best (e.g. 128 × 128px). PNG, JPG, WebP or SVG.</p>
+          <h2 className="text-[1.5rem] font-semibold text-ds-text mb-1">Logo</h2>
+          <p className="text-[1.2rem] text-ds-text-muted mb-4">Replaces the initial letter avatar in the sidebar and admin panel. Square images work best (e.g. 128 × 128px). PNG, JPG, WebP or SVG.</p>
           {settings.logoUrl && (
             <div className="mb-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={settings.logoUrl}
                 alt="Current logo"
-                className="w-16 h-16 rounded-lg border border-fics-border object-cover"
+                className="w-16 h-16 rounded-lg border border-ds-border object-cover"
               />
             </div>
           )}
-          <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border border-fics-border bg-white cursor-pointer hover:border-fics-heading/40 transition-colors w-fit ${uploadingLogo ? 'opacity-50 pointer-events-none' : ''}`}>
-            <Upload size={16} className="text-fics-text-muted shrink-0" />
-            <span className="text-[1.3rem] text-fics-text">
+          <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border border-ds-border bg-white cursor-pointer hover:border-ds-heading/40 transition-colors w-fit ${uploadingLogo ? 'opacity-50 pointer-events-none' : ''}`}>
+            <Upload size={16} className="text-ds-text-muted shrink-0" />
+            <span className="text-[1.3rem] text-ds-text">
               {uploadingLogo ? 'Uploading…' : settings.logoUrl ? 'Replace logo' : 'Upload logo'}
             </span>
             <input
@@ -498,11 +498,11 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 bg-fics-heading text-white font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
+            className="px-6 py-2.5 bg-ds-heading text-white font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors text-[1.3rem] disabled:opacity-50"
           >
             {saving ? 'Saving…' : 'Save settings'}
           </button>
-          {message && <span className="text-[1.3rem] text-fics-text-muted">{message}</span>}
+          {message && <span className="text-[1.3rem] text-ds-text-muted">{message}</span>}
         </div>
       </form>
     </div>

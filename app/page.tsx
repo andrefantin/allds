@@ -23,17 +23,17 @@ export default async function HomePage() {
   )
 
   return (
-    <div className="min-h-screen bg-fics-bg">
+    <div className="min-h-screen bg-ds-bg">
       <div className="max-w-[80rem] mx-auto px-4 md:px-8 py-8 md:py-16">
         <div className="mb-12">
-          <h1 className="text-[3.2rem] font-bold text-fics-text mb-2">All Design Systems</h1>
-          <p className="text-body text-fics-text-muted">Design system platform — all your systems in one place.</p>
+          <h1 className="text-[3.2rem] font-bold text-ds-text mb-2">All Design Systems</h1>
+          <p className="text-body text-ds-text-muted">Design system platform — all your systems in one place.</p>
         </div>
 
         {tenants.length === 0 ? (
           <div className="card p-12 text-center">
-            <p className="text-[1.4rem] text-fics-text-muted mb-4">No design systems yet.</p>
-            <Link href="/admin" className="text-fics-heading hover:underline text-[1.3rem]">
+            <p className="text-[1.4rem] text-ds-text-muted mb-4">No design systems yet.</p>
+            <Link href="/admin" className="text-ds-heading hover:underline text-[1.3rem]">
               Create your first design system →
             </Link>
           </div>
@@ -47,7 +47,7 @@ export default async function HomePage() {
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div
-                    className="rounded-lg shrink-0 overflow-hidden bg-fics-heading flex items-center justify-center"
+                    className={`rounded-lg shrink-0 overflow-hidden flex items-center justify-center ${settingsMap[tenant.slug]?.logoUrl ? 'bg-white' : 'bg-ds-heading'}`}
                     style={{ width: 40, height: 40 }}
                   >
                     {settingsMap[tenant.slug]?.logoUrl
@@ -56,14 +56,14 @@ export default async function HomePage() {
                     }
                   </div>
                   <div>
-                    <div className="font-bold text-fics-text text-[1.4rem] leading-tight group-hover:text-fics-heading transition-colors">
+                    <div className="font-bold text-ds-text text-[1.4rem] leading-tight group-hover:text-ds-heading transition-colors">
                       {tenant.name}
                     </div>
-                    <div className="text-[1.1rem] text-fics-text-muted">{tenant.slug}</div>
+                    <div className="text-[1.1rem] text-ds-text-muted">{tenant.slug}</div>
                   </div>
                 </div>
                 {tenant.description && (
-                  <p className="text-[1.2rem] text-fics-text-muted">{tenant.description}</p>
+                  <p className="text-[1.2rem] text-ds-text-muted">{tenant.description}</p>
                 )}
               </Link>
             ))}
@@ -71,7 +71,7 @@ export default async function HomePage() {
         )}
 
         <div className="mt-8">
-          <Link href="/admin" className="flex sm:inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-fics-heading text-white text-[1.3rem] font-semibold rounded-lg hover:bg-fics-heading/90 transition-colors">
+          <Link href="/admin" className="flex sm:inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-ds-heading text-white text-[1.3rem] font-semibold rounded-lg hover:bg-ds-heading/90 transition-colors">
             Manage design systems
           </Link>
         </div>

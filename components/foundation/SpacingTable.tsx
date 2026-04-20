@@ -16,7 +16,7 @@ export function SpacingTable({ collection, tokens }: SpacingTableProps) {
   return (
     <div>
       {collection.modes.length > 1 && (
-        <div className="flex items-center gap-1 mb-4 bg-fics-bg-dark rounded-lg p-1 w-fit">
+        <div className="flex items-center gap-1 mb-4 bg-ds-bg-dark rounded-lg p-1 w-fit">
           {collection.modes.map((mode) => (
             <button
               key={mode}
@@ -24,8 +24,8 @@ export function SpacingTable({ collection, tokens }: SpacingTableProps) {
               className={cn(
                 'px-4 py-1.5 rounded-md text-[1.3rem] font-medium transition-all',
                 activeMode === mode
-                  ? 'bg-white shadow-card text-fics-text'
-                  : 'text-fics-text-muted hover:text-fics-text'
+                  ? 'bg-white shadow-card text-ds-text'
+                  : 'text-ds-text-muted hover:text-ds-text'
               )}
             >
               {mode}
@@ -41,12 +41,12 @@ export function SpacingTable({ collection, tokens }: SpacingTableProps) {
           return (
             <div key={token.name} className="flex items-center gap-4 md:gap-6">
               <div className="w-36 md:w-56 shrink-0">
-                <div className="font-mono text-[1.3rem] text-fics-text">{token.name}</div>
-                <div className="text-[1.2rem] text-fics-text-muted">{value} · {px}px</div>
+                <div className="font-mono text-[1.3rem] text-ds-text">{token.name}</div>
+                <div className="text-[1.2rem] text-ds-text-muted">{value} · {px}px</div>
               </div>
               <div className="flex-1 flex items-center gap-3">
                 <div
-                  className="h-5 rounded bg-fics-heading/70 shrink-0"
+                  className="h-5 rounded bg-ds-heading/70 shrink-0"
                   style={{ width: Math.max(Math.min(px * 2, 600), 4) }}
                 />
               </div>

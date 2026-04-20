@@ -506,7 +506,7 @@ export async function fetchComponentsUsedInModule(
 }
 
 export function getFigmaEmbedUrl(fileId: string, nodeId?: string): string {
-  const base = `https://www.figma.com/embed?embed_host=fics-platform&url=${encodeURIComponent(`https://www.figma.com/file/${fileId}`)}`
+  const base = `https://www.figma.com/embed?embed_host=ds-platform&url=${encodeURIComponent(`https://www.figma.com/file/${fileId}`)}`
   if (nodeId) return base + `&node-id=${encodeURIComponent(nodeId)}`
   return base
 }

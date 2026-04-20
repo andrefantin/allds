@@ -33,7 +33,7 @@ export function ColourSwatch({ color, name, compact = false }: ColourSwatchProps
         onClick={handleCopy}
         title={`Copy ${color}`}
         className={cn(
-          'w-8 h-8 rounded-lg border border-fics-border shrink-0 transition-transform hover:scale-110 relative',
+          'w-8 h-8 rounded-lg border border-ds-border shrink-0 transition-transform hover:scale-110 relative',
           isTransparent && 'checkered'
         )}
         style={{
@@ -56,7 +56,7 @@ export function ColourSwatch({ color, name, compact = false }: ColourSwatchProps
   return (
     <button
       onClick={handleCopy}
-      className="group relative w-full aspect-square rounded-md overflow-hidden border border-fics-border transition-transform hover:scale-105 hover:shadow-card-hover"
+      className="group relative w-full aspect-square rounded-md overflow-hidden border border-ds-border transition-transform hover:scale-105 hover:shadow-card-hover"
       style={{
         backgroundColor: isTransparent ? undefined : (isRgba ? undefined : displayColor),
         backgroundImage: isTransparent

@@ -151,16 +151,16 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
           onClick={() => section.isExpandable && toggleSection(key)}
           className={cn(
             'w-full flex items-center justify-between px-3 py-1.5 text-left',
-            section.isExpandable ? 'cursor-pointer hover:bg-fics-bg-dark/50 rounded-lg' : 'cursor-default'
+            section.isExpandable ? 'cursor-pointer hover:bg-ds-bg-dark/50 rounded-lg' : 'cursor-default'
           )}
         >
-          <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">
+          <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-ds-text-muted">
             {section.title}
           </span>
           {section.isExpandable && (
             <ChevronDown
               size={12}
-              className={cn('text-fics-text-muted transition-transform', isCollapsed && '-rotate-90')}
+              className={cn('text-ds-text-muted transition-transform', isCollapsed && '-rotate-90')}
             />
           )}
         </button>
@@ -189,16 +189,16 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
   return (
     <aside className={cn(
-      'w-[26rem] shrink-0 h-screen overflow-hidden flex flex-col bg-fics-sidebar border-r border-fics-border',
+      'w-[26rem] shrink-0 h-screen overflow-hidden flex flex-col bg-ds-sidebar border-r border-ds-border',
       'fixed inset-y-0 left-0 z-50 transition-transform duration-300 ease-in-out',
       'lg:static lg:translate-x-0',
       isOpen ? 'translate-x-0' : '-translate-x-full'
     )}>
       {/* Logo */}
-      <div className="p-5 border-b border-fics-border flex items-center justify-between">
+      <div className="p-5 border-b border-ds-border flex items-center justify-between">
         <Link href={base} className="flex items-center gap-3" onClick={onClose}>
           <div
-            className={`rounded-lg shrink-0 overflow-hidden flex items-center justify-center ${logoUrl ? 'bg-white' : 'bg-fics-heading'}`}
+            className={`rounded-lg shrink-0 overflow-hidden flex items-center justify-center ${logoUrl ? 'bg-white' : 'bg-ds-heading'}`}
             style={{ width: 40, height: 40 }}
           >
             {logoUrl
@@ -207,13 +207,13 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
             }
           </div>
           <div>
-            <div className="font-bold text-fics-text text-[1.4rem] leading-tight">{tenantName}</div>
-            <div className="text-[1.1rem] text-fics-text-muted">Design System</div>
+            <div className="font-bold text-ds-text text-[1.4rem] leading-tight">{tenantName}</div>
+            <div className="text-[1.1rem] text-ds-text-muted">Design System</div>
           </div>
         </Link>
         <button
           onClick={onClose}
-          className="lg:hidden p-1.5 rounded-lg hover:bg-fics-bg-dark text-fics-text-muted shrink-0"
+          className="lg:hidden p-1.5 rounded-lg hover:bg-ds-bg-dark text-ds-text-muted shrink-0"
           aria-label="Close menu"
         >
           <X size={16} />
@@ -221,19 +221,19 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
       </div>
 
       {/* Search */}
-      <div className="px-3 py-3 border-b border-fics-border">
+      <div className="px-3 py-3 border-b border-ds-border">
         <div className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fics-text-muted" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ds-text-muted" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Filter…"
-            className="w-full pl-9 pr-14 py-2 text-[1.3rem] bg-white/60 rounded-lg border border-fics-border placeholder:text-fics-text-muted text-fics-text focus:outline-none focus:border-fics-heading/30 transition-colors"
+            className="w-full pl-9 pr-14 py-2 text-[1.3rem] bg-white/60 rounded-lg border border-ds-border placeholder:text-ds-text-muted text-ds-text focus:outline-none focus:border-ds-heading/30 transition-colors"
           />
           <button
             onClick={onOpenSearch}
-            className="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[1rem] bg-fics-bg-dark text-fics-text-muted hover:text-fics-text px-1.5 py-0.5 rounded transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[1rem] bg-ds-bg-dark text-ds-text-muted hover:text-ds-text px-1.5 py-0.5 rounded transition-colors"
             title="Global search (⌘K)"
           >
             ⌘K
@@ -247,8 +247,8 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
         <div>
           <div className="flex items-center justify-between px-3 mb-1">
-            <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">Components</span>
-            <Link href={`${base}/components`} className="text-[1.1rem] text-fics-heading hover:underline">All</Link>
+            <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-ds-text-muted">Components</span>
+            <Link href={`${base}/components`} className="text-[1.1rem] text-ds-heading hover:underline">All</Link>
           </div>
           <div className="space-y-4">
             {componentSections.map((s) => renderSection(s, 'comp-'))}
@@ -261,8 +261,8 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
         <div>
           <div className="flex items-center justify-between px-3 mb-1">
-            <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">Modules</span>
-            <Link href={`${base}/modules`} className="text-[1.1rem] text-fics-heading hover:underline">All</Link>
+            <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-ds-text-muted">Modules</span>
+            <Link href={`${base}/modules`} className="text-[1.1rem] text-ds-heading hover:underline">All</Link>
           </div>
           <div className="space-y-4">
             {moduleSections.map((s) => renderSection(s, 'mod-'))}
@@ -296,7 +296,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
           return (
             <div key={lib.name}>
               <div className="px-3 mb-1">
-                <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-fics-text-muted">{lib.name}</span>
+                <span className="text-[1.1rem] font-semibold uppercase tracking-widest text-ds-text-muted">{lib.name}</span>
               </div>
               <div className="space-y-4">
                 {libSections.map((s) => renderSection(s, `lib-${lib.name}-`))}
@@ -310,15 +310,15 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
         })}
 
         {isEditor && (
-          <div className="border-t border-fics-border pt-4">
+          <div className="border-t border-ds-border pt-4">
             {renderSection(editorSection, 'editor-')}
           </div>
         )}
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-3 border-t border-fics-border">
-        <div className="text-[1.1rem] text-fics-text-muted">
+      <div className="px-4 py-3 border-t border-ds-border">
+        <div className="text-[1.1rem] text-ds-text-muted">
           {figmaData.lastSynced
             ? `Last synced ${new Date(figmaData.lastSynced).toLocaleDateString()}`
             : 'Not synced from Figma yet'}

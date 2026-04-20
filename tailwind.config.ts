@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        fics: {
+        ds: {
           // RGB triplets — support Tailwind opacity modifiers (/10, /50, etc.)
           bg:           'rgb(var(--color-bg) / <alpha-value>)',
           'bg-dark':    'rgb(var(--color-bg-dark) / <alpha-value>)',

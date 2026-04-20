@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { X } from 'react-feather'
 import { cn } from '@/lib/utils'
 import { validateTokenFile, convertFigmaExport, diffTokenFiles } from '@/lib/tokens'
 import type { FigmaVariablesExport } from '@/lib/tokens'
@@ -104,25 +105,23 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-end">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-fics-text/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-ds-text/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* Drawer */}
       <div className="relative z-10 w-full max-w-[60rem] h-full bg-white shadow-modal flex flex-col animate-slide-in">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-fics-border">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-ds-border">
           <div>
-            <h2 className="text-heading-sm font-semibold text-fics-text">Update Design Tokens</h2>
-            <p className="text-body-sm text-fics-text-muted mt-0.5">Upload a JSON file exported from Figma Variables to replace the current tokens</p>
+            <h2 className="text-heading-sm font-semibold text-ds-text">Update Design Tokens</h2>
+            <p className="text-body-sm text-ds-text-muted mt-0.5">Upload a JSON file exported from Figma Variables to replace the current tokens</p>
           </div>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-fics-bg transition-colors text-fics-text-muted">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-ds-bg transition-colors text-ds-text-muted">
+            <X size={20} />
           </button>
         </div>
 
         {/* Progress steps */}
-        <div className="flex items-center gap-0 px-6 py-3 bg-fics-bg border-b border-fics-border">
+        <div className="flex items-center gap-0 px-6 py-3 bg-ds-bg border-b border-ds-border">
           {['Upload', 'Validate', 'Review', 'Publish'].map((label, i) => {
             const stepKeys: Step[] = ['upload', 'validate', 'diff', 'publishing']
             const currentIndex = stepKeys.indexOf(step === 'done' ? 'publishing' : step)
@@ -132,21 +131,21 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
               <div key={label} className="flex items-center">
                 <div className={cn(
                   'flex items-center gap-2 px-3 py-1 rounded-full text-[1.2rem] font-medium transition-colors',
-                  isActive && 'bg-fics-heading text-white',
-                  isDone && 'text-fics-heading',
-                  !isActive && !isDone && 'text-fics-text-muted'
+                  isActive && 'bg-ds-heading text-white',
+                  isDone && 'text-ds-heading',
+                  !isActive && !isDone && 'text-ds-text-muted'
                 )}>
                   <span className={cn(
                     'w-5 h-5 rounded-full flex items-center justify-center text-[1.1rem]',
                     isActive && 'bg-white/20',
-                    isDone && 'bg-fics-heading/10',
-                    !isActive && !isDone && 'bg-fics-bg-dark'
+                    isDone && 'bg-ds-heading/10',
+                    !isActive && !isDone && 'bg-ds-bg-dark'
                   )}>
                     {isDone ? '✓' : i + 1}
                   </span>
                   {label}
                 </div>
-                {i < 3 && <div className="w-6 h-px bg-fics-border mx-1" />}
+                {i < 3 && <div className="w-6 h-px bg-ds-border mx-1" />}
               </div>
             )
           })}
@@ -160,22 +159,22 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
               className={cn(
                 'border-2 border-dashed rounded-md p-12 text-center cursor-pointer transition-all',
                 isDragActive
-                  ? 'border-fics-heading bg-fics-heading/5'
-                  : 'border-fics-border hover:border-fics-heading/50 hover:bg-fics-bg'
+                  ? 'border-ds-heading bg-ds-heading/5'
+                  : 'border-ds-border hover:border-ds-heading/50 hover:bg-ds-bg'
               )}
             >
               <input {...getInputProps()} />
               <div className="text-5xl mb-4">📄</div>
-              <p className="text-body-lg font-medium text-fics-text mb-1">
+              <p className="text-body-lg font-medium text-ds-text mb-1">
                 {isDragActive ? 'Drop your JSON file here' : 'Drag & drop your Figma Variables export'}
               </p>
-              <p className="text-body-sm text-fics-text-muted mb-4">
+              <p className="text-body-sm text-ds-text-muted mb-4">
                 or click to select a file
               </p>
-              <p className="text-[1.2rem] text-fics-text-muted mb-4">
+              <p className="text-[1.2rem] text-ds-text-muted mb-4">
                 Upload a JSON file exported from Figma Variables. To export: open your Figma file → Resources panel → Variables → Export.
               </p>
-              <span className="text-[1.2rem] text-fics-text-muted bg-fics-bg px-3 py-1 rounded-full border border-fics-border">
+              <span className="text-[1.2rem] text-ds-text-muted bg-ds-bg px-3 py-1 rounded-full border border-ds-border">
                 .json files only
               </span>
             </div>
@@ -203,14 +202,14 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
                 )}
               </div>
 
-              <pre className="bg-fics-text rounded-md p-4 text-fics-bg text-[1.2rem] overflow-auto max-h-80 font-mono">
+              <pre className="bg-ds-text rounded-md p-4 text-ds-bg text-[1.2rem] overflow-auto max-h-80 font-mono">
                 {rawJson.slice(0, 2000)}{rawJson.length > 2000 ? '\n… (truncated)' : ''}
               </pre>
 
               {errors.length > 0 && (
                 <button
                   onClick={() => setStep('upload')}
-                  className="mt-4 px-4 py-2 rounded-lg border border-fics-border text-fics-text hover:bg-fics-bg transition-colors text-[1.3rem]"
+                  className="mt-4 px-4 py-2 rounded-lg border border-ds-border text-ds-text hover:bg-ds-bg transition-colors text-[1.3rem]"
                 >
                   Try a different file
                 </button>
@@ -224,15 +223,15 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
               <div className="grid grid-cols-3 gap-4">
                 <div className="card p-4 text-center">
                   <div className="text-heading-md font-bold text-green-600">{diff.added.length}</div>
-                  <div className="text-body-sm text-fics-text-muted">Added</div>
+                  <div className="text-body-sm text-ds-text-muted">Added</div>
                 </div>
                 <div className="card p-4 text-center">
                   <div className="text-heading-md font-bold text-red-600">{diff.removed.length}</div>
-                  <div className="text-body-sm text-fics-text-muted">Removed</div>
+                  <div className="text-body-sm text-ds-text-muted">Removed</div>
                 </div>
                 <div className="card p-4 text-center">
                   <div className="text-heading-md font-bold text-amber-600">{diff.changed.length}</div>
-                  <div className="text-body-sm text-fics-text-muted">Changed</div>
+                  <div className="text-body-sm text-ds-text-muted">Changed</div>
                 </div>
               </div>
 
@@ -274,7 +273,7 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
                         <div className="font-mono text-[1.3rem] text-amber-800 mb-1">{change.name}</div>
                         <div className="flex items-center gap-2 text-[1.2rem]">
                           <span className="text-red-600 font-mono line-through">{change.oldValue}</span>
-                          <span className="text-fics-text-muted">→</span>
+                          <span className="text-ds-text-muted">→</span>
                           <span className="text-green-600 font-mono">{change.newValue}</span>
                         </div>
                       </div>
@@ -284,7 +283,7 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
               )}
 
               {diff.added.length === 0 && diff.removed.length === 0 && diff.changed.length === 0 && (
-                <div className="card p-8 text-center text-fics-text-muted">
+                <div className="card p-8 text-center text-ds-text-muted">
                   No differences found — the uploaded file is identical to the current tokens.
                 </div>
               )}
@@ -295,13 +294,13 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
             <div className="flex flex-col items-center justify-center py-16 gap-4">
               {step === 'publishing' ? (
                 <>
-                  <div className="w-12 h-12 rounded-full border-4 border-fics-heading border-t-transparent animate-spin" />
-                  <p className="text-body-lg font-medium text-fics-text">Publishing tokens…</p>
+                  <div className="w-12 h-12 rounded-full border-4 border-ds-heading border-t-transparent animate-spin" />
+                  <p className="text-body-lg font-medium text-ds-text">Publishing tokens…</p>
                 </>
               ) : (
                 <>
                   <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-3xl">✓</div>
-                  <p className="text-body-lg font-medium text-fics-text">Tokens published!</p>
+                  <p className="text-body-lg font-medium text-ds-text">Tokens published!</p>
                 </>
               )}
             </div>
@@ -310,17 +309,17 @@ export function JsonUploader({ tenant, currentTokens, onClose, onPublished }: Js
 
         {/* Footer */}
         {(step === 'diff' || step === 'validate') && (
-          <div className="px-6 py-4 border-t border-fics-border flex items-center justify-between bg-fics-bg">
+          <div className="px-6 py-4 border-t border-ds-border flex items-center justify-between bg-ds-bg">
             <button
               onClick={() => setStep('upload')}
-              className="px-4 py-2 rounded-lg border border-fics-border text-fics-text hover:bg-fics-bg-dark transition-colors text-[1.3rem]"
+              className="px-4 py-2 rounded-lg border border-ds-border text-ds-text hover:bg-ds-bg-dark transition-colors text-[1.3rem]"
             >
               Start over
             </button>
             {step === 'diff' && (
               <button
                 onClick={handlePublish}
-                className="px-6 py-2.5 rounded-lg bg-fics-heading text-white font-semibold hover:bg-fics-heading/90 transition-colors text-[1.3rem]"
+                className="px-6 py-2.5 rounded-lg bg-ds-heading text-white font-semibold hover:bg-ds-heading/90 transition-colors text-[1.3rem]"
               >
                 Publish tokens
               </button>

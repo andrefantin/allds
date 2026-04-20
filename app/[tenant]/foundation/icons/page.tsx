@@ -23,17 +23,17 @@ export default async function IconsPage({ params }: Props) {
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
-        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
-        <h1 className="text-heading-lg font-bold text-fics-text mb-2">Icons</h1>
-        <p className="text-body text-fics-text-muted max-w-[60rem]">Icon sets synced from Figma.</p>
+        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Foundation</p>
+        <h1 className="text-heading-lg font-bold text-ds-text mb-2">Icons</h1>
+        <p className="text-body text-ds-text-muted max-w-[60rem]">Icon sets synced from Figma.</p>
       </div>
       {totalIcons === 0 ? (
-        <div className="card p-8 flex items-start gap-4 bg-fics-bg/50">
+        <div className="card p-8 flex items-start gap-4 bg-ds-bg/50">
           <div>
-            <p className="text-[1.3rem] font-medium text-fics-text">No icons synced yet</p>
-            <p className="text-[1.2rem] text-fics-text-muted mt-0.5">
+            <p className="text-[1.3rem] font-medium text-ds-text">No icons synced yet</p>
+            <p className="text-[1.2rem] text-ds-text-muted mt-0.5">
               Add your Foundation Figma File ID and Icon Node IDs in{' '}
-              <Link href={`/${tenant}/settings`} className="text-fics-heading hover:underline">Settings</Link>
+              <Link href={`/${tenant}/settings`} className="text-ds-heading hover:underline">Settings</Link>
               {' '}and click <strong>Sync Foundation</strong>.
             </p>
           </div>
@@ -44,7 +44,7 @@ export default async function IconsPage({ params }: Props) {
         <div className="space-y-12">
           {iconSets.map((set) => (
             <div key={set.name}>
-              <h2 className="text-[1.6rem] font-semibold text-fics-text mb-6">{set.name}</h2>
+              <h2 className="text-[1.6rem] font-semibold text-ds-text mb-6">{set.name}</h2>
               <IconGrid icons={set.icons} />
             </div>
           ))}

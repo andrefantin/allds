@@ -42,7 +42,7 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
   const pxValue = isDimension ? remToPixels(value) : 0
 
   return (
-    <div className="token-row group flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-fics-bg-dark/40 transition-all border border-transparent hover:border-fics-border">
+    <div className="token-row group flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-ds-bg-dark/40 transition-all border border-transparent hover:border-ds-border">
       {/* Visual preview */}
       <div className="shrink-0">
         {isColor && (
@@ -51,7 +51,7 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
         {isDimension && (
           <div className="w-8 h-8 flex items-center justify-center">
             <div
-              className="bg-fics-heading rounded-sm"
+              className="bg-ds-heading rounded-sm"
               style={{
                 width: Math.min(Math.max(pxValue / 4, 4), 32),
                 height: 6,
@@ -60,20 +60,20 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
           </div>
         )}
         {isShadow && (
-          <div className="w-8 h-8 rounded-md bg-white border border-fics-border"
+          <div className="w-8 h-8 rounded-md bg-white border border-ds-border"
             style={{ boxShadow: value === 'none' ? undefined : value }}
           />
         )}
         {!isColor && !isDimension && !isShadow && (
-          <div className="w-8 h-8 rounded-md bg-fics-bg-dark border border-fics-border" />
+          <div className="w-8 h-8 rounded-md bg-ds-bg-dark border border-ds-border" />
         )}
       </div>
 
       {/* Token name + description */}
       <div className="flex-1 min-w-0">
-        <div className="font-mono text-[1.3rem] text-fics-text truncate">{token.name}</div>
+        <div className="font-mono text-[1.3rem] text-ds-text truncate">{token.name}</div>
         {token.description && (
-          <div className="text-[1.2rem] text-fics-text-muted truncate">{token.description}</div>
+          <div className="text-[1.2rem] text-ds-text-muted truncate">{token.description}</div>
         )}
       </div>
 
@@ -81,19 +81,19 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
       <div className="shrink-0 max-w-[24rem] text-right">
         {alias ? (
           <div className="flex items-center justify-end gap-1.5">
-            <span className="text-fics-text-muted/40 text-[1.1rem]">→</span>
-            <span className="font-mono text-[1.3rem] text-fics-heading truncate">{alias}</span>
+            <span className="text-ds-text-muted/40 text-[1.1rem]">→</span>
+            <span className="font-mono text-[1.3rem] text-ds-heading truncate">{alias}</span>
           </div>
         ) : (
-          <span className="font-mono text-[1.3rem] text-fics-text-muted truncate block">
+          <span className="font-mono text-[1.3rem] text-ds-text-muted truncate block">
             {value}
             {isDimension && pxValue > 0 && (
-              <span className="text-[1.1rem] text-fics-text-muted/60 ml-1">({pxValue}px)</span>
+              <span className="text-[1.1rem] text-ds-text-muted/60 ml-1">({pxValue}px)</span>
             )}
           </span>
         )}
         {alias && (
-          <div className="font-mono text-[1.1rem] text-fics-text-muted/50 truncate">
+          <div className="font-mono text-[1.1rem] text-ds-text-muted/50 truncate">
             {value}
             {isDimension && pxValue > 0 && ` (${pxValue}px)`}
           </div>
@@ -102,16 +102,16 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
 
       {/* Copy button with format dropdown */}
       <div className="copy-btn relative shrink-0">
-        <div className="flex items-center rounded-lg border border-fics-border overflow-hidden">
+        <div className="flex items-center rounded-lg border border-ds-border overflow-hidden">
           <button
             onClick={() => handleCopy(copyFormat)}
-            className="px-3 py-1.5 text-[1.2rem] font-medium text-fics-text-muted hover:text-fics-text hover:bg-fics-bg-dark transition-colors"
+            className="px-3 py-1.5 text-[1.2rem] font-medium text-ds-text-muted hover:text-ds-text hover:bg-ds-bg-dark transition-colors"
           >
             Copy {copyFormat.toUpperCase()}
           </button>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="px-2 py-1.5 border-l border-fics-border text-fics-text-muted hover:text-fics-text hover:bg-fics-bg-dark transition-colors"
+            className="px-2 py-1.5 border-l border-ds-border text-ds-text-muted hover:text-ds-text hover:bg-ds-bg-dark transition-colors"
           >
             <ChevronDown size={12} />
           </button>
@@ -120,20 +120,20 @@ export function TokenCard({ token, activeMode }: TokenCardProps) {
         {menuOpen && (
           <>
             <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-            <div className="absolute right-0 top-full mt-1 bg-white rounded-md shadow-card-hover border border-fics-border z-20 py-1 min-w-[14rem] animate-fade-in">
+            <div className="absolute right-0 top-full mt-1 bg-white rounded-md shadow-card-hover border border-ds-border z-20 py-1 min-w-[14rem] animate-fade-in">
               {(Object.keys(copyMap) as CopyFormat[]).map((fmt) => (
                 <button
                   key={fmt}
                   onClick={() => { setCopyFormat(fmt); handleCopy(fmt) }}
-                  className="w-full text-left px-4 py-2 hover:bg-fics-bg transition-colors"
+                  className="w-full text-left px-4 py-2 hover:bg-ds-bg transition-colors"
                 >
-                  <span className={cn('text-[1.2rem] font-medium', copyFormat === fmt ? 'text-fics-heading' : 'text-fics-text')}>
+                  <span className={cn('text-[1.2rem] font-medium', copyFormat === fmt ? 'text-ds-heading' : 'text-ds-text')}>
                     {fmt === 'css' && `var(--${token.name})`}
                     {fmt === 'scss' && `$${token.name}`}
                     {fmt === 'js' && tokenToJs(token.name)}
                     {fmt === 'value' && value}
                   </span>
-                  <span className="text-[1.1rem] text-fics-text-muted block">
+                  <span className="text-[1.1rem] text-ds-text-muted block">
                     {fmt === 'css' && 'CSS custom property'}
                     {fmt === 'scss' && 'SCSS variable'}
                     {fmt === 'js' && 'JS/TS constant'}

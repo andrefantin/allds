@@ -17,7 +17,7 @@ export function ModesTabs({ modes, panels }: ModesTabsProps) {
 
   return (
     <div>
-      <div className="flex items-center gap-1 mb-4 bg-fics-bg-dark rounded-lg p-1 w-fit">
+      <div className="flex items-center gap-1 mb-4 bg-ds-bg-dark rounded-lg p-1 w-fit">
         {modes.map((mode, i) => (
           <button
             key={mode}
@@ -25,8 +25,8 @@ export function ModesTabs({ modes, panels }: ModesTabsProps) {
             className={cn(
               'px-4 py-1.5 rounded-md text-[1.3rem] font-medium transition-all',
               activeIndex === i
-                ? 'bg-white shadow-card text-fics-text'
-                : 'text-fics-text-muted hover:text-fics-text'
+                ? 'bg-white shadow-card text-ds-text'
+                : 'text-ds-text-muted hover:text-ds-text'
             )}
           >
             {mode}

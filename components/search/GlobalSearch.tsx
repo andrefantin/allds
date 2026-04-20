@@ -181,12 +181,12 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-xl mx-4 bg-fics-card rounded-xl border border-fics-border shadow-xl overflow-hidden"
+        className="relative w-full max-w-xl mx-4 bg-ds-card rounded-xl border border-ds-border shadow-xl overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
         {/* Input row */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-fics-border">
-          <Search size={16} className="text-fics-text-muted shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-ds-border">
+          <Search size={16} className="text-ds-text-muted shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -194,9 +194,9 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search components, tokens, pages…"
-            className="flex-1 bg-transparent text-fics-text placeholder:text-fics-text-muted text-[1.4rem] outline-none"
+            className="flex-1 bg-transparent text-ds-text placeholder:text-ds-text-muted text-[1.4rem] outline-none"
           />
-          <button onClick={onClose} className="text-fics-text-muted hover:text-fics-text transition-colors">
+          <button onClick={onClose} className="text-ds-text-muted hover:text-ds-text transition-colors">
             <X size={16} />
           </button>
         </div>
@@ -205,7 +205,7 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
         {query.trim() ? (
           <div className="max-h-[55vh] overflow-y-auto py-2">
             {results.length === 0 ? (
-              <div className="px-4 py-10 text-center text-fics-text-muted text-[1.3rem]">
+              <div className="px-4 py-10 text-center text-ds-text-muted text-[1.3rem]">
                 No results for &ldquo;{query}&rdquo;
               </div>
             ) : (
@@ -215,17 +215,17 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
                   onClick={() => navigate(result.href)}
                   onMouseEnter={() => setActiveIndex(i)}
                   className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
-                    i === activeIndex ? 'bg-fics-bg-dark' : ''
+                    i === activeIndex ? 'bg-ds-bg-dark' : ''
                   }`}
                 >
-                  <span className="text-fics-text-muted shrink-0">{typeIcon(result.type)}</span>
+                  <span className="text-ds-text-muted shrink-0">{typeIcon(result.type)}</span>
                   <span className="flex-1 min-w-0">
-                    <span className="text-[1.3rem] text-fics-text block truncate">{result.label}</span>
+                    <span className="text-[1.3rem] text-ds-text block truncate">{result.label}</span>
                     {result.sublabel && (
-                      <span className="text-[1.1rem] text-fics-text-muted">{result.sublabel}</span>
+                      <span className="text-[1.1rem] text-ds-text-muted">{result.sublabel}</span>
                     )}
                   </span>
-                  <span className="text-[1.1rem] text-fics-text-muted shrink-0 capitalize">
+                  <span className="text-[1.1rem] text-ds-text-muted shrink-0 capitalize">
                     {typeLabel[result.type]}
                   </span>
                 </button>
@@ -233,16 +233,16 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
             )}
           </div>
         ) : (
-          <div className="px-4 py-8 text-center text-fics-text-muted text-[1.3rem]">
+          <div className="px-4 py-8 text-center text-ds-text-muted text-[1.3rem]">
             Type to search components, tokens, and pages
           </div>
         )}
 
         {/* Footer hints */}
-        <div className="flex items-center gap-4 px-4 py-2 border-t border-fics-border text-[1.1rem] text-fics-text-muted">
-          <span><kbd className="font-mono bg-fics-bg px-1 rounded">↑↓</kbd> navigate</span>
-          <span><kbd className="font-mono bg-fics-bg px-1 rounded">↵</kbd> open</span>
-          <span><kbd className="font-mono bg-fics-bg px-1 rounded">esc</kbd> close</span>
+        <div className="flex items-center gap-4 px-4 py-2 border-t border-ds-border text-[1.1rem] text-ds-text-muted">
+          <span><kbd className="font-mono bg-ds-bg px-1 rounded">↑↓</kbd> navigate</span>
+          <span><kbd className="font-mono bg-ds-bg px-1 rounded">↵</kbd> open</span>
+          <span><kbd className="font-mono bg-ds-bg px-1 rounded">esc</kbd> close</span>
         </div>
       </div>
     </div>

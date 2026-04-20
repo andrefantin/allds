@@ -47,8 +47,7 @@ function parseColor(value: string, bgRgb?: [number, number, number]): [number, n
   if (rgba) {
     const [r, g, b, a] = rgba
     if (a >= 1) return [r, g, b]
-    const bg = bgRgb ?? [255, 255, 255]
-    return blendOnto(r, g, b, a, bg)
+    return blendOnto(r, g, b, a, bgRgb ?? [255, 255, 255])
   }
   return null
 }
@@ -75,19 +74,37 @@ function rgbToHex(r: number, g: number, b: number): string {
 }
 
 // ─── Token family detection ───────────────────────────────────────────────────
-// Determines "same family" for suggestions — e.g. text-regular → family "text"
+// Strips short vendor prefixes (fi, ds, ui ≤ 3 chars) then returns a semantic family key.
+// Generic colour words (color/colour) are paired with the next segment.
+// Known role keywords (fill, label, stroke, icon) are appended to prevent cross-role suggestions —
+// e.g. action-fill tokens will never suggest action-label tokens as alternatives.
+//
+// fi-text-color-regular   → "text"
+// surface-default          → "surface"
+// fi-action-primary-fill  → "action-fill"
+// fi-action-primary-label → "action-label"
 
 function getFamily(name: string): string {
-  const parts = name.toLowerCase().split(/[-_\/]/)
-  const broad = ['color', 'colours', 'colors', 'col', 'palette']
-  if (broad.includes(parts[0]) && parts.length > 1) return `${parts[0]}-${parts[1]}`
-  return parts[0]
+  const parts = name.toLowerCase().split(/[-_/]/)
+  const start = parts[0].length <= 3 && parts.length > 1 ? 1 : 0
+  const first = parts[start]
+  const broad = ['color', 'colour', 'colors', 'colours', 'col', 'palette']
+  if (broad.includes(first) && parts.length > start + 1) return `${first}-${parts[start + 1]}`
+  // If a semantic role keyword appears after the first segment, include it so that
+  // e.g. action-fill and action-label are treated as distinct families.
+  const roles = ['fill', 'label', 'stroke', 'icon']
+  const roleIdx = parts.findIndex((p, i) => i > start && roles.includes(p))
+  if (roleIdx !== -1) return `${first}-${parts[roleIdx]}`
+  return first
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface ColorToken {
   name: string
+  modes: string[]
+  modeValues: Record<string, string>
+  selectedMode: string
   value: string
   rgb: [number, number, number]
 }
@@ -97,6 +114,14 @@ interface Suggestion {
   ratio: number
   passesAA: boolean
   passesAAA: boolean
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function resolveMode(token: ColorToken, mode: string): ColorToken {
+  const value = token.modeValues[mode] ?? token.value
+  const rgb = parseColor(value) ?? token.rgb
+  return { ...token, selectedMode: mode, value, rgb }
 }
 
 // ─── Token picker ─────────────────────────────────────────────────────────────
@@ -137,12 +162,12 @@ function TokenPicker({
 
   return (
     <div ref={ref} className="relative">
-      <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-2">{label}</p>
+      <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted mb-2">{label}</p>
       <button
         onClick={() => setOpen(!open)}
         className={cn(
-          'w-full flex items-center gap-3 px-4 py-3 rounded-lg border bg-fics-card text-left transition-colors',
-          open ? 'border-fics-heading/40' : 'border-fics-border hover:border-fics-heading/30'
+          'w-full flex items-center gap-3 px-4 py-3 rounded-lg border bg-ds-card text-left transition-colors',
+          open ? 'border-ds-heading/40' : 'border-ds-border hover:border-ds-heading/30'
         )}
       >
         {selected ? (
@@ -152,51 +177,46 @@ function TokenPicker({
               style={{ backgroundColor: rgbToHex(...selected.rgb) }}
             />
             <div className="flex-1 min-w-0">
-              <div className="font-mono text-[1.3rem] text-fics-text truncate">{selected.name}</div>
-              <div className="font-mono text-[1.1rem] text-fics-text-muted">{selected.value}</div>
+              <div className="font-mono text-[1.3rem] text-ds-text truncate">{selected.name}</div>
+              <div className="font-mono text-[1.1rem] text-ds-text-muted">{selected.value}</div>
             </div>
           </>
         ) : (
-          <span className="text-[1.3rem] text-fics-text-muted flex-1">Select a colour token…</span>
+          <span className="text-[1.3rem] text-ds-text-muted flex-1">Select a colour token…</span>
         )}
-        <ChevronDown
-          size={14}
-          className={cn('text-fics-text-muted shrink-0 transition-transform', open && 'rotate-180')}
-        />
+        <ChevronDown size={14} className={cn('text-ds-text-muted shrink-0 transition-transform', open && 'rotate-180')} />
       </button>
 
       {open && (
-        <div className="absolute z-50 top-full mt-1 w-full bg-fics-card rounded-lg border border-fics-border shadow-card-hover max-h-[28rem] flex flex-col">
-          <div className="p-2 border-b border-fics-border shrink-0">
+        <div className="absolute z-50 top-full mt-1 w-full bg-ds-card rounded-lg border border-ds-border shadow-card-hover max-h-[28rem] flex flex-col">
+          <div className="p-2 border-b border-ds-border shrink-0">
             <input
               ref={inputRef}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search tokens…"
-              className="w-full px-3 py-2 text-[1.3rem] bg-fics-bg rounded-md border border-fics-border focus:outline-none focus:border-fics-heading/30 text-fics-text placeholder:text-fics-text-muted"
+              className="w-full px-3 py-2 text-[1.3rem] bg-ds-bg rounded-md border border-ds-border focus:outline-none focus:border-ds-heading/30 text-ds-text placeholder:text-ds-text-muted"
             />
           </div>
           <div className="overflow-y-auto flex-1">
             {filtered.length === 0 ? (
-              <p className="px-4 py-3 text-[1.2rem] text-fics-text-muted">No tokens found.</p>
+              <p className="px-4 py-3 text-[1.2rem] text-ds-text-muted">No tokens found.</p>
             ) : (
               filtered.map((token) => (
                 <button
                   key={token.name}
                   onClick={() => { onSelect(token); setOpen(false) }}
                   className={cn(
-                    'w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-fics-bg transition-colors',
-                    selected?.name === token.name && 'bg-fics-bg'
+                    'w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-ds-bg transition-colors',
+                    selected?.name === token.name && 'bg-ds-bg'
                   )}
                 >
                   <div
                     className="w-5 h-5 rounded shrink-0 border border-black/10"
                     style={{ backgroundColor: rgbToHex(...token.rgb) }}
                   />
-                  <span className="font-mono text-[1.3rem] text-fics-text flex-1 truncate">{token.name}</span>
-                  {selected?.name === token.name && (
-                    <Check size={12} className="text-fics-heading shrink-0" />
-                  )}
+                  <span className="font-mono text-[1.3rem] text-ds-text flex-1 truncate">{token.name}</span>
+                  {selected?.name === token.name && <Check size={12} className="text-ds-heading shrink-0" />}
                 </button>
               ))
             )}
@@ -207,16 +227,42 @@ function TokenPicker({
   )
 }
 
+// ─── Per-token mode selector ──────────────────────────────────────────────────
+// Only rendered when the selected token has more than one mode.
+
+function ModeSelector({ token, onChange }: { token: ColorToken; onChange: (mode: string) => void }) {
+  if (token.modes.length <= 1) return null
+  return (
+    <div className="flex items-center gap-2 mt-2 flex-wrap">
+      <span className="text-[1.2rem] text-ds-text-muted">Mode:</span>
+      <div className="flex gap-1 flex-wrap">
+        {token.modes.map((mode) => (
+          <button
+            key={mode}
+            onClick={() => onChange(mode)}
+            className={cn(
+              'px-3 py-1 rounded text-[1.2rem] transition-colors',
+              token.selectedMode === mode
+                ? 'bg-ds-heading text-white'
+                : 'bg-ds-bg-dark text-ds-text-muted hover:text-ds-text'
+            )}
+          >
+            {mode}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─── WCAG badge ───────────────────────────────────────────────────────────────
 
 function WcagBadge({ label, sub, passes }: { label: string; sub: string; passes: boolean }) {
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-[1.2rem] font-medium',
-        passes ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-600'
-      )}
-    >
+    <div className={cn(
+      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-[1.2rem] font-medium',
+      passes ? 'bg-green-50 border-green-200 text-green-700' : 'bg-red-50 border-red-200 text-red-600'
+    )}>
       {passes ? <CheckCircle size={13} /> : <AlertCircle size={13} />}
       <span>{label}</span>
       <span className="opacity-60 text-[1.1rem]">{sub}</span>
@@ -224,7 +270,7 @@ function WcagBadge({ label, sub, passes }: { label: string; sub: string; passes:
   )
 }
 
-// ─── Suggestion row ───────────────────────────────────────────────────────────
+// ─── Suggestion card ──────────────────────────────────────────────────────────
 
 function SuggestionCard({
   title,
@@ -244,46 +290,40 @@ function SuggestionCard({
   if (items.length === 0) return null
   return (
     <div className="card overflow-hidden">
-      <div className="px-5 py-4 border-b border-fics-border bg-fics-bg">
-        <p className="text-[1.3rem] font-semibold text-fics-text">{title}</p>
-        <p className="text-[1.2rem] text-fics-text-muted">{subtitle}</p>
+      <div className="px-5 py-4 border-b border-ds-border bg-ds-bg">
+        <p className="text-[1.3rem] font-semibold text-ds-text">{title}</p>
+        <p className="text-[1.2rem] text-ds-text-muted">{subtitle}</p>
       </div>
-      <div className="divide-y divide-fics-border">
+      <div className="divide-y divide-ds-border">
         {items.map(({ token, ratio, passesAAA }) => {
           const bgRgb = lockedRole === 'bg' ? lockedToken.rgb : token.rgb
           const fgRgb = lockedRole === 'bg' ? token.rgb : lockedToken.rgb
           return (
             <div key={token.name} className="flex items-center gap-4 px-5 py-3">
-              {/* Mini preview */}
               <div
                 className="w-16 h-10 rounded-md shrink-0 flex items-center justify-center border border-black/10 text-[1.1rem] font-bold select-none"
                 style={{ backgroundColor: rgbToHex(...bgRgb), color: rgbToHex(...fgRgb) }}
               >
                 Aa
               </div>
-              {/* Token info */}
               <div className="flex-1 min-w-0">
-                <div className="font-mono text-[1.3rem] text-fics-text truncate">{token.name}</div>
-                <div className="font-mono text-[1.1rem] text-fics-text-muted">{token.value}</div>
+                <div className="font-mono text-[1.3rem] text-ds-text truncate">{token.name}</div>
+                <div className="font-mono text-[1.1rem] text-ds-text-muted">{token.value}</div>
               </div>
-              {/* Ratio + level */}
               <div className="flex items-center gap-2 shrink-0">
-                <span className="font-mono text-[1.3rem] font-semibold text-fics-text tabular-nums">
+                <span className="font-mono text-[1.3rem] font-semibold text-ds-text tabular-nums">
                   {ratio.toFixed(2)} : 1
                 </span>
-                <span
-                  className={cn(
-                    'px-2 py-0.5 rounded text-[1.1rem] font-semibold',
-                    passesAAA ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
-                  )}
-                >
+                <span className={cn(
+                  'px-2 py-0.5 rounded text-[1.1rem] font-semibold',
+                  passesAAA ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
+                )}>
                   {passesAAA ? 'AAA' : 'AA'}
                 </span>
               </div>
-              {/* Use button */}
               <button
                 onClick={() => onUse(token)}
-                className="shrink-0 px-3 py-1.5 text-[1.2rem] bg-fics-heading text-white rounded-lg hover:bg-fics-heading/90 transition-colors"
+                className="shrink-0 px-3 py-1.5 text-[1.2rem] bg-ds-heading text-white rounded-lg hover:bg-ds-heading/90 transition-colors"
               >
                 Use
               </button>
@@ -298,130 +338,98 @@ function SuggestionCard({
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function ColourAccessibilityChecker({ collections }: { collections: TokenCollection[] }) {
-  const allModes = useMemo(() => {
-    const seen = new Set<string>()
-    collections.forEach((c) => c.modes.forEach((m) => seen.add(m)))
-    return [...seen]
-  }, [collections])
-
-  const [activeMode, setActiveMode] = useState(allModes[0] ?? '')
   const [bgToken, setBgToken] = useState<ColorToken | null>(null)
   const [fgToken, setFgToken] = useState<ColorToken | null>(null)
 
-  // Flat list of resolvable colour tokens for the active mode
+  // Build flat list — one entry per token, all modes preserved, resolved to default mode
   const colorTokens = useMemo((): ColorToken[] => {
     const out: ColorToken[] = []
     for (const col of collections) {
       for (const token of col.tokens) {
         if (token.type !== 'color') continue
-        const value = token.values[activeMode] ?? Object.values(token.values)[0]
-        const rgb = parseColor(value)
+        const modes = col.modes.length > 0 ? col.modes : Object.keys(token.values)
+        const modeValues: Record<string, string> = {}
+        for (const mode of modes) {
+          modeValues[mode] = token.values[mode] ?? Object.values(token.values)[0]
+        }
+        const defaultMode = modes[0]
+        const defaultValue = modeValues[defaultMode]
+        const rgb = parseColor(defaultValue)
         if (!rgb) continue
-        out.push({ name: token.name, value, rgb })
+        out.push({ name: token.name, modes, modeValues, selectedMode: defaultMode, value: defaultValue, rgb })
       }
     }
     return out
-  }, [collections, activeMode])
+  }, [collections])
 
-  // Reset pickers when mode changes
-  useEffect(() => { setBgToken(null); setFgToken(null) }, [activeMode])
+  function handleBgMode(mode: string) { if (bgToken) setBgToken(resolveMode(bgToken, mode)) }
+  function handleFgMode(mode: string) { if (fgToken) setFgToken(resolveMode(fgToken, mode)) }
 
   // Contrast result
   const result = useMemo(() => {
     if (!bgToken || !fgToken) return null
-    // Blend text alpha against bg if needed
     const fgRgb = parseColor(fgToken.value, bgToken.rgb) ?? fgToken.rgb
     const ratio = contrastRatio(bgToken.rgb, fgRgb)
-    return {
-      ratio,
-      fgRgb,
-      aa: ratio >= 4.5,
-      aaLarge: ratio >= 3.0,
-      aaa: ratio >= 7.0,
-    }
+    return { ratio, fgRgb, aa: ratio >= 4.5, aaLarge: ratio >= 3.0, aaa: ratio >= 7.0 }
   }, [bgToken, fgToken])
 
-  // Suggestions — only when failing AA
+  // Suggestions — same family only, no fallback to unrelated tokens
   const suggestions = useMemo(() => {
     if (!bgToken || !fgToken || !result || result.aa) return null
 
-    function find(lockedRgb: [number, number, number], failingToken: ColorToken): Suggestion[] {
+    function find(lockedToken: ColorToken, failingToken: ColorToken): Suggestion[] {
       const family = getFamily(failingToken.name)
-      let pool = colorTokens.filter(
-        (t) => t.name !== failingToken.name && getFamily(t.name) === family
+      const pool = colorTokens.filter(
+        (t) => t.name !== failingToken.name && t.name !== lockedToken.name && getFamily(t.name) === family
       )
-      // Expand to all tokens if the same-family pool is too small
-      if (pool.length < 2) {
-        pool = colorTokens.filter((t) => t.name !== failingToken.name)
-      }
       return pool
         .map((token) => {
-          const ratio = contrastRatio(lockedRgb, token.rgb)
+          const ratio = contrastRatio(lockedToken.rgb, token.rgb)
           return { token, ratio, passesAA: ratio >= 4.5, passesAAA: ratio >= 7.0 }
         })
         .filter((s) => s.passesAA)
-        // Sort by closest to the minimum AA threshold first — least dramatic change
         .sort((a, b) => a.ratio - b.ratio)
         .slice(0, 4)
     }
 
     return {
-      keepBg: find(bgToken.rgb, fgToken),   // lock bg, swap text
-      keepFg: find(fgToken.rgb, bgToken),   // lock text, swap bg
+      keepBg: find(bgToken, fgToken),
+      keepFg: find(fgToken, bgToken),
     }
   }, [bgToken, fgToken, result, colorTokens])
 
   return (
     <div className="p-4 md:p-8 max-w-[80rem] mx-auto">
-      {/* Header */}
       <div className="mb-8">
-        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
-        <h1 className="text-heading-lg font-bold text-fics-text mb-2">Colour Accessibility</h1>
-        <p className="text-body text-fics-text-muted max-w-[60rem]">
-          Test colour combinations against WCAG 2.2 AA (4.5:1) and AAA (7:1) contrast standards. If a pair fails, the platform will suggest the closest passing alternatives from the same token family.
+        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Foundation</p>
+        <h1 className="text-heading-lg font-bold text-ds-text mb-2">Colour Accessibility</h1>
+        <p className="text-body text-ds-text-muted max-w-[60rem]">
+          Test colour token combinations against WCAG 2.2 AA (4.5:1) and AAA (7:1) contrast standards. If a pair fails, the platform suggests the closest passing alternatives from the same token family.
         </p>
       </div>
 
-      {/* Mode switcher */}
-      {allModes.length > 1 && (
-        <div className="flex items-center gap-1 mb-6 bg-fics-bg-dark rounded-lg p-1 w-fit">
-          {allModes.map((mode) => (
-            <button
-              key={mode}
-              onClick={() => setActiveMode(mode)}
-              className={cn(
-                'px-4 py-1.5 rounded-md text-[1.3rem] font-medium transition-all',
-                activeMode === mode
-                  ? 'bg-fics-card shadow-card text-fics-text'
-                  : 'text-fics-text-muted hover:text-fics-text'
-              )}
-            >
-              {mode}
-            </button>
-          ))}
-        </div>
-      )}
-
       {colorTokens.length === 0 ? (
-        <div className="card p-8 text-fics-text-muted text-[1.3rem]">
-          No colour tokens found. Upload a token file to use this tool.
+        <div className="card p-8 text-ds-text-muted text-[1.3rem]">
+          No semantic colour tokens found. Upload a token file to use this tool.
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Pickers */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <TokenPicker label="Background" tokens={colorTokens} selected={bgToken} onSelect={setBgToken} />
-            <TokenPicker label="Text colour" tokens={colorTokens} selected={fgToken} onSelect={setFgToken} />
+          {/* Pickers + per-token mode selectors */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <TokenPicker label="Background" tokens={colorTokens} selected={bgToken} onSelect={setBgToken} />
+              {bgToken && <ModeSelector token={bgToken} onChange={handleBgMode} />}
+            </div>
+            <div>
+              <TokenPicker label="Text colour" tokens={colorTokens} selected={fgToken} onSelect={setFgToken} />
+              {fgToken && <ModeSelector token={fgToken} onChange={handleFgMode} />}
+            </div>
           </div>
 
-          {/* Preview + contrast result */}
+          {/* Preview + result */}
           {result && bgToken && fgToken && (
             <div className="card overflow-hidden">
-              {/* Live preview */}
-              <div
-                className="p-8 md:p-12"
-                style={{ backgroundColor: rgbToHex(...bgToken.rgb) }}
-              >
+              <div className="p-8 md:p-12" style={{ backgroundColor: rgbToHex(...bgToken.rgb) }}>
                 <p
                   className="text-[2.4rem] font-bold mb-3 leading-tight"
                   style={{ color: rgbToHex(...result.fgRgb) }}
@@ -435,21 +443,19 @@ export function ColourAccessibilityChecker({ collections }: { collections: Token
                   The quick brown fox jumps over the lazy dog. Body text should meet AA standard for normal text at a minimum contrast of 4.5 : 1.
                 </p>
               </div>
-
-              {/* Result bar */}
-              <div className="p-5 border-t border-fics-border flex flex-wrap items-center gap-4">
+              <div className="p-5 border-t border-ds-border flex flex-wrap items-center gap-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-[3.2rem] font-bold text-fics-text tabular-nums leading-none">
+                  <span className="text-[3.2rem] font-bold text-ds-text tabular-nums leading-none">
                     {result.ratio.toFixed(2)}
                   </span>
-                  <span className="text-[1.6rem] text-fics-text-muted">: 1</span>
+                  <span className="text-[1.6rem] text-ds-text-muted">: 1</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <WcagBadge label="AA" sub="normal" passes={result.aa} />
                   <WcagBadge label="AA" sub="large" passes={result.aaLarge} />
                   <WcagBadge label="AAA" sub="normal" passes={result.aaa} />
                 </div>
-                <div className="ml-auto flex items-center gap-2 text-[1.2rem] text-fics-text-muted font-mono">
+                <div className="ml-auto flex items-center gap-2 text-[1.2rem] text-ds-text-muted font-mono">
                   <div className="w-4 h-4 rounded border border-black/10" style={{ backgroundColor: rgbToHex(...bgToken.rgb) }} />
                   {bgToken.value}
                   <span className="mx-1">on</span>
@@ -460,52 +466,50 @@ export function ColourAccessibilityChecker({ collections }: { collections: Token
             </div>
           )}
 
-          {/* Pass message */}
+          {/* Pass */}
           {result?.aa && (
             <div className="flex items-center gap-2 text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
               <CheckCircle size={16} />
               <p className="text-[1.3rem] font-medium">
                 This combination passes WCAG AA.
-                {result.aaa ? ' It also meets the stricter AAA standard.' : ' It does not meet the stricter AAA standard (7 : 1).'}
+                {result.aaa
+                  ? ' It also meets the stricter AAA standard.'
+                  : ' It does not meet the stricter AAA standard (7 : 1).'}
               </p>
             </div>
           )}
 
           {/* Fail + suggestions */}
-          {result && !result.aa && suggestions && (
+          {result && !result.aa && suggestions && bgToken && fgToken && (
             <div className="space-y-4">
               <div className="flex items-start gap-2 text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
                 <AlertCircle size={16} className="mt-0.5 shrink-0" />
                 <p className="text-[1.3rem] font-medium">
                   This combination fails WCAG AA ({result.ratio.toFixed(2)} : 1, minimum 4.5 : 1).
-                  Below are the closest passing alternatives from the same token families — click <strong>Use</strong> to apply one.
+                  Below are the closest passing alternatives from the same token family — click <strong>Use</strong> to apply one.
                 </p>
               </div>
 
-              {bgToken && fgToken && (
-                <>
-                  <SuggestionCard
-                    title={`Keep ${bgToken.name} as background`}
-                    subtitle={`Looking for alternative text colours in the "${getFamily(fgToken.name)}" family`}
-                    items={suggestions.keepBg}
-                    lockedToken={bgToken}
-                    lockedRole="bg"
-                    onUse={setFgToken}
-                  />
-                  <SuggestionCard
-                    title={`Keep ${fgToken.name} as text`}
-                    subtitle={`Looking for alternative backgrounds in the "${getFamily(bgToken.name)}" family`}
-                    items={suggestions.keepFg}
-                    lockedToken={fgToken}
-                    lockedRole="fg"
-                    onUse={setBgToken}
-                  />
-                </>
-              )}
+              <SuggestionCard
+                title={`Keep ${bgToken.name} as background`}
+                subtitle={`Alternative text colours from the "${getFamily(fgToken.name)}" family`}
+                items={suggestions.keepBg}
+                lockedToken={bgToken}
+                lockedRole="bg"
+                onUse={setFgToken}
+              />
+              <SuggestionCard
+                title={`Keep ${fgToken.name} as text`}
+                subtitle={`Alternative backgrounds from the "${getFamily(bgToken.name)}" family`}
+                items={suggestions.keepFg}
+                lockedToken={fgToken}
+                lockedRole="fg"
+                onUse={setBgToken}
+              />
 
               {suggestions.keepBg.length === 0 && suggestions.keepFg.length === 0 && (
-                <div className="card p-6 text-[1.3rem] text-fics-text-muted">
-                  No passing alternatives found in this token set. Consider reviewing your colour scale.
+                <div className="card p-6 text-[1.3rem] text-ds-text-muted">
+                  No passing alternatives found within the same token families. Consider reviewing your colour scale.
                 </div>
               )}
             </div>

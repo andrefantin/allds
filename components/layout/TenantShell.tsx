@@ -32,7 +32,7 @@ export function TenantShell({ figmaData, tenant, tenantName, logoUrl, skillUploa
   }, [])
 
   return (
-    <div className="fixed inset-0 flex overflow-hidden bg-fics-bg">
+    <div className="fixed inset-0 flex overflow-hidden bg-ds-bg">
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-40 lg:hidden"

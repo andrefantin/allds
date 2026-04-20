@@ -10,9 +10,9 @@ export default function HowToUsePage({ params }: Props) {
     <div className="p-4 md:p-8 max-w-[72rem] mx-auto">
       {/* Header */}
       <div className="mb-10">
-        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Getting Started</p>
-        <h1 className="text-heading-lg font-bold text-fics-text mb-3">How to use</h1>
-        <p className="text-body text-fics-text-muted max-w-[60rem]">
+        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Getting Started</p>
+        <h1 className="text-heading-lg font-bold text-ds-text mb-3">How to use</h1>
+        <p className="text-body text-ds-text-muted max-w-[60rem]">
           This documentation covers everything available in the design system — from visual foundations to ready-to-use components. Use this page as your starting point.
         </p>
       </div>
@@ -21,26 +21,26 @@ export default function HowToUsePage({ params }: Props) {
 
         {/* Structure */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">How the content is organised</h2>
-          <p className="text-body-sm text-fics-text-muted mb-4 max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">How the content is organised</h2>
+          <p className="text-body-sm text-ds-text-muted mb-4 max-w-[60rem]">
             The design system is divided into three areas, accessible from the sidebar navigation.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="card p-5">
-              <h3 className="text-[1.4rem] font-semibold text-fics-text mb-2">Foundation</h3>
-              <p className="text-body-sm text-fics-text-muted">
+              <h3 className="text-[1.4rem] font-semibold text-ds-text mb-2">Foundation</h3>
+              <p className="text-body-sm text-ds-text-muted">
                 The building blocks of the visual language — colour, typography, spacing, border, elevation, and design tokens. These inform every decision made at the component level.
               </p>
             </div>
             <div className="card p-5">
-              <h3 className="text-[1.4rem] font-semibold text-fics-text mb-2">Components</h3>
-              <p className="text-body-sm text-fics-text-muted">
+              <h3 className="text-[1.4rem] font-semibold text-ds-text mb-2">Components</h3>
+              <p className="text-body-sm text-ds-text-muted">
                 Individual UI elements such as buttons, inputs, and badges. Each component page includes usage guidance, variants, and properties.
               </p>
             </div>
             <div className="card p-5">
-              <h3 className="text-[1.4rem] font-semibold text-fics-text mb-2">Modules</h3>
-              <p className="text-body-sm text-fics-text-muted">
+              <h3 className="text-[1.4rem] font-semibold text-ds-text mb-2">Modules</h3>
+              <p className="text-body-sm text-ds-text-muted">
                 Larger, opinionated compositions built from components — things like navigation bars, hero sections, or cards. Modules address a specific layout or interaction pattern.
               </p>
             </div>
@@ -49,11 +49,11 @@ export default function HowToUsePage({ params }: Props) {
 
         {/* Foundation */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">Foundation</h2>
-          <p className="text-body-sm text-fics-text-muted mb-4 max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">Foundation</h2>
+          <p className="text-body-sm text-ds-text-muted mb-4 max-w-[60rem]">
             Start here before working with components. Understanding the foundation ensures your work stays consistent with the rest of the system.
           </p>
-          <div className="card divide-y divide-fics-border">
+          <div className="card divide-y divide-ds-border">
             {[
               {
                 title: 'Colour',
@@ -97,8 +97,8 @@ export default function HowToUsePage({ params }: Props) {
               },
             ].map(({ title, href, body }) => (
               <div key={title} className="px-5 py-4">
-                <a href={href} className="text-[1.4rem] font-semibold text-fics-heading hover:underline">{title}</a>
-                <p className="text-body-sm text-fics-text-muted mt-1 max-w-[56rem]">{body}</p>
+                <a href={href} className="text-[1.4rem] font-semibold text-ds-heading hover:underline">{title}</a>
+                <p className="text-body-sm text-ds-text-muted mt-1 max-w-[56rem]">{body}</p>
               </div>
             ))}
           </div>
@@ -106,11 +106,11 @@ export default function HowToUsePage({ params }: Props) {
 
         {/* Components and Modules */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">Reading a component or module page</h2>
-          <p className="text-body-sm text-fics-text-muted mb-4 max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">Reading a component or module page</h2>
+          <p className="text-body-sm text-ds-text-muted mb-4 max-w-[60rem]">
             Each component and module page follows a consistent structure.
           </p>
-          <div className="card divide-y divide-fics-border">
+          <div className="card divide-y divide-ds-border">
             {[
               {
                 label: 'Overview',
@@ -130,8 +130,8 @@ export default function HowToUsePage({ params }: Props) {
               },
             ].map(({ label, body }) => (
               <div key={label} className="px-5 py-4 flex gap-4">
-                <span className="text-body-sm font-semibold text-fics-text shrink-0 w-[16rem]">{label}</span>
-                <p className="text-body-sm text-fics-text-muted">{body}</p>
+                <span className="text-body-sm font-semibold text-ds-text shrink-0 w-[16rem]">{label}</span>
+                <p className="text-body-sm text-ds-text-muted">{body}</p>
               </div>
             ))}
           </div>
@@ -139,11 +139,11 @@ export default function HowToUsePage({ params }: Props) {
 
         {/* Status labels */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">Component status labels</h2>
-          <p className="text-body-sm text-fics-text-muted mb-4 max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">Component status labels</h2>
+          <p className="text-body-sm text-ds-text-muted mb-4 max-w-[60rem]">
             Status labels appear in the sidebar and on component pages. They communicate the current state of each element.
           </p>
-          <div className="card divide-y divide-fics-border">
+          <div className="card divide-y divide-ds-border">
             {[
               {
                 label: 'Live',
@@ -168,7 +168,7 @@ export default function HowToUsePage({ params }: Props) {
             ].map(({ label, color, body }) => (
               <div key={label} className="px-5 py-4 flex items-start gap-4">
                 <span className={`badge text-[1rem] px-2 py-0.5 rounded shrink-0 mt-0.5 ${color}`}>{label}</span>
-                <p className="text-body-sm text-fics-text-muted">{body}</p>
+                <p className="text-body-sm text-ds-text-muted">{body}</p>
               </div>
             ))}
           </div>
@@ -176,33 +176,33 @@ export default function HowToUsePage({ params }: Props) {
 
         {/* Finding things */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">Finding things</h2>
-          <p className="text-body-sm text-fics-text-muted mb-4 max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">Finding things</h2>
+          <p className="text-body-sm text-ds-text-muted mb-4 max-w-[60rem]">
             The sidebar search filters components, modules, and foundation items by name as you type. This is the fastest way to navigate when you know what you are looking for.
           </p>
-          <p className="text-body-sm text-fics-text-muted max-w-[60rem]">
+          <p className="text-body-sm text-ds-text-muted max-w-[60rem]">
             Components and modules are grouped by category. Archived items are collapsed by default and can be expanded from the sidebar if you need to reference legacy work.
           </p>
         </section>
 
         {/* For developers */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">For developers</h2>
-          <p className="text-body-sm text-fics-text-muted max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">For developers</h2>
+          <p className="text-body-sm text-ds-text-muted max-w-[60rem]">
             Design tokens are the primary contract between design and code. When implementing components, reference tokens by their semantic name rather than raw values. This ensures your implementation responds correctly to theming and any future token updates.
           </p>
-          <p className="text-body-sm text-fics-text-muted max-w-[60rem] mt-3">
+          <p className="text-body-sm text-ds-text-muted max-w-[60rem] mt-3">
             The token file is available under Foundation → Design Tokens and can be downloaded or accessed programmatically. Token names follow a structured naming convention — consult the token page for the full reference.
           </p>
         </section>
 
         {/* For designers */}
         <section>
-          <h2 className="text-heading-sm font-semibold text-fics-text mb-1">For designers</h2>
-          <p className="text-body-sm text-fics-text-muted max-w-[60rem]">
+          <h2 className="text-heading-sm font-semibold text-ds-text mb-1">For designers</h2>
+          <p className="text-body-sm text-ds-text-muted max-w-[60rem]">
             Component documentation here reflects the source of truth in Figma. If you notice a discrepancy between what is documented and what exists in the Figma library, raise it with the design system team.
           </p>
-          <p className="text-body-sm text-fics-text-muted max-w-[60rem] mt-3">
+          <p className="text-body-sm text-ds-text-muted max-w-[60rem] mt-3">
             Before introducing new colour pairings, use the Colour Accessibility checker to confirm the combination meets WCAG 2.2 AA. This is especially important for text on coloured backgrounds.
           </p>
         </section>

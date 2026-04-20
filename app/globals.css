@@ -30,7 +30,7 @@
   --color-bg-dark:    24  24  27;   /* #18181b  */
   --color-bg-darker:  39  39  42;   /* #27272a  */
   --color-text-muted: 161 161 170;  /* #a1a1aa  */
-  --color-heading:    212 212 216;  /* #d4d4d8 — light so text-fics-heading is readable */
+  --color-heading:    212 212 216;  /* #d4d4d8 — light so text-ds-heading is readable */
 
   --color-text:           #fafafa;
   --color-primary:        #f59e0b;
@@ -62,15 +62,15 @@ body {
 /* ─── Dark mode: targeted overrides ───────────────────────────────────────── */
 
 /*
- * fics-heading is LIGHT in dark mode (#d4d4d8) so text-fics-heading is
- * readable. But bg-fics-heading (buttons, avatars) needs to stay dark enough
+ * ds-heading is LIGHT in dark mode (#d4d4d8) so text-ds-heading is
+ * readable. But bg-ds-heading (buttons, avatars) needs to stay dark enough
  * for white text to remain legible — override it to zinc-700.
  */
-.dark .bg-fics-heading {
+.dark .bg-ds-heading {
   background-color: #3f3f46;
 }
-.dark .hover\:bg-fics-heading:hover,
-.dark .hover\:bg-fics-heading\/90:hover {
+.dark .hover\:bg-ds-heading:hover,
+.dark .hover\:bg-ds-heading\/90:hover {
   background-color: #52525b;
 }
 
@@ -128,17 +128,17 @@ body {
   .token-row:hover .copy-btn { opacity: 1; }
   .copy-btn { opacity: 0; transition: opacity 0.1s ease; }
 
-  /* Sidebar nav link — bg-fics-bg-dark and text-fics-text now follow CSS vars */
+  /* Sidebar nav link — bg-ds-bg-dark and text-ds-text now follow CSS vars */
   .sidebar-link {
-    @apply flex items-center gap-2 px-3 py-[0.55rem] rounded text-[1.25rem] text-fics-text-muted hover:text-fics-text hover:bg-fics-bg-dark transition-colors duration-100 cursor-pointer;
+    @apply flex items-center gap-2 px-3 py-[0.55rem] rounded text-[1.25rem] text-ds-text-muted hover:text-ds-text hover:bg-ds-bg-dark transition-colors duration-100 cursor-pointer;
   }
   .sidebar-link.active {
-    @apply bg-fics-bg-darker text-fics-text font-medium;
+    @apply bg-ds-bg-darker text-ds-text font-medium;
   }
 
-  /* Card — bg-fics-card follows the CSS variable */
+  /* Card — bg-ds-card follows the CSS variable */
   .card {
-    @apply bg-fics-card rounded-md border border-fics-border;
+    @apply bg-ds-card rounded-md border border-ds-border;
     box-shadow: none;
   }
 

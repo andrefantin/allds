@@ -8,9 +8,13 @@ export const metadata: Metadata = { title: 'Colour Accessibility' }
 
 export default async function ColourAccessibilityPage({ params }: { params: { tenant: string } }) {
   const tokens = await getTokens(params.tenant)
-  const colorCollections = tokens.collections.filter((c) =>
-    c.tokens.some((t) => t.type === 'color')
-  )
+  // Exclude primitive/internal collections — users should only work with semantic design tokens
+  const colorCollections = tokens.collections.filter((c) => {
+    const lname = c.name.toLowerCase()
+    if (c.name.startsWith('_')) return false
+    if (lname.includes('primitive')) return false
+    return c.tokens.some((t) => t.type === 'color')
+  })
 
   return <ColourAccessibilityChecker collections={colorCollections} />
 }

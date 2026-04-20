@@ -59,25 +59,25 @@ export default async function TypographyPage({ params }: Props) {
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
       <div className="mb-8">
-        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
-        <h1 className="text-heading-lg font-bold text-fics-text mb-2">Typography</h1>
-        <p className="text-body text-fics-text-muted max-w-[60rem]">Text styles from Figma and the tokens that define them.</p>
+        <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Foundation</p>
+        <h1 className="text-heading-lg font-bold text-ds-text mb-2">Typography</h1>
+        <p className="text-body text-ds-text-muted max-w-[60rem]">Text styles from Figma and the tokens that define them.</p>
       </div>
 
       {textStyles.length > 0 ? (
         <div className="space-y-10 mb-12">
           {Object.entries(grouped).map(([category, styles]) => (
             <div key={category}>
-              <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">{category}</h2>
+              <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted mb-4">{category}</h2>
               <div className="card overflow-hidden">
                 <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-fics-border bg-fics-bg">
-                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted w-[22rem]">Style</th>
-                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted w-[18rem]">Properties</th>
-                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted">Token</th>
-                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted">Preview</th>
+                    <tr className="border-b border-ds-border bg-ds-bg">
+                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted w-[22rem]">Style</th>
+                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted w-[18rem]">Properties</th>
+                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted">Token</th>
+                      <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted">Preview</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -85,33 +85,33 @@ export default async function TypographyPage({ params }: Props) {
                       const token = findTokenForSize(fontTokens, style.fontSize)
                       const displayName = style.name.includes('/') ? style.name.split('/').slice(1).join('/') : style.name
                       return (
-                        <tr key={style.id} className={`border-b border-fics-border ${i % 2 === 1 ? 'bg-fics-bg/30' : ''}`}>
+                        <tr key={style.id} className={`border-b border-ds-border ${i % 2 === 1 ? 'bg-ds-bg/30' : ''}`}>
                           <td className="px-6 py-4 align-middle">
-                            <div className="font-mono text-[1.3rem] text-fics-text font-medium">{displayName}</div>
-                            <div className="text-[1.1rem] text-fics-text-muted">{style.fontFamily}</div>
+                            <div className="font-mono text-[1.3rem] text-ds-text font-medium">{displayName}</div>
+                            <div className="text-[1.1rem] text-ds-text-muted">{style.fontFamily}</div>
                           </td>
                           <td className="px-6 py-4 align-middle">
                             <div className="space-y-0.5">
-                              <div className="font-mono text-[1.2rem] text-fics-text">{style.fontSize}px · {WEIGHT_NAMES[style.fontWeight] || style.fontWeight}</div>
+                              <div className="font-mono text-[1.2rem] text-ds-text">{style.fontSize}px · {WEIGHT_NAMES[style.fontWeight] || style.fontWeight}</div>
                               {(style.lineHeightPercent || style.lineHeightPx > 0) && (
-                                <div className="font-mono text-[1.1rem] text-fics-text-muted">
+                                <div className="font-mono text-[1.1rem] text-ds-text-muted">
                                   Line height {style.lineHeightPercent ? `${Math.round(style.lineHeightPercent)}%` : `${style.lineHeightPx}px`}
                                 </div>
                               )}
-                              {style.letterSpacingPx !== 0 && <div className="font-mono text-[1.1rem] text-fics-text-muted">Letter spacing {style.letterSpacingPx > 0 ? '+' : ''}{style.letterSpacingPx}px</div>}
+                              {style.letterSpacingPx !== 0 && <div className="font-mono text-[1.1rem] text-ds-text-muted">Letter spacing {style.letterSpacingPx > 0 ? '+' : ''}{style.letterSpacingPx}px</div>}
                             </div>
                           </td>
                           <td className="px-6 py-4 align-middle">
                             {token ? (
-                              <span className="font-mono text-[1.2rem] bg-fics-bg px-2 py-0.5 rounded text-fics-heading border border-fics-border">{token}</span>
+                              <span className="font-mono text-[1.2rem] bg-ds-bg px-2 py-0.5 rounded text-ds-heading border border-ds-border">{token}</span>
                             ) : (
-                              <span className="text-[1.2rem] text-fics-text-muted/50">—</span>
+                              <span className="text-[1.2rem] text-ds-text-muted/50">—</span>
                             )}
                           </td>
                           <td className="px-6 py-4 align-middle">
                             <div
                               style={{ fontFamily: style.fontFamily || 'inherit', fontSize: style.fontSize, fontWeight: style.fontWeight, lineHeight: style.lineHeightPx > 0 ? `${style.lineHeightPx}px` : 1.2, letterSpacing: style.letterSpacingPx !== 0 ? `${style.letterSpacingPx}px` : undefined, textTransform: style.textCase === 'UPPER' ? 'uppercase' : style.textCase === 'LOWER' ? 'lowercase' : undefined }}
-                              className="text-fics-text truncate max-w-[28rem]"
+                              className="text-ds-text truncate max-w-[28rem]"
                             >
                               The quick brown fox
                             </div>
@@ -127,12 +127,12 @@ export default async function TypographyPage({ params }: Props) {
           ))}
         </div>
       ) : (
-        <div className="card p-8 flex items-start gap-4 mb-10 bg-fics-bg/50">
+        <div className="card p-8 flex items-start gap-4 mb-10 bg-ds-bg/50">
           <div>
-            <p className="text-[1.3rem] font-medium text-fics-text">No text styles synced yet</p>
-            <p className="text-[1.2rem] text-fics-text-muted mt-0.5">
+            <p className="text-[1.3rem] font-medium text-ds-text">No text styles synced yet</p>
+            <p className="text-[1.2rem] text-ds-text-muted mt-0.5">
               Add your Foundation Figma File ID in{' '}
-              <Link href={`/${tenant}/settings`} className="text-fics-heading hover:underline">Settings</Link>
+              <Link href={`/${tenant}/settings`} className="text-ds-heading hover:underline">Settings</Link>
               {' '}and click <strong>Sync Foundation</strong>.
             </p>
           </div>
@@ -141,7 +141,7 @@ export default async function TypographyPage({ params }: Props) {
 
       {typographyCollections.map((collection) => (
         <div key={collection.name} className="mb-8">
-          <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-text-muted mb-4">
+          <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted mb-4">
             {collection.name.replace(/^[_✅\s]+/, '')}
           </h2>
           <TypographyTokenTable collection={collection} />

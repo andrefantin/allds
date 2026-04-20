@@ -53,26 +53,26 @@ export default async function ModuleDetailPage({ params }: Props) {
 
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
-      <nav className="flex items-center gap-2 text-[1.3rem] text-fics-text-muted mb-6">
-        <Link href={`/${tenant}/modules`} className="hover:text-fics-text transition-colors">Modules</Link>
+      <nav className="flex items-center gap-2 text-[1.3rem] text-ds-text-muted mb-6">
+        <Link href={`/${tenant}/modules`} className="hover:text-ds-text transition-colors">Modules</Link>
         <span>/</span>
-        <span className="text-fics-text font-medium">{module.name}</span>
+        <span className="text-ds-text font-medium">{module.name}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-heading-lg font-bold text-fics-text">{module.name}</h1>
+              <h1 className="text-heading-lg font-bold text-ds-text">{module.name}</h1>
             </div>
             <ComponentMeta component={module} />
           </div>
           <div className="card overflow-hidden">
-            <div className="px-6 py-3 border-b border-fics-border flex items-center justify-between">
-              <h2 className="text-[1.4rem] font-semibold text-fics-text">Preview</h2>
+            <div className="px-6 py-3 border-b border-ds-border flex items-center justify-between">
+              <h2 className="text-[1.4rem] font-semibold text-ds-text">Preview</h2>
               {module.figmaUrl && (
                 <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-[1.2rem] text-fics-heading hover:underline flex items-center gap-1">
+                  className="text-[1.2rem] text-ds-heading hover:underline flex items-center gap-1">
                   Open in Figma
                   <ExternalLink size={12} />
                 </a>
@@ -84,40 +84,40 @@ export default async function ModuleDetailPage({ params }: Props) {
           </div>
           {module.description && (
             <div className="card p-6">
-              <h2 className="text-heading-sm font-semibold text-fics-text mb-3">Usage</h2>
-              <p className="text-body text-fics-text-muted">{module.description}</p>
+              <h2 className="text-heading-sm font-semibold text-ds-text mb-3">Usage</h2>
+              <p className="text-body text-ds-text-muted">{module.description}</p>
             </div>
           )}
         </div>
 
         <div className="space-y-4">
           <div className="card p-5">
-            <h3 className="text-[1.3rem] font-semibold text-fics-text mb-3">Details</h3>
+            <h3 className="text-[1.3rem] font-semibold text-ds-text mb-3">Details</h3>
             <dl className="space-y-3">
               <div>
-                <dt className="text-[1.2rem] text-fics-text-muted">Group</dt>
-                <dd className="text-[1.3rem] font-medium text-fics-text">{module.group}</dd>
+                <dt className="text-[1.2rem] text-ds-text-muted">Group</dt>
+                <dd className="text-[1.3rem] font-medium text-ds-text">{module.group}</dd>
               </div>
               <div>
-                <dt className="text-[1.2rem] text-fics-text-muted">Status</dt>
+                <dt className="text-[1.2rem] text-ds-text-muted">Status</dt>
                 <dd><StatusBadge status={module.status} /></dd>
               </div>
             </dl>
           </div>
           <div className="card p-5">
-            <h3 className="text-[1.3rem] font-semibold text-fics-text mb-3">Uses components</h3>
+            <h3 className="text-[1.3rem] font-semibold text-ds-text mb-3">Uses components</h3>
             {usedComponents.length > 0 ? (
               <div className="space-y-1">
                 {usedComponents.map((comp) => (
                   <Link key={comp.slug} href={`/${tenant}/components/${comp.slug}`}
-                    className="flex items-center gap-2 text-[1.3rem] text-fics-text-muted hover:text-fics-heading transition-colors py-0.5">
-                    <span className="text-fics-heading/40">→</span>
+                    className="flex items-center gap-2 text-[1.3rem] text-ds-text-muted hover:text-ds-heading transition-colors py-0.5">
+                    <span className="text-ds-heading/40">→</span>
                     {comp.name}
                   </Link>
                 ))}
               </div>
             ) : (
-              <p className="text-[1.2rem] text-fics-text-muted/60 italic">
+              <p className="text-[1.2rem] text-ds-text-muted/60 italic">
                 {needsSync
                   ? 'Sync from Figma to detect components used in this module'
                   : fileId ? 'No components detected' : 'Configure a Figma modules file in Settings'}

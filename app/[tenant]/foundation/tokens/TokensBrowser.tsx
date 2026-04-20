@@ -81,7 +81,7 @@ export function TokensBrowser() {
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[40vh]">
-        <div className="text-fics-text-muted text-body">Loading tokens…</div>
+        <div className="text-ds-text-muted text-body">Loading tokens…</div>
       </div>
     )
   }
@@ -93,10 +93,10 @@ export function TokensBrowser() {
       <div className="p-4 md:p-8 max-w-[100rem] mx-auto">
         <div className="mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
-            <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-fics-heading mb-1">Foundation</p>
-            <h1 className="text-heading-lg font-bold text-fics-text mb-2">Design Tokens</h1>
+            <p className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-heading mb-1">Foundation</p>
+            <h1 className="text-heading-lg font-bold text-ds-text mb-2">Design Tokens</h1>
             {tokens && !noTokens && (
-              <div className="flex items-center gap-3 text-body-sm text-fics-text-muted">
+              <div className="flex items-center gap-3 text-body-sm text-ds-text-muted">
                 <span>v{tokens.metadata.version}</span>
                 <span>•</span>
                 <span>Updated {formatDate(tokens.metadata.lastUpdated)}</span>
@@ -108,7 +108,7 @@ export function TokensBrowser() {
           {isEditor && (
             <button
               onClick={() => setUploaderOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-fics-heading text-white font-semibold hover:bg-fics-heading/90 transition-colors shrink-0 text-[1.3rem]"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-ds-heading text-white font-semibold hover:bg-ds-heading/90 transition-colors shrink-0 text-[1.3rem]"
             >
               <Upload size={16} />
               Update Tokens
@@ -117,12 +117,12 @@ export function TokensBrowser() {
         </div>
 
         {noTokens ? (
-          <div className="card p-8 flex items-start gap-4 bg-fics-bg/50">
+          <div className="card p-8 flex items-start gap-4 bg-ds-bg/50">
             <div>
-              <p className="text-[1.3rem] font-medium text-fics-text">
+              <p className="text-[1.3rem] font-medium text-ds-text">
                 {loadError ? 'Could not load token data' : 'No tokens uploaded yet'}
               </p>
-              <p className="text-[1.2rem] text-fics-text-muted mt-0.5">
+              <p className="text-[1.2rem] text-ds-text-muted mt-0.5">
                 {isEditor
                   ? 'Upload a JSON file exported from Figma Variables using the button above.'
                   : 'Token data has not been uploaded for this design system yet.'}
@@ -133,20 +133,20 @@ export function TokensBrowser() {
           <>
             <div className="mb-6 flex flex-col gap-3">
               <div className="relative">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-fics-text-muted" />
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ds-text-muted" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search tokens by name, category, or type…"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-fics-border bg-white text-fics-text placeholder:text-fics-text-muted focus:outline-none focus:border-fics-heading/40 focus:ring-2 focus:ring-fics-heading/10 transition-all text-[1.3rem]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-ds-border bg-white text-ds-text placeholder:text-ds-text-muted focus:outline-none focus:border-ds-heading/40 focus:ring-2 focus:ring-ds-heading/10 transition-all text-[1.3rem]"
                 />
               </div>
               <div className="overflow-x-auto scrollbar-hide">
                 <div className="flex items-center gap-2 w-max">
                   <button
                     onClick={() => setActiveCollection(null)}
-                    className={`px-4 py-2 rounded-lg text-[1.3rem] font-medium transition-colors whitespace-nowrap ${!activeCollection ? 'bg-fics-heading text-white' : 'bg-fics-bg-dark text-fics-text-muted hover:text-fics-text'}`}
+                    className={`px-4 py-2 rounded-lg text-[1.3rem] font-medium transition-colors whitespace-nowrap ${!activeCollection ? 'bg-ds-heading text-white' : 'bg-ds-bg-dark text-ds-text-muted hover:text-ds-text'}`}
                   >
                     All
                   </button>
@@ -154,7 +154,7 @@ export function TokensBrowser() {
                     <button
                       key={col.name}
                       onClick={() => setActiveCollection(activeCollection === col.name ? null : col.name)}
-                      className={`px-4 py-2 rounded-lg text-[1.3rem] font-medium transition-colors whitespace-nowrap ${activeCollection === col.name ? 'bg-fics-heading text-white' : 'bg-fics-bg-dark text-fics-text-muted hover:text-fics-text'}`}
+                      className={`px-4 py-2 rounded-lg text-[1.3rem] font-medium transition-colors whitespace-nowrap ${activeCollection === col.name ? 'bg-ds-heading text-white' : 'bg-ds-bg-dark text-ds-text-muted hover:text-ds-text'}`}
                     >
                       {col.name.replace(/^[_✅\s]+/, '')}
                     </button>
@@ -164,7 +164,7 @@ export function TokensBrowser() {
             </div>
 
             {searchQuery && (
-              <p className="text-body-sm text-fics-text-muted mb-4">
+              <p className="text-body-sm text-ds-text-muted mb-4">
                 {totalFiltered} token{totalFiltered !== 1 ? 's' : ''} matching &quot;{searchQuery}&quot;
               </p>
             )}
@@ -172,11 +172,11 @@ export function TokensBrowser() {
             <div className="space-y-8">
               {filteredCollections.map((collection) => (
                 <div key={collection.name} className="card">
-                  <div className="px-6 py-4 border-b border-fics-border flex items-center gap-3">
-                    <h2 className="text-heading-sm font-semibold text-fics-text flex-1">{collection.name.replace(/^[_✅\s]+/, '')}</h2>
-                    <span className="text-body-sm text-fics-text-muted">{collection.tokens.length} tokens</span>
+                  <div className="px-6 py-4 border-b border-ds-border flex items-center gap-3">
+                    <h2 className="text-heading-sm font-semibold text-ds-text flex-1">{collection.name.replace(/^[_✅\s]+/, '')}</h2>
+                    <span className="text-body-sm text-ds-text-muted">{collection.tokens.length} tokens</span>
                     {collection.modes.length > 1 && (
-                      <span className="badge bg-fics-bg text-fics-text-muted border border-fics-border">
+                      <span className="badge bg-ds-bg text-ds-text-muted border border-ds-border">
                         {collection.modes.join(' · ')}
                       </span>
                     )}
@@ -187,7 +187,7 @@ export function TokensBrowser() {
                 </div>
               ))}
               {filteredCollections.length === 0 && (
-                <div className="card p-12 text-center text-fics-text-muted">
+                <div className="card p-12 text-center text-ds-text-muted">
                   No collections match your current filters.
                 </div>
               )}
