@@ -235,9 +235,9 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
           <button
             onClick={onOpenSearch}
             className="absolute right-2 top-1/2 -translate-y-1/2 font-mono text-[1rem] bg-ds-bg-dark text-ds-text-muted hover:text-ds-text px-1.5 py-0.5 rounded transition-colors"
-            title="Global search (⌘K)"
+            title="Global search (/)"
           >
-            ⌘K
+            /
           </button>
         </div>
       </div>

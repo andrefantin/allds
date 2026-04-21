@@ -19,13 +19,14 @@ export function TenantShell({ figmaData, tenant, tenantName, logoUrl, skillUploa
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
 
-  // Global ⌘K / Ctrl+K shortcut
+  // Global / shortcut (skip when focus is inside an input/textarea/select)
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        setSearchOpen(true)
-      }
+      if (e.key !== '/') return
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target as HTMLElement).isContentEditable) return
+      e.preventDefault()
+      setSearchOpen(true)
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)

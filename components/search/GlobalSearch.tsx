@@ -243,6 +243,7 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
           <span><kbd className="font-mono bg-ds-bg px-1 rounded">↑↓</kbd> navigate</span>
           <span><kbd className="font-mono bg-ds-bg px-1 rounded">↵</kbd> open</span>
           <span><kbd className="font-mono bg-ds-bg px-1 rounded">esc</kbd> close</span>
+          <span className="ml-auto"><kbd className="font-mono bg-ds-bg px-1 rounded">/</kbd> to open</span>
         </div>
       </div>
     </div>
