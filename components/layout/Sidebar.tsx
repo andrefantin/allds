@@ -58,6 +58,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
         { label: 'Introduction', href: `${base}` },
         { label: 'How to use', href: `${base}/how-to-use` },
         { label: 'Libraries', href: `${base}/libraries` },
+        { label: 'Playground', href: `${base}/playground` },
       ],
     },
     {
