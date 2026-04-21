@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ExternalLink } from 'react-feather'
+import { ExternalLink, Sliders } from 'react-feather'
 import { ComponentPreview } from '@/components/figma/ComponentPreview'
 import { ComponentMeta } from '@/components/figma/ComponentMeta'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -29,12 +29,20 @@ export default async function ComponentDetailPage({ params }: Props) {
           <span>/</span>
           <span className="text-ds-text font-medium">{component.name}</span>
         </nav>
-        {component.figmaUrl && (
-          <a href={component.figmaUrl} target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline shrink-0">
-            Open in Figma <ExternalLink size={12} />
-          </a>
-        )}
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            href={`/${tenant}/playground?slug=${component.slug}&type=components`}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[1.2rem] bg-ds-heading text-white rounded-lg hover:bg-ds-heading/90 transition-colors"
+          >
+            <Sliders size={12} /> Explore behaviour
+          </Link>
+          {component.figmaUrl && (
+            <a href={component.figmaUrl} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline">
+              Open in Figma <ExternalLink size={12} />
+            </a>
+          )}
+        </div>
       </div>
 
       {/* Title row */}

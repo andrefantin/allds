@@ -11,11 +11,13 @@ export async function GET(req: Request, { params }: { params: { tenant: string }
 
   const { searchParams } = new URL(req.url)
   const componentId = searchParams.get('componentId')
+  const type = searchParams.get('type') === 'modules' ? 'modules' : 'components'
   if (!componentId) return NextResponse.json({ error: 'componentId required' }, { status: 400 })
 
   const settings = await getSettings(params.tenant)
   const token = settings.figmaToken
-  const fileId = settings.figmaFileComponents
+  const fileId = type === 'modules' ? settings.figmaFileModules : settings.figmaFileComponents
+
   if (!token || !fileId) {
     return NextResponse.json({ error: 'Figma not configured' }, { status: 400 })
   }
@@ -36,7 +38,7 @@ export async function GET(req: Request, { params }: { params: { tenant: string }
 
   const doc = nodeEntry.document as Record<string, unknown>
 
-  // Parse componentPropertyDefinitions → property list with options
+  // componentPropertyDefinitions → property list with options
   type PropDef = { type: string; variantOptions?: string[]; defaultValue?: string }
   const propDefs = (doc.componentPropertyDefinitions || {}) as Record<string, PropDef>
 
@@ -47,7 +49,7 @@ export async function GET(req: Request, { params }: { params: { tenant: string }
     defaultValue: def.defaultValue,
   }))
 
-  // Parse child COMPONENT nodes → variants with their property combos
+  // Child COMPONENT nodes → variants with their property combos + node IDs
   interface Variant { nodeId: string; props: Record<string, string> }
   const variants: Variant[] = []
 
@@ -55,7 +57,6 @@ export async function GET(req: Request, { params }: { params: { tenant: string }
   for (const child of children) {
     if (child.type !== 'COMPONENT') continue
     const name = (child.name as string) || ''
-    // Name looks like: "Size=Large, State=Default, Type=Primary"
     const props: Record<string, string> = {}
     name.split(',').forEach((pair) => {
       const [k, v] = pair.trim().split('=')
