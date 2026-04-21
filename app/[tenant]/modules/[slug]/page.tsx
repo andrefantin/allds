@@ -53,28 +53,12 @@ export default async function ModuleDetailPage({ params }: Props) {
 
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
-      {/* Breadcrumb + quick actions */}
-      <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
-        <nav className="flex items-center gap-2 text-[1.3rem] text-ds-text-muted">
-          <Link href={`/${tenant}/modules`} className="hover:text-ds-text transition-colors">Modules</Link>
-          <span>/</span>
-          <span className="text-ds-text font-medium">{module.name}</span>
-        </nav>
-        <div className="flex items-center gap-3 shrink-0">
-          <Link
-            href={`/${tenant}/playground?slug=${module.slug}&type=modules`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[1.2rem] bg-ds-heading text-white rounded-lg hover:bg-ds-heading/90 transition-colors"
-          >
-            <Sliders size={12} /> Explore behaviour
-          </Link>
-          {module.figmaUrl && (
-            <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline">
-              Open in Figma <ExternalLink size={12} />
-            </a>
-          )}
-        </div>
-      </div>
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-[1.3rem] text-ds-text-muted mb-6">
+        <Link href={`/${tenant}/modules`} className="hover:text-ds-text transition-colors">Modules</Link>
+        <span>/</span>
+        <span className="text-ds-text font-medium">{module.name}</span>
+      </nav>
 
       {/* Title row */}
       <div className="flex items-start gap-3 mb-1">
@@ -87,8 +71,22 @@ export default async function ModuleDetailPage({ params }: Props) {
         <div className="lg:col-span-2 space-y-6">
           <ComponentMeta component={module} />
           <div className="card overflow-hidden">
-            <div className="px-6 py-3 border-b border-ds-border">
+            <div className="px-6 py-3 border-b border-ds-border flex items-center justify-between">
               <h2 className="text-[1.4rem] font-semibold text-ds-text">Preview</h2>
+              <div className="flex items-center gap-4">
+                <Link
+                  href={`/${tenant}/playground?slug=${module.slug}&type=modules`}
+                  className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline"
+                >
+                  <Sliders size={16} /> Explore behaviour
+                </Link>
+                {module.figmaUrl && (
+                  <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline">
+                    View in Figma <ExternalLink size={12} />
+                  </a>
+                )}
+              </div>
             </div>
             <div className="p-6">
               <ComponentPreview figmaFileId={fileId} nodeId={module.id} thumbnailUrl={module.thumbnailUrl} name={module.name} />

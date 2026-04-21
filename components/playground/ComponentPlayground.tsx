@@ -23,6 +23,7 @@ interface PlaygroundData {
   fileId: string
   properties: Property[]
   variants: Variant[]
+  isSingleComponent: boolean
 }
 
 type ItemType = 'components' | 'modules'
@@ -31,6 +32,22 @@ interface Props {
   components: FigmaComponent[]
   modules: FigmaComponent[]
   tenant: string
+}
+
+// Reliable flexbox toggle — no absolute positioning, no transform glitches
+function Toggle({ on, onChange }: { on: boolean; onChange: (val: boolean) => void }) {
+  return (
+    <button
+      role="switch"
+      aria-checked={on}
+      onClick={() => onChange(!on)}
+      className={`w-10 h-[22px] rounded-full flex items-center px-[3px] shrink-0 transition-colors ${
+        on ? 'bg-ds-heading justify-end' : 'bg-zinc-300 dark:bg-zinc-600 justify-start'
+      }`}
+    >
+      <span className="w-4 h-4 rounded-full bg-white shadow-sm block shrink-0" />
+    </button>
+  )
 }
 
 export function ComponentPlayground({ components, modules, tenant }: Props) {
@@ -87,7 +104,7 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
             if (prop.type === 'VARIANT') {
               defaults[prop.name] = prop.defaultValue || prop.values[0] || ''
             } else if (prop.type === 'BOOLEAN') {
-              defaults[prop.name] = prop.defaultValue || 'false'
+              defaults[prop.name] = prop.defaultValue === 'true' ? 'true' : 'false'
             }
           }
           setSelectedProps(defaults)
@@ -97,9 +114,11 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
       .finally(() => setLoadingVariants(false))
   }, [selected, activeType, tenant])
 
-  // Find matching variant node ID for current prop selection
+  // Find the variant node ID matching current VARIANT prop selection
   const activeVariant = useMemo(() => {
-    if (!playgroundData?.variants.length) return null
+    if (!playgroundData) return null
+    if (playgroundData.isSingleComponent) return null
+    if (!playgroundData.variants.length) return null
     const variantProps = playgroundData.properties.filter((p) => p.type === 'VARIANT')
     if (variantProps.length === 0) return playgroundData.variants[0] || null
     return (
@@ -109,8 +128,8 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
     )
   }, [playgroundData, selectedProps])
 
-  // Fetch PNG for active variant from Figma Images API
-  const fetchVariantImage = useCallback(async (nodeId: string, fileId: string) => {
+  // Fetch PNG from Figma Images API for a specific node
+  const fetchImage = useCallback(async (nodeId: string, fileId: string) => {
     const cacheKey = `${fileId}:${nodeId}`
     if (imageCache.current.has(cacheKey)) {
       setPreviewImageUrl(imageCache.current.get(cacheKey)!)
@@ -126,15 +145,19 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
         imageCache.current.set(cacheKey, imageUrl)
         setPreviewImageUrl(imageUrl)
       }
-    } catch { /* keep current image */ }
+    } catch { /* keep current */ }
     finally { setLoadingImage(false) }
   }, [tenant])
 
+  // Fetch image when: a new variant is selected (component sets), or a single component loads
   useEffect(() => {
-    if (activeVariant && playgroundData) {
-      fetchVariantImage(activeVariant.nodeId, playgroundData.fileId)
+    if (!playgroundData) return
+    if (activeVariant) {
+      fetchImage(activeVariant.nodeId, playgroundData.fileId)
+    } else if (playgroundData.isSingleComponent && selected) {
+      fetchImage(selected.id, playgroundData.fileId)
     }
-  }, [activeVariant, playgroundData, fetchVariantImage])
+  }, [activeVariant, playgroundData, selected, fetchImage])
 
   function selectItem(item: FigmaComponent) {
     setSelected(item)
@@ -147,6 +170,7 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
     setPlaygroundData(null)
     setPreviewImageUrl(null)
     setSearch('')
+    router.replace(`/${tenant}/playground?type=${type}`, { scroll: false })
   }
 
   const variantProperties = playgroundData?.properties.filter((p) => p.type === 'VARIANT') ?? []
@@ -164,9 +188,8 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
 
       {/* ── Left: item selector ── */}
       <div className="w-[24rem] shrink-0 border-r border-ds-border flex flex-col overflow-hidden bg-ds-sidebar">
-
         {/* Type tabs */}
-        <div className="flex border-b border-ds-border">
+        <div className="flex border-b border-ds-border shrink-0">
           {(['components', 'modules'] as ItemType[]).map((t) => (
             <button
               key={t}
@@ -183,7 +206,7 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
         </div>
 
         {/* Search */}
-        <div className="p-3 border-b border-ds-border">
+        <div className="p-3 border-b border-ds-border shrink-0">
           <div className="relative">
             <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ds-text-muted" />
             <input
@@ -207,7 +230,7 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
                   key={item.slug}
                   onClick={() => selectItem(item)}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                    selected?.slug === item.slug && activeType === (searchParams.get('type') || 'components')
+                    selected?.slug === item.slug
                       ? 'bg-ds-heading/10 text-ds-text'
                       : 'hover:bg-ds-bg-dark text-ds-text-muted hover:text-ds-text'
                   }`}
@@ -232,7 +255,7 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
         </div>
       </div>
 
-      {/* ── Center: preview ── */}
+      {/* ── Center: preview canvas ── */}
       <div className="flex-1 flex flex-col overflow-hidden bg-[#f5f5f5] dark:bg-zinc-800">
         {!selected ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-3 text-ds-text-muted">
@@ -244,7 +267,7 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
           </div>
         ) : (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {/* Preview header */}
+            {/* Canvas header */}
             <div className="px-5 py-3 flex items-center justify-between gap-4 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-sm border-b border-ds-border shrink-0">
               <div className="flex items-center gap-2.5">
                 <span className="text-[1.4rem] font-semibold text-ds-text">{selected.name}</span>
@@ -259,37 +282,26 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
               )}
             </div>
 
-            {/* Preview canvas */}
+            {/* Image preview */}
             <div className="flex-1 flex items-center justify-center p-10 overflow-hidden relative">
               {loadingImage && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#f5f5f5]/70 dark:bg-zinc-800/70 z-10">
+                <div className="absolute inset-0 flex items-center justify-center bg-[#f5f5f5]/80 dark:bg-zinc-800/80 z-10">
                   <div className="w-8 h-8 border-2 border-ds-heading/30 border-t-ds-heading rounded-full animate-spin" />
                 </div>
               )}
               {previewImageUrl ? (
-                <div className="max-w-full max-h-full overflow-hidden flex items-center justify-center">
-                  <img
-                    src={previewImageUrl}
-                    alt={selected.name}
-                    className="max-w-full max-h-full object-contain drop-shadow-xl"
-                    style={{ maxHeight: 'calc(100vh - 20rem)' }}
-                  />
-                </div>
-              ) : loadingVariants ? (
+                <img
+                  src={previewImageUrl}
+                  alt={selected.name}
+                  className="max-w-full max-h-full object-contain drop-shadow-xl"
+                  style={{ maxHeight: 'calc(100vh - 18rem)' }}
+                />
+              ) : loadingVariants || loadingImage ? (
                 <div className="w-8 h-8 border-2 border-ds-heading/30 border-t-ds-heading rounded-full animate-spin" />
               ) : (
                 <p className="text-[1.3rem] text-ds-text-muted/50">No preview available</p>
               )}
             </div>
-
-            {/* Active variant label */}
-            {activeVariant && Object.keys(activeVariant.props).length > 0 && (
-              <div className="px-5 py-2 border-t border-ds-border/50 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-sm shrink-0">
-                <p className="text-[1.1rem] text-ds-text-muted text-center">
-                  {Object.entries(activeVariant.props).map(([k, v]) => `${k}: ${v}`).join(' · ')}
-                </p>
-              </div>
-            )}
           </div>
         )}
       </div>
@@ -302,22 +314,23 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
           </div>
 
           <div className="flex-1 overflow-y-auto p-5 space-y-6">
+            {/* Loading skeletons */}
             {loadingVariants && (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="space-y-2">
-                    <div className="h-3 w-20 bg-ds-bg-dark rounded animate-pulse" />
+                  <div key={i} className="space-y-2.5">
+                    <div className="h-3 w-24 bg-ds-bg-dark rounded animate-pulse" />
                     <div className="h-9 w-full bg-ds-bg-dark rounded-lg animate-pulse" />
                   </div>
                 ))}
               </div>
             )}
 
+            {/* VARIANT properties */}
             {!loadingVariants && variantProperties.map((prop) => (
               <div key={prop.name}>
                 <label className="block text-[1.2rem] font-medium text-ds-text mb-2">{prop.name}</label>
                 {prop.values.length <= 5 ? (
-                  /* Pill buttons for small option sets */
                   <div className="flex flex-wrap gap-1.5">
                     {prop.values.map((val) => (
                       <button
@@ -334,7 +347,6 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
                     ))}
                   </div>
                 ) : (
-                  /* Dropdown for large option sets */
                   <div className="relative">
                     <select
                       value={selectedProps[prop.name] || ''}
@@ -351,27 +363,30 @@ export function ComponentPlayground({ components, modules, tenant }: Props) {
               </div>
             ))}
 
-            {!loadingVariants && booleanProperties.map((prop) => (
-              <div key={prop.name} className="flex items-center justify-between">
-                <span className="text-[1.3rem] text-ds-text">{prop.name}</span>
-                <button
-                  onClick={() =>
-                    setSelectedProps((prev) => ({
-                      ...prev,
-                      [prop.name]: prev[prop.name] === 'true' ? 'false' : 'true',
-                    }))
-                  }
-                  className={`w-11 h-6 rounded-full transition-colors relative shrink-0 ${
-                    selectedProps[prop.name] === 'true' ? 'bg-ds-heading' : 'bg-ds-bg-dark border border-ds-border'
-                  }`}
-                >
-                  <span className={`absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white shadow transition-transform ${
-                    selectedProps[prop.name] === 'true' ? 'translate-x-[22px]' : 'translate-x-[3px]'
-                  }`} />
-                </button>
+            {/* BOOLEAN properties */}
+            {!loadingVariants && booleanProperties.length > 0 && (
+              <div className="space-y-4">
+                {variantProperties.length > 0 && (
+                  <div className="border-t border-ds-border pt-4" />
+                )}
+                {booleanProperties.map((prop) => (
+                  <div key={prop.name} className="flex items-center justify-between gap-3">
+                    <span className="text-[1.3rem] text-ds-text">{prop.name}</span>
+                    <Toggle
+                      on={selectedProps[prop.name] === 'true'}
+                      onChange={(val) => setSelectedProps((prev) => ({ ...prev, [prop.name]: val ? 'true' : 'false' }))}
+                    />
+                  </div>
+                ))}
+                {playgroundData?.isSingleComponent && (
+                  <p className="text-[1.1rem] text-ds-text-muted/60 pt-1">
+                    These properties control layer visibility in Figma. The preview shows the default state.
+                  </p>
+                )}
               </div>
-            ))}
+            )}
 
+            {/* No properties at all */}
             {!loadingVariants && !hasControls && playgroundData && (
               <p className="text-[1.2rem] text-ds-text-muted/60 italic">
                 This component has no configurable properties.
