@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ExternalLink, Sliders } from 'react-feather'
 import { ComponentPreview } from '@/components/figma/ComponentPreview'
 import { ComponentMeta } from '@/components/figma/ComponentMeta'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -69,24 +68,10 @@ export default async function ModuleDetailPage({ params }: Props) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <ComponentMeta component={module} />
+          <ComponentMeta component={module} explorePath={`/${tenant}/playground?slug=${module.slug}&type=modules`} />
           <div className="card overflow-hidden">
-            <div className="px-6 py-3 border-b border-ds-border flex items-center justify-between">
+            <div className="px-6 py-3 border-b border-ds-border">
               <h2 className="text-[1.4rem] font-semibold text-ds-text">Preview</h2>
-              <div className="flex items-center gap-4">
-                <Link
-                  href={`/${tenant}/playground?slug=${module.slug}&type=modules`}
-                  className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline"
-                >
-                  <Sliders size={16} /> Explore behaviour
-                </Link>
-                {module.figmaUrl && (
-                  <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline">
-                    View in Figma <ExternalLink size={12} />
-                  </a>
-                )}
-              </div>
             </div>
             <div className="p-6">
               <ComponentPreview figmaFileId={fileId} nodeId={module.id} thumbnailUrl={module.thumbnailUrl} name={module.name} />
