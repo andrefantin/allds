@@ -1,5 +1,5 @@
 import { getFigmaData } from '@/lib/figma-data.server'
-import { StatusBadge } from '@/components/ui/StatusBadge'
+import { ComponentGrid } from '@/components/ui/ComponentGrid'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -18,22 +18,16 @@ export default async function ComponentsPage({ params }: Props) {
         <p className="text-body text-ds-text-muted">{figmaData.components.length} components</p>
       </div>
       {figmaData.components.length === 0 ? (
-        <div className="card p-8 text-ds-text-muted text-[1.3rem]">
-          No components synced yet. Go to <Link href={`/${tenant}/settings`} className="text-ds-heading hover:underline">Settings</Link> to sync from Figma.
+        <div className="card p-8">
+          <p className="text-[1.4rem] font-medium text-ds-text mb-4">No components synced yet</p>
+          <ol className="space-y-2 text-[1.3rem] text-ds-text-muted list-none">
+            <li><span className="font-mono text-ds-heading mr-2">1.</span>Add your Components Figma file ID in <Link href={`/${tenant}/settings`} className="text-ds-heading hover:underline">Settings</Link></li>
+            <li><span className="font-mono text-ds-heading mr-2">2.</span>Click <strong className="text-ds-text">Sync from Figma</strong></li>
+            <li><span className="font-mono text-ds-heading mr-2">3.</span>Come back here — your components will appear</li>
+          </ol>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {figmaData.components.map((comp) => (
-            <Link key={comp.slug} href={`/${tenant}/components/${comp.slug}`}
-              className="card p-4 hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between gap-2 mb-1">
-                <div className="font-semibold text-ds-text text-[1.3rem]">{comp.name}</div>
-                <StatusBadge status={comp.status} />
-              </div>
-              <div className="text-[1.2rem] text-ds-text-muted">{comp.group}</div>
-            </Link>
-          ))}
-        </div>
+        <ComponentGrid items={figmaData.components} tenant={tenant} type="components" columns={4} />
       )}
     </div>
   )

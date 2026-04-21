@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { Search, X, Layers, Box, Circle, Grid } from 'react-feather'
 import type { FigmaComponentsData, TokenFile } from '@/types'
 
@@ -11,6 +12,7 @@ interface SearchResult {
   label: string
   sublabel?: string
   href: string
+  thumbnailUrl?: string
 }
 
 const FOUNDATION_PAGES = [
@@ -80,6 +82,8 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
     const q = query.trim().toLowerCase()
     if (!q) return []
 
+    const thumbMap = new Map(figmaData.components.map((c) => [c.slug, c.thumbnailUrl]))
+
     const foundation: SearchResult[] = FOUNDATION_PAGES
       .filter(p => p.label.toLowerCase().includes(q))
       .map(p => ({
@@ -99,6 +103,7 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
         label: i.name,
         sublabel: i.group,
         href: `${base}/components/${i.slug}`,
+        thumbnailUrl: thumbMap.get(i.slug),
       }))
 
     const modules: SearchResult[] = [
@@ -218,7 +223,18 @@ export function GlobalSearch({ tenant, figmaData, open, onClose }: Props) {
                     i === activeIndex ? 'bg-ds-bg-dark' : ''
                   }`}
                 >
-                  <span className="text-ds-text-muted shrink-0">{typeIcon(result.type)}</span>
+                  {result.thumbnailUrl ? (
+                    <Image
+                      src={result.thumbnailUrl}
+                      alt={result.label}
+                      width={36}
+                      height={36}
+                      className="rounded border border-ds-border shrink-0 object-cover bg-ds-bg-dark"
+                      unoptimized
+                    />
+                  ) : (
+                    <span className="text-ds-text-muted shrink-0">{typeIcon(result.type)}</span>
+                  )}
                   <span className="flex-1 min-w-0">
                     <span className="text-[1.3rem] text-ds-text block truncate">{result.label}</span>
                     {result.sublabel && (

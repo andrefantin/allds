@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
@@ -42,6 +42,14 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
 
   const [search, setSearch] = useState('')
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({})
+  const navRef = useRef<HTMLElement>(null)
+
+  // Scroll the active nav item into view whenever the route changes
+  useEffect(() => {
+    if (!navRef.current) return
+    const active = navRef.current.querySelector<HTMLElement>('.sidebar-link.active')
+    active?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }, [pathname])
 
   const staticSections: NavSection[] = [
     {
@@ -243,7 +251,7 @@ export function Sidebar({ figmaData, tenant, tenantName, logoUrl, isOpen = false
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto scrollbar-hide px-3 py-4 space-y-5">
+      <nav ref={navRef} className="flex-1 overflow-y-auto scrollbar-hide px-3 py-4 space-y-5">
         {staticSections.map((s) => renderSection(s, 'static-'))}
 
         <div>

@@ -1,54 +1,12 @@
 import { getTokens } from '@/lib/tokens.server'
-import { ColourSwatch } from '@/components/foundation/ColourSwatch'
+import { ColourCollectionView } from '@/components/foundation/ColourCollectionView'
 import { ModesTabs } from '@/components/foundation/ModesTabs'
-import type { Token } from '@/types'
+import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Colour' }
 
 interface Props { params: { tenant: string } }
-
-function ColourTable({ colorTokens, mode }: { colorTokens: Token[]; mode: string }) {
-  return (
-    <div className="card overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-ds-border bg-ds-bg">
-              <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted w-12"></th>
-              <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted">Token</th>
-              <th className="text-left px-6 py-3 text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted">Reference</th>
-            </tr>
-          </thead>
-          <tbody>
-            {colorTokens.map((token, i) => {
-              const value = token.values[mode] || Object.values(token.values)[0]
-              const alias = token.aliases?.[mode] || (token.aliases ? Object.values(token.aliases)[0] : undefined)
-              return (
-                <tr key={token.name} className={`border-b border-ds-border last:border-0 ${i % 2 === 1 ? 'bg-ds-bg/30' : ''}`}>
-                  <td className="px-6 py-3 align-middle">
-                    <ColourSwatch color={value} compact />
-                  </td>
-                  <td className="px-6 py-3 align-middle font-mono text-[1.3rem] text-ds-text">{token.name}</td>
-                  <td className="px-6 py-3 align-middle">
-                    {alias ? (
-                      <div>
-                        <span className="font-mono text-[1.3rem] text-ds-heading">{alias}</span>
-                        <span className="font-mono text-[1.1rem] text-ds-text-muted block">{value}</span>
-                      </div>
-                    ) : (
-                      <span className="font-mono text-[1.2rem] text-ds-text-muted">{value}</span>
-                    )}
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
 
 export default async function ColourPage({ params }: Props) {
   const tokens = await getTokens(params.tenant)
@@ -68,8 +26,13 @@ export default async function ColourPage({ params }: Props) {
       </div>
 
       {colorCollections.length === 0 ? (
-        <div className="card p-8 text-ds-text-muted text-[1.3rem]">
-          No colour tokens found. Upload a token file containing color tokens to populate this page.
+        <div className="card p-8">
+          <p className="text-[1.4rem] font-medium text-ds-text mb-4">No colour tokens found</p>
+          <ol className="space-y-2 text-[1.3rem] text-ds-text-muted list-none">
+            <li><span className="font-mono text-ds-heading mr-2">1.</span>Go to <Link href={`/${params.tenant}/foundation/tokens`} className="text-ds-heading hover:underline">Design Tokens</Link> and upload your token JSON file</li>
+            <li><span className="font-mono text-ds-heading mr-2">2.</span>Ensure your tokens include <strong className="text-ds-text">color</strong> type entries</li>
+            <li><span className="font-mono text-ds-heading mr-2">3.</span>Come back here — swatches will appear automatically</li>
+          </ol>
         </div>
       ) : (
         <div className="space-y-8">
@@ -86,11 +49,11 @@ export default async function ColourPage({ params }: Props) {
                   <ModesTabs
                     modes={collection.modes}
                     panels={collection.modes.map((mode) => (
-                      <ColourTable key={mode} colorTokens={colorTokens} mode={mode} />
+                      <ColourCollectionView key={mode} colorTokens={colorTokens} mode={mode} />
                     ))}
                   />
                 ) : (
-                  <ColourTable colorTokens={colorTokens} mode={collection.modes[0] || ''} />
+                  <ColourCollectionView colorTokens={colorTokens} mode={collection.modes[0] || ''} />
                 )}
               </div>
             )

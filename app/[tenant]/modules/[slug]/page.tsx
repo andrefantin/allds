@@ -41,14 +41,10 @@ export default async function ModuleDetailPage({ params }: Props) {
     || buildModuleFromNav(slug)
   if (!module) notFound()
 
-  // Derive the correct Figma file ID for this module.
-  // module.figmaUrl is set during sync with the right file ID, so parse it back
-  // rather than always defaulting to figmaFileModules (wrong for additional libraries).
   const figmaUrlFileId = module.figmaUrl?.match(/figma\.com\/file\/([^/?]+)/)?.[1]
   const fileId = figmaUrlFileId ?? settings.figmaFileModules
   const figmaToken = settings.figmaToken
 
-  // isFigmaNodeId — real node IDs look like "1234:567"; slugs contain letters
   const hasFigmaNodeId = /^\d+[:‑-]\d+$/.test(module.id) || /^\d+:\d+$/.test(module.id)
   const usedComponents = fileId && hasFigmaNodeId && figmaToken
     ? await fetchComponentsUsedInModule(fileId, module.id, figmaData.components, figmaToken)
@@ -57,30 +53,34 @@ export default async function ModuleDetailPage({ params }: Props) {
 
   return (
     <div className="p-4 md:p-8 max-w-[96rem] mx-auto">
-      <nav className="flex items-center gap-2 text-[1.3rem] text-ds-text-muted mb-6">
-        <Link href={`/${tenant}/modules`} className="hover:text-ds-text transition-colors">Modules</Link>
-        <span>/</span>
-        <span className="text-ds-text font-medium">{module.name}</span>
-      </nav>
+      {/* Breadcrumb + quick actions */}
+      <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
+        <nav className="flex items-center gap-2 text-[1.3rem] text-ds-text-muted">
+          <Link href={`/${tenant}/modules`} className="hover:text-ds-text transition-colors">Modules</Link>
+          <span>/</span>
+          <span className="text-ds-text font-medium">{module.name}</span>
+        </nav>
+        {module.figmaUrl && (
+          <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-[1.2rem] text-ds-heading hover:underline shrink-0">
+            Open in Figma <ExternalLink size={12} />
+          </a>
+        )}
+      </div>
+
+      {/* Title row */}
+      <div className="flex items-start gap-3 mb-1">
+        <h1 className="text-heading-lg font-bold text-ds-text">{module.name}</h1>
+        <span className="mt-1.5"><StatusBadge status={module.status} size="md" /></span>
+      </div>
+      <p className="text-[1.3rem] text-ds-text-muted mb-8">{module.group}</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-heading-lg font-bold text-ds-text">{module.name}</h1>
-            </div>
-            <ComponentMeta component={module} />
-          </div>
+          <ComponentMeta component={module} />
           <div className="card overflow-hidden">
-            <div className="px-6 py-3 border-b border-ds-border flex items-center justify-between">
+            <div className="px-6 py-3 border-b border-ds-border">
               <h2 className="text-[1.4rem] font-semibold text-ds-text">Preview</h2>
-              {module.figmaUrl && (
-                <a href={module.figmaUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-[1.2rem] text-ds-heading hover:underline flex items-center gap-1">
-                  Open in Figma
-                  <ExternalLink size={12} />
-                </a>
-              )}
             </div>
             <div className="p-6">
               <ComponentPreview figmaFileId={fileId} nodeId={module.id} thumbnailUrl={module.thumbnailUrl} name={module.name} />
@@ -104,7 +104,7 @@ export default async function ModuleDetailPage({ params }: Props) {
               </div>
               <div>
                 <dt className="text-[1.2rem] text-ds-text-muted">Status</dt>
-                <dd><StatusBadge status={module.status} /></dd>
+                <dd className="mt-0.5"><StatusBadge status={module.status} /></dd>
               </div>
             </dl>
           </div>
