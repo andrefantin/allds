@@ -44,6 +44,37 @@ export default async function TypographyPage({ params }: Props) {
     grouped[style.category].push(style)
   }
 
+  // Extract a numeric heading level from a style name so same-size styles
+  // sort correctly (e.g. "H1" before "H2" when both happen to share a size).
+  function headingLevel(name: string): number {
+    const lower = (name.split('/').pop() ?? name).toLowerCase()
+    if (/hero|display/.test(lower)) return 0
+    const m = lower.match(/h(\d+)|heading\s*(\d+)/)
+    if (m) return parseInt(m[1] ?? m[2] ?? '99')
+    return 99
+  }
+
+  // Sort styles within a category: largest font first, then by heading level,
+  // then alphabetically — so Hero > H1 > H2 > H3 … always.
+  function sortStyles(styles: typeof textStyles) {
+    return [...styles].sort((a, b) =>
+      b.fontSize - a.fontSize ||
+      headingLevel(a.name) - headingLevel(b.name) ||
+      a.name.localeCompare(b.name)
+    )
+  }
+
+  // Sort categories so heading/display groups appear before body, label, etc.
+  const CATEGORY_ORDER = ['hero', 'display', 'heading', 'title', 'subtitle', 'body', 'paragraph', 'label', 'overline', 'caption', 'code']
+  function categoryPriority(name: string): number {
+    const lower = name.toLowerCase()
+    const idx = CATEGORY_ORDER.findIndex((k) => lower.includes(k))
+    return idx === -1 ? 50 : idx
+  }
+  const sortedCategories = Object.entries(grouped).sort(
+    ([a], [b]) => categoryPriority(a) - categoryPriority(b) || a.localeCompare(b)
+  )
+
   const LAYOUT_KEYWORDS = ['margin', 'padding', 'gap', 'spacing', 'layout', 'container', 'grid', 'column', 'gutter', 'row']
   const typographyCollections = tokens.collections
     .filter((c) => c.name === '_Typography primitives' || c.name === 'Device')
@@ -66,7 +97,7 @@ export default async function TypographyPage({ params }: Props) {
 
       {textStyles.length > 0 ? (
         <div className="space-y-10 mb-12">
-          {Object.entries(grouped).map(([category, styles]) => (
+          {sortedCategories.map(([category, styles]) => (
             <div key={category}>
               <h2 className="text-[1.2rem] font-semibold uppercase tracking-widest text-ds-text-muted mb-4">{category}</h2>
               <div className="card overflow-hidden">
@@ -81,7 +112,7 @@ export default async function TypographyPage({ params }: Props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {styles.map((style, i) => {
+                    {sortStyles(styles).map((style, i) => {
                       const token = findTokenForSize(fontTokens, style.fontSize)
                       const displayName = style.name.includes('/') ? style.name.split('/').slice(1).join('/') : style.name
                       return (
